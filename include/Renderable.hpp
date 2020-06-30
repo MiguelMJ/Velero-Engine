@@ -11,7 +11,7 @@ namespace ge{
         void draw(sf::RenderTarget& t, sf::RenderStates s) const = 0;
     public:
         virtual ~Renderable(){}
-        virtual sf::FloatRect getGlobalBounds() = 0;
+        virtual sf::FloatRect getGlobalBounds() const = 0;
     };
 }
 

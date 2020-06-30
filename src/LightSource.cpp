@@ -45,11 +45,12 @@ namespace ge{
     LightSource::~LightSource(){}
     
     void LightSource::draw(sf::RenderTarget& t, sf::RenderStates s) const{
+        s.transform *= Transformable::getTransform();
         s.texture = &l_lightTexture;
         t.draw(m_polygon, s);
     }
     
-    sf::FloatRect LightSource::getGlobalBounds(){
+    sf::FloatRect LightSource::getGlobalBounds() const{
         return Transformable::getTransform().transformRect(m_bounds);
     }
     
@@ -120,12 +121,12 @@ namespace ge{
         sf::Transform tr_i = Transformable::getTransform().getInverse();
         m_polygon.resize(rays.size() + 2);
         m_polygon[0].color = m_color;
-        m_polygon[0].position = castPoint;
+        m_polygon[0].position = 
         m_polygon[0].texCoords = tr_i.transformPoint(castPoint);
         for(int i=0; i < rays.size(); i++){
-            sf::Vector2f p = castRay(rays[i]);
+            sf::Vector2f p = tr_i.transformPoint(castRay(rays[i]));
             m_polygon[i+1].position = p;
-            m_polygon[i+1].texCoords = tr_i.transformPoint(p);
+            m_polygon[i+1].texCoords = p;
             m_polygon[i+1].color = m_color;
         }
         m_polygon[rays.size()+1] = m_polygon[1];

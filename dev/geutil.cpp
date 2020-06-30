@@ -71,4 +71,14 @@ namespace ge{
         }
         return ret;
     }
+    void setColor(sf::VertexArray& va, sf::Color c){
+        for(int i = 0; i < va.getVertexCount(); i++){
+            va[i].color = c;
+        }
+    }
+    void setColor(sf::VertexArray& va, sf::Color c, int first, int size){
+        for(int i=first; i < first + size; i++){
+            va[i].color = c;
+        }
+    }
 }

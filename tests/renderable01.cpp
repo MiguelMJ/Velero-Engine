@@ -56,7 +56,6 @@ int main(){
         
         w.draw(l);
         w.draw(m);
-        w.draw(vertexRect(l.getGlobalBounds(), sf::Color::Green));
         
         w.display();
     }

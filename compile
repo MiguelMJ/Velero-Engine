@@ -1,8 +1,10 @@
 #!/bin/bash
 if [ $# -eq 1 ]; then
-    target="tests/$1.test"
+    target="tests/$1.cpp"
+    output="tests/$1.test"
 elif [ $# -eq 0 ]; then
-    target="main"
+    target="main.cpp"
+    output="main"
 else
     echo [compile] Se espera un argumento como máximo
     exit
@@ -53,4 +55,4 @@ links="$links -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system -lsfml-ne
 #echo [compile] executing
 #echo g++ $options $linkdirs $includes src/* "$target.cpp" -o "$target" $links $linkeropts
 
-g++ $options $linkdirs $includes $sources "$target.cpp" -o "$target" $links $linkeropts
+g++ $options $linkdirs $includes $sources "$target" -o "$output" $links $linkeropts

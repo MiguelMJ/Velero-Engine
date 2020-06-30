@@ -23,7 +23,7 @@ namespace ge{
         LightSource();
         virtual ~LightSource();
         
-        sf::FloatRect getGlobalBounds() override;
+        sf::FloatRect getGlobalBounds() const override;
         
         void setIntensity(float);
         void setColor(sf::Color);

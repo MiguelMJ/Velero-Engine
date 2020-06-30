@@ -14,6 +14,7 @@
 #include "SFML/Graphics.hpp"
 
 namespace ge{
+    // geometry
     typedef std::pair<sf::Vector2f, sf::Vector2f> Segment;
     std::array<Segment, 4> segmentsFromRect(sf::FloatRect rect);
     typedef struct{
@@ -27,7 +28,11 @@ namespace ge{
     std::pair<float, float> intersection(Ray r1, Ray r2);
     float rad2deg(float rad);
     float deg2rad(float deg);
-    sf::VertexArray vertexRect(sf::FloatRect rect, sf::Color c=sf::Color::White);
+    
+    // work with VertexArray
+    sf::VertexArray getVertex(sf::FloatRect rect, sf::Color c=sf::Color::White);
+    void setColor(sf::VertexArray& va, sf::Color);
+    void setColor(sf::VertexArray& va, sf::Color, int first, int size);
 }
 
 #endif

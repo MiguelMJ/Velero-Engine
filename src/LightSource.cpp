@@ -66,7 +66,7 @@ namespace ge{
     }
     void LightSource::setRadius(float r){
         r = std::max(0.f,r);
-        Transformable::setScale(r*2,r*2);
+        Transformable::setScale(r,r);
     }
     void LightSource::setGlow(bool g){
         m_glow = g;

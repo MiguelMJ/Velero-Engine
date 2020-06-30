@@ -16,10 +16,11 @@ namespace ge{
         sf::VertexArray m_polygon;
         sf::FloatRect m_bounds; 
         sf::Color m_color;
+        std::vector<Segment>* m_ptrSegmentPool;
         bool m_glow;
+        friend class LightingLayer;
         void draw(sf::RenderTarget&, sf::RenderStates) const override;
     public:
-        std::vector<Segment>* m_ptrSegmentPool;
         LightSource();
         virtual ~LightSource();
         

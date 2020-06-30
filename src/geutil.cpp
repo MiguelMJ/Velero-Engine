@@ -81,4 +81,10 @@ namespace ge{
             va[i].color = c;
         }
     }
+    void move(sf::VertexArray& va, sf::Vector2f d){
+        for(int i=0; i < va.getVertexCount(); i++){
+            va[i].position.x += d.x;
+            va[i].position.y += d.y;
+        }
+    }
 }

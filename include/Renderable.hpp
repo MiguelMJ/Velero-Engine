@@ -6,9 +6,8 @@
 namespace ge{
     class Renderable: public sf::Drawable, public sf::Transformable{
     private:
-        size_t m_layer;
-        bool m_visible;
         void draw(sf::RenderTarget& t, sf::RenderStates s) const = 0;
+        friend class Layer;
     public:
         virtual ~Renderable(){}
         virtual sf::FloatRect getGlobalBounds() const = 0;

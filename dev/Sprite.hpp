@@ -14,7 +14,7 @@ namespace ge{
         sf::VertexArray m_quad;
         void draw(sf::RenderTarget& t, sf::RenderStates) const override;
     public:
-        Sprite();
+        Sprite(sf::Color c=sf::Color::White);
         sf::FloatRect getGlobalBounds() const override;
         void setColor(sf::Color);
     };

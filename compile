@@ -1,0 +1,56 @@
+#!/bin/bash
+if [ $# -eq 1 ]; then
+    target="tests/$1.test"
+elif [ $# -eq 0 ]; then
+    target="main"
+else
+    echo [compile] Se espera un argumento como máximo
+    exit
+fi
+#
+# GENERAL
+#
+options="-O3 -std=c++11 -Wpedantic -fmax-errors=3"
+includes="-Iinclude"
+# sources="src/*.cpp"
+
+#
+# DESARROLLO
+#
+includes="$includes -Idev"
+sources="$sources dev/*.cpp"
+
+#
+# FMT
+#
+# includes="$includes -I$HOME/src/fmt-6.2.1/include"
+# linkdirs="$linkdirs -L$HOME/src/fmt-6.2.1/build"
+# links="$links -lfmt"
+
+#
+# CPPFS
+#
+# includes="$includes -I$HOME/src/cppfs/source/cppfs/include/"
+# includes="$includes -I$HOME/src/cppfs/build/source/cppfs/include/"
+# linkdirs="$linkdirs -L$HOME/src/cppfs/build"
+# linkeropts="$linkeropts -Wl,-rpath=/home/miguel_mj/src/cppfs/build/"
+# links="$links -lcppfs"
+
+#
+# LOGURU
+#
+# includes="$includes -I$HOME/src/loguru-2.1.0/"
+# sources="$sources $HOME/src/loguru-2.1.0/loguru.cpp"
+# links="$links -lpthread -ldl"
+# options="$options -DLOGURU_USE_FMTLIB=1"
+
+#
+# SFML
+#
+links="$links -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system -lsfml-network"
+
+
+#echo [compile] executing
+#echo g++ $options $linkdirs $includes src/* "$target.cpp" -o "$target" $links $linkeropts
+
+g++ $options $linkdirs $includes $sources "$target.cpp" -o "$target" $links $linkeropts

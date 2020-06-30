@@ -1,0 +1,66 @@
+==========
+* app.config
+* 
+* It contains the general configuration for the app:
+*   - Window configuration
+*   - Layers configuration
+*   - FirstScene
+* Lines starting with # wont be read
+==========
+#---------------------------------------------------
+# Window configuration
+#---------------------------------------------------
+WINDOW
+title
+width height | fullscreen
+
+#---------------------------------------------------
+# RenderSystem configuration
+# entry := x type layername
+# x := d {dynamic} | s {static}
+# type := layer {normal} | light {lighting}
+#---------------------------------------------------
+RENDER
+s layer: background
+d layer: objects_layer
+s layer: Layer3Name
+d light: lighting
+
+#---------------------------------------------------
+# AssetSystem configuration
+# Where to search?
+# Load all assets recursively at start?
+# Load dependencies when an asset is loaded?
+#---------------------------------------------------
+ASSETPATH=path1;path2;path3
+AUTOLOAD=false
+AUTOFIX=false
+
+#---------------------------------------------------
+# Log configuration
+# 
+#---------------------------------------------------
+LOGFILE=file1;file2
+LOGLEVEL=level
+==========
+* eventscript
+* 
+* Format of files containing a sequence of events
+* Lines starting with # wont be read
+==========
+#---------------------------------------------------
+# entry := %channel eventid params 
+#        | @entityId eventid params
+#        | wait seconds
+#---------------------------------------------------
+@player blockInputHandling
+@mainEnemy goTo 155 439.5
+@GUI displayText dialogue13
+wait 2.33
+%forestEnemies setRenderProperty visible 1
+@enemy setCollisionProperty active 0
+@player enableInputHandling
+@mainEnemy visualEffect vanish 2
+wait 2
+%scene destroy mainEnemy
+

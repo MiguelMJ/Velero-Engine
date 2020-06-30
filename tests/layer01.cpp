@@ -83,6 +83,7 @@ int main(){
     int i = 0;
     int j = 1;
     int k = 2;
+    bool v = true;
     
     sf::Clock clock;
     
@@ -100,9 +101,11 @@ int main(){
                     i = (i+1)%3;
                     j = (j+1)%3;
                     k = (k+1)%3;
+                    v = !v;
                     l1.setVisible(&sprites1[i],false);
                     l2.setVisible(&sprites2[j],false);
                     l3.setVisible(&sprites1[k],false);
+                    ll.setVisible(&lamp1, v);
                     break;
             }
         }

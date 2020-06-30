@@ -14,7 +14,7 @@ fi
 #
 options="-O3 -std=c++11 -Wpedantic -fmax-errors=3"
 includes="-Iinclude"
-# sources="src/*.cpp"
+sources="src/*.cpp"
 
 #
 # DESARROLLO

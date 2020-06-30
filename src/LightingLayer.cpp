@@ -51,6 +51,7 @@ namespace ge{
     }
     void LightingLayer::setFogSize(float x, float y){
         m_fogTexture.create(x,y);
+        m_fogTexture.setSmooth(true);
         m_fogQuad[0].position =
         m_fogQuad[0].texCoords = {0,0};
         m_fogQuad[1].position =

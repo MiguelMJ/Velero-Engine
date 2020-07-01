@@ -19,6 +19,7 @@ namespace ge{
         sf::Color m_fogColor;
         sf::Vector2f m_fog;
         void draw(sf::RenderTarget&, sf::RenderStates)const override;
+        friend class StaticLayer;
     public:
         std::vector<Segment> m_segmentPool;
         LightingLayer();

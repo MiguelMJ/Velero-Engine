@@ -59,7 +59,7 @@ namespace ge{
     float deg2rad(float deg){
         return deg * PI / 180;
     }
-    sf::VertexArray vertexRect(sf::FloatRect rect, sf::Color c){
+    sf::VertexArray getVertex(sf::FloatRect rect, sf::Color c){
         sf::VertexArray ret(sf::LineStrip, 5);
         ret[0].position = {rect.left, rect.top};
         ret[1].position = {rect.left, rect.top + rect.height};

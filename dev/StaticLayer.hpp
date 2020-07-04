@@ -24,7 +24,9 @@ namespace ge{
         StaticLayer(const DynamicLayer&);
         StaticLayer(const LightingLayer&);
         void addRenderable(const Renderable*) override;
-        void setVisible(const Renderable*, bool) ;
+        void removeRenderable(const Renderable*) override;
+        void clear() override;
+        void setVisible(const Renderable*, bool) override;
         void display();
     };
 }

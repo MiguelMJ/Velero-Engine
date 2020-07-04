@@ -39,12 +39,21 @@ namespace ge{
         }
     }
     void LightingLayer::addRenderable(const Renderable* r) {
-        const LightSource* ls = dynamic_cast<const LightSource*> (r);
+        const LightSource* ls = static_cast<const LightSource*> (r);
         const_cast<LightSource*>(ls) -> m_ptrSegmentPool = &m_segmentPool;;
         m_visibleLights.insert(ls);
     }
+    void LightingLayer::removeRenderable(const Renderable* r){
+        auto ls = static_cast<const LightSource*>(r);
+        m_visibleLights.erase(ls);
+        m_invisibleLights.erase(ls);
+    }
+    void LightingLayer::clear(){
+        m_visibleLights.clear();
+        m_invisibleLights.clear();
+    }
     void LightingLayer::setVisible(const Renderable* r, bool v){
-        const LightSource* ls = dynamic_cast<const LightSource*> (r);
+        const LightSource* ls = static_cast<const LightSource*> (r);
         if(v){
             auto it = m_invisibleLights.find(ls);
             if(it != m_invisibleLights.end()){

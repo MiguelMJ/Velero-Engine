@@ -14,6 +14,8 @@ namespace ge{
         friend class StaticLayer;
     public:
         void addRenderable(const Renderable*) override;
+        void removeRenderable(const Renderable*) override;
+        void clear() override;
         void setVisible(const Renderable*, bool) override;
     };
 }

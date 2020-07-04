@@ -25,6 +25,8 @@ namespace ge{
         LightingLayer();
         LightingLayer(const LightingLayer&);
         void addRenderable(const Renderable*) override;
+        void removeRenderable(const Renderable*) override;
+        void clear() override;
         void setVisible(const Renderable*, bool) override;
         void setFogSize(float, float);
         void setFogPosition(float, float);

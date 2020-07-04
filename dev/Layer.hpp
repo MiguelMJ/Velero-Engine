@@ -12,6 +12,8 @@ namespace ge{
     public:
         virtual ~Layer(){}
         virtual void addRenderable(const Renderable*) = 0;
+        virtual void removeRenderable(const Renderable*) = 0;
+        virtual void clear() = 0;
         virtual void setVisible(const Renderable*, bool) = 0;
     };
 }

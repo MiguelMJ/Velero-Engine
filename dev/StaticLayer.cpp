@@ -75,6 +75,10 @@ namespace ge{
     void StaticLayer::addRenderable(const Renderable* r){
         m_unrendered.push_back(r);
     }
+    void StaticLayer::removeRenderable(const Renderable*){}
+    void StaticLayer::clear(){
+        m_renderTexture.clear(sf::Color::Transparent);
+    }
     void StaticLayer::setVisible(const Renderable*,bool){}
     void StaticLayer::display(){
         if(m_unrendered.size() > 0){

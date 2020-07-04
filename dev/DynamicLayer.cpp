@@ -9,6 +9,14 @@ namespace ge{
     void DynamicLayer::addRenderable(const Renderable* r){
         m_visibleComponents.insert(r);
     }
+    void DynamicLayer::removeRenderable(const Renderable* r){
+        m_visibleComponents.erase(r);
+        m_invisibleComponents.erase(r);
+    }
+    void DynamicLayer::clear(){
+        m_visibleComponents.clear();
+        m_invisibleComponents.clear();
+    }
     void DynamicLayer::setVisible(const Renderable* r, bool v){
         if(v){
             auto it = m_invisibleComponents.find(r);

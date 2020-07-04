@@ -6,6 +6,16 @@ namespace ge{
     {
         
     }
+    StaticLayer::StaticLayer(const StaticLayer& sl)
+    : m_quad(sl.m_quad)
+    , m_offset(sl.m_offset)
+    {
+        auto s = sl.m_renderTexture.getSize();
+        m_renderTexture.create(s.x, s.y);
+        sf::RenderStates rs;
+        rs.transform.translate(-m_offset);
+        m_renderTexture.draw(sl, rs);
+    }
     StaticLayer::StaticLayer(const DynamicLayer& dl):
     StaticLayer()
     {
@@ -39,6 +49,7 @@ namespace ge{
                 std::min(m_offset.y, b.top)
             };
         }
+        
         sf::Vector2f size = limit - m_offset;
         m_quad[0].position =
         m_quad[0].texCoords = {0, size.y};

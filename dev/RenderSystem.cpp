@@ -33,6 +33,69 @@ namespace ge{
             g_renderStates.push_back(sf::RenderStates());
             return ptr;
         }
+        Layer* duplicateLayer(size_t id, std::string str){
+            if(isLightingLayer(id)){
+                return duplicateLightingLayer(id, str);
+            }else if(! g_layerIsLocked[id]){
+                auto ptrll = static_cast<DynamicLayer*> (g_layers[id].get());
+                Layer* newll = new DynamicLayer(*ptrll);
+                g_layers.emplace_back(newll);
+                g_layerIsLocked.push_back(false);
+                g_layerIsVisible.push_back(true);
+                g_renderStates.push_back(
+                    sf::RenderStates(g_renderStates[id])
+                );
+                g_layerIndex[str] = g_layers.size();
+                return newll;
+            }
+        }
+        LightingLayer* duplicateLightingLayer(size_t id, std::string str){
+            auto ptrll = static_cast<LightingLayer*> (g_layers[id].get());
+            LightingLayer* newll = new LightingLayer(*ptrll);
+            g_layers.emplace_back(newll);
+            g_layerIsLocked.push_back(false);
+            g_layerIsVisible.push_back(true);
+            g_renderStates.push_back(
+                sf::RenderStates(g_renderStates[id])
+            );
+            g_layerIndex[str] = g_layers.size();
+            return newll;
+        }
+        void moveLayer(size_t id, int d){
+            int dest = id + d;
+            if(d != 0 && dest >= 0 && dest < g_layers.size()){
+                auto tmp = move(g_layers[id]);
+                g_layers.erase(g_layers.begin()+id);
+                g_layers.insert(g_layers.begin()+dest, move(tmp));
+                bool tmpb = g_layerIsLocked[id];
+                g_layerIsLocked.erase(g_layerIsLocked.begin()+id);
+                g_layerIsLocked.insert(g_layerIsLocked.begin()+dest, tmpb);
+                tmpb = g_layerIsVisible[id];
+                g_layerIsVisible.erase(g_layerIsVisible.begin()+id);
+                g_layerIsVisible.insert(g_layerIsVisible.begin()+dest, tmpb);
+                auto tmprs = g_renderStates[id];
+                g_renderStates.erase(g_renderStates.begin()+id);
+                g_renderStates.insert(g_renderStates.begin()+dest,tmprs);
+                
+            }
+            if(dest < id){ // moved down
+                for(auto& ip: g_layerIndex){
+                    if(ip.second == id){
+                        ip.second = dest;
+                    }else if(ip.second >= dest && ip.second < id){
+                        ip.second++;
+                    }
+                }
+            }else{ // moved up
+                for(auto& ip: g_layerIndex){
+                    if(ip.second == id){
+                        ip.second = dest;
+                    }else if(ip.second > id && ip.second <= dest){
+                        ip.second--;
+                    }
+                }
+            }
+        }
         void deleteLayer (std::string str){
             auto it  = g_layerIndex.find(str);
             if(it != g_layerIndex.end()){

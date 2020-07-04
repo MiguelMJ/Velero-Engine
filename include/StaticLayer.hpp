@@ -20,6 +20,7 @@ namespace ge{
         void draw(sf::RenderTarget& t, sf::RenderStates) const override;
     public:
         StaticLayer();
+        StaticLayer(const StaticLayer&);
         StaticLayer(const DynamicLayer&);
         StaticLayer(const LightingLayer&);
         void addRenderable(const Renderable*) override;

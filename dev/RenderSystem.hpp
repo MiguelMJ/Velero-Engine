@@ -17,7 +17,11 @@ namespace ge{
         extern sf::View view;
         Layer* pushLayer(std::string);
         LightingLayer* pushLightingLayer(std::string);
-        void deleteLayer (std::string);
+        Layer* duplicateLayer(size_t,  std::string);
+        LightingLayer* duplicateLightingLayer(size_t, std::string);
+        void moveLayer(size_t, int);
+        
+        void deleteLayer (size_t);
         size_t layerCount();
         void setLocked(size_t, bool);
         void setVisible (size_t, bool);

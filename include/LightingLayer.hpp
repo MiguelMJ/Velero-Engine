@@ -17,12 +17,13 @@ namespace ge{
         sf::VertexArray m_fogQuad;
         sf::Vector2f m_fogOffset;
         sf::Color m_fogColor;
-        sf::Vector2f m_fog;
+        // sf::Vector2f m_fog;
         void draw(sf::RenderTarget&, sf::RenderStates)const override;
         friend class StaticLayer;
     public:
         std::vector<Segment> m_segmentPool;
         LightingLayer();
+        LightingLayer(const LightingLayer&);
         void addRenderable(const Renderable*) override;
         void setVisible(const Renderable*, bool) override;
         void setFogSize(float, float);

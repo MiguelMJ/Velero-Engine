@@ -17,6 +17,17 @@ namespace ge{
     {
         setFogSize(10,10);
     }
+    LightingLayer::LightingLayer(const LightingLayer& ll)
+    : m_visibleLights(ll.m_visibleLights)
+    , m_invisibleLights(ll.m_invisibleLights)
+    , m_fogQuad(ll.m_fogQuad)
+    , m_fogOffset(ll.m_fogOffset)
+    , m_fogColor(ll.m_fogColor)
+    {
+        auto s = m_fogTexture.getSize();
+        m_fogTexture.create(s.x, s.y);
+        updateFog();
+    }
     void  LightingLayer::draw(sf::RenderTarget& t, sf::RenderStates s) const{
         s.texture = &m_fogTexture.getTexture();
         t.draw(m_fogQuad, s);

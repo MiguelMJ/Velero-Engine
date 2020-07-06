@@ -1,4 +1,5 @@
 #include <cppfs/fs.h>
+#include <cppfs/FilePath.h>
 #include <cppfs/FileHandle.h>
 #include <cppfs/FileIterator.h>
 #include <iostream>
@@ -23,15 +24,18 @@ void openFile(const std::string & filename)
 }
 void lstDir(const std::string & path)
 {
+    FilePath fp(path);
     FileHandle dir = fs::open(path);
-
-    if (dir.isDirectory())
-    {
-        for (FileIterator it = dir.begin(); it != dir.end(); ++it)
-        {
-            std::string path = *it;
-            openFile(path);
-        }
+    if (dir.isDirectory()){
+        dir.traverse([](FileHandle& fh)->bool{
+            openFile(fh.path());
+            return true;
+        },[](FileHandle& fh)->bool{
+            return true;
+        });
+        /*for (FileIterator it = dir.begin(); it != dir.end(); ++it){
+            openFile(fp.resolve(*it).fullPath());
+        }*/
     }
 }
 int main(int argc, char** argv){

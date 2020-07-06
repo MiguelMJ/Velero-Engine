@@ -5,6 +5,8 @@
 #define lll(x) \
     std::cout << x << std::endl
 
+#include <algorithm>
+#include <cctype>
 #include <utility>
 #include <cmath>
 #include <limits>
@@ -35,6 +37,8 @@ namespace ge{
     void setColor(sf::VertexArray& va, sf::Color, int first, int size);
     void move(sf::VertexArray& va, sf::Vector2f);
     
+    // work with strings
+    void toLower(std::string& str);
 }
 
 #endif

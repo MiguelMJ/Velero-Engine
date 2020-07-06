@@ -32,11 +32,11 @@ sources="$sources dev/*.cpp"
 #
 # CPPFS
 #
-# includes="$includes -I$HOME/src/cppfs/source/cppfs/include/"
-# includes="$includes -I$HOME/src/cppfs/build/source/cppfs/include/"
-# linkdirs="$linkdirs -L$HOME/src/cppfs/build"
-# linkeropts="$linkeropts -Wl,-rpath=/home/miguel_mj/src/cppfs/build/"
-# links="$links -lcppfs"
+includes="$includes -I$HOME/src/cppfs/source/cppfs/include/"
+includes="$includes -I$HOME/src/cppfs/build/source/cppfs/include/"
+linkdirs="$linkdirs -L$HOME/src/cppfs/build"
+linkeropts="$linkeropts -Wl,-rpath=/home/miguel_mj/src/cppfs/build/"
+links="$links -lcppfs"
 
 #
 # LOGURU

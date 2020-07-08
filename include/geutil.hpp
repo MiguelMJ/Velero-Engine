@@ -1,10 +1,6 @@
 #ifndef __GEUTIL_HPP__
 #define __GEUTIL_HPP__
 
-#include <iostream>
-#define lll(x) \
-    std::cout << x << std::endl
-
 #include <algorithm>
 #include <cctype>
 #include <utility>
@@ -14,6 +10,8 @@
 
 #include "SFML/System.hpp"
 #include "SFML/Graphics.hpp"
+
+#include "loguru.hpp"
 
 namespace ge{
     // geometry

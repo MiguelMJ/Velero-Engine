@@ -116,9 +116,6 @@ namespace ge{
             for(auto& r: m_unrendered){
                 m_renderTexture.draw(*r, st);
             }
-            lll("static");
-            lll("{" << m_offset.x << "," << m_offset.y << "}");
-            lll("{" << limit.x << "," << limit.y << "}");
             m_renderTexture.display();
             m_unrendered.clear();
         }

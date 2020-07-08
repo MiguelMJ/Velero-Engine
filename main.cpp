@@ -1,49 +1,57 @@
-#include "Random.hpp"
-#include <iostream>
-#include <vector>
-#include <cmath>
+#include "AssetSystem.hpp"
+#include "RenderSystem.hpp"
+#include "EventSystem.hpp"
 
-using namespace std;
+#include "SFML/Graphics.hpp"
+
+#define AS AssetSystem
+#define RS RenderSystem
+#define ES EventSystem
+
+using namespace ge;
+
+typedef struct {
+    typedef struct {
+        bool dynamic;
+        bool light;
+        std::string name;
+    } LayerConfiguration;
+    
+    std::string title;
+    bool fullscreen;
+    int width, height;
+    std::vector<LayerConfiguration> renderConfiguration;
+    std::vector<std::string> assetPaths;
+    bool autoload;
+    bool autofix;
+    std::vector<std::string> logFiles;
+    int loglevel;
+} AppConfiguration;
 
 int main(int argc, char** argv){
-    const unsigned N = 10000;
     
-    int s;
-    cout << "Enter seed: "; cin >> s;
-    ge::Random::seed(s);
     
-    vector<double> v;
-    v.reserve(N);
     
-    double max=-1, i_max=-1;
-    double min=101, i_min=-1;
-    double acc=0;
+    sf::RenderWindow window;
+    window.create(sf::VideoMode(500,500), "main");
     
-    for(int i=0; i < N; i++){
-        double d = ge::Random::rndDouble(0,100);
-        acc += d;
-        v.push_back(d);
+    while(window.isOpen()){
+        sf::Event e;
+        while(window.pollEvent(e)){
+            switch(e.type){
+            case sf::Event::Closed:
+                window.close();
+                break;
+            }
+        }
         
-        if(d > max){
-            i_max = i;
-            max = d;
-        }
-        if(d < min){
-            i_min = i;
-            min = d;
-        }
+        ES::dispatch();
+        
+        window.clear();
+        
+        RS::draw(window);
+        
+        window.display();
     }
-    double mean = acc/N;
-    acc = 0;
-    for(double d: v){
-        acc += abs(mean-d);
-    }
-    double var = acc/N;
-    
-    cout << "max: " << max << " at " << i_max << endl;
-    cout << "min: " << min << " at " << i_min << endl;
-    cout << "mean: " << mean << endl;
-    cout << "var': " << var << endl;
-    
     return 0;
 }

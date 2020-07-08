@@ -41,33 +41,24 @@ namespace ge{
                 file = fs::open(fp.resolve(name).path());
                 if(file.exists()){
                     assetNameCache[name] = file.path();
-                    break;
+                    return file.path();
                 }
             }
-            return file.path();
+            LOG_F(ERROR, "Unable to locate asset: {}", name);
+            return name;
         }
         template<class T>
         T* loadAsset(const std::string& str){
             T* ret = nullptr;
             bool ok = false;
-            FilePath path(str);
             ret = new T;
-            if(path.isAbsolute()){
-                ok = ret->loadFromFile(path.fullPath());
-            }else{
-                std::clog.setstate(std::ios_base::failbit);
-                for(auto& p: g_path){
-                    FilePath src(p);
-                    ok = ret->loadFromFile(src.resolve(str).fullPath());
-                    if(ok){
-                        break;
-                    }
-                }
-                std::clog.clear();
-            }
+            ok = ret->loadFromFile(str);
             if(!ok){
+                LOG_F(ERROR, "Unable to load asset: {}", str);
                 delete ret;
                 ret = nullptr;
+            }else{
+                LOG_F(INFO, "Loaded asset: {}", str);
             }
             return ret;
         }
@@ -115,8 +106,8 @@ namespace ge{
             g_path.push_back(p);
         }
         bool load(const std::string& name, bool find){
-            std::string str = find ? findAsset(name) : name;
             bool ret;
+            std::string str = find ? findAsset(name) : name;
             AssetType type = typeFromExtension(str);
             auto it = g_assetinfo.find(str);
             if(it != g_assetinfo.end()){
@@ -171,7 +162,9 @@ namespace ge{
             return ret;
         }
         bool loadRecursively(const std::string& str){
-            FileHandle dir = fs::open(findAsset(str));
+            std::string fp = findAsset(str);
+            FileHandle dir = fs::open(fp);
+            LOG_SCOPE_F(INFO, "Loading from %s", fp.c_str());
             if(dir.isDirectory()){
                 dir.traverse([](FileHandle& fh) -> bool {
                     load(fh.path());
@@ -180,7 +173,7 @@ namespace ge{
                     return true;
                 });
             }else{
-                // warning
+                LOG_F(WARNING, "Not a directory!");
             }
         }
         std::set<std::string> unloadedDependencies(){

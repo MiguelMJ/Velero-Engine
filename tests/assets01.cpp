@@ -42,6 +42,8 @@ void print(const AssetInfo& ai){
 }
 
 int main(int argc, char** argv){
+    loguru::add_file("logs/latest_readable.log", loguru::Truncate, loguru::Verbosity_INFO);
+    LOG_F(INFO,"information {}", "log");
     
     AS::addPath("/home/miguel_mj/Programs/ASSETS");
     
@@ -49,6 +51,7 @@ int main(int argc, char** argv){
     AS::loadRecursively("SOUNDS");
     std::string gp = "TEXTURES/Golem/attack/hit_1.png";
     AS::load(gp);
+    AS::load("unexistent_asset");
     
     const auto& allassetinfo = AS::getInfo();
     

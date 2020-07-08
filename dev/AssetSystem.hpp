@@ -14,8 +14,6 @@
 #include <exception>
 #include <memory>
 
-
-
 #include "geutil.hpp"
 
 namespace ge{

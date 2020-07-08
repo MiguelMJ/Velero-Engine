@@ -13,15 +13,25 @@
 #include "LightingLayer.hpp"
 
 namespace ge{
-    namespace RenderSystem{
-        extern sf::View view;
+    class RenderSystem{
+    private:
+        std::vector<std::unique_ptr<Layer>> m_layers;
+        std::map<std::string, size_t> m_layerIndex;
+        std::map<size_t, std::unique_ptr<Layer>> m_lockedLayers;
+        std::vector<bool> m_layerIsLocked;
+        std::vector<bool> m_layerIsVisible;
+        std::vector<sf::RenderStates> m_renderStates;
+    public:
+        sf::View view;
+        
+        // extern sf::View view;
         Layer* pushLayer(std::string);
         LightingLayer* pushLightingLayer(std::string);
         Layer* duplicateLayer(size_t,  std::string);
         LightingLayer* duplicateLightingLayer(size_t, std::string);
         void moveLayer(size_t, int);
         
-        void deleteLayer (size_t);
+        void deleteLayer (const std::string&);
         size_t layerCount();
         void setLocked(size_t, bool);
         void setVisible (size_t, bool);
@@ -35,7 +45,7 @@ namespace ge{
         bool isLightingLayer (size_t);
         
         void draw(sf::RenderTarget&);
-    }
+    };
 }
 
 #endif

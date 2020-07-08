@@ -40,8 +40,9 @@ AUTOFIX=false
 # Log configuration
 # 
 #---------------------------------------------------
-LOGFILE=file1;file2
-LOGLEVEL=level
+LOGFILE: file1 INFO
+LOGFILE: file2 ERROR
+
 ==========
 * eventscript
 * 

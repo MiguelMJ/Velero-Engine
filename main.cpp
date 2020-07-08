@@ -10,27 +10,9 @@
 
 using namespace ge;
 
-typedef struct {
-    typedef struct {
-        bool dynamic;
-        bool light;
-        std::string name;
-    } LayerConfiguration;
-    
-    std::string title;
-    bool fullscreen;
-    int width, height;
-    std::vector<LayerConfiguration> renderConfiguration;
-    std::vector<std::string> assetPaths;
-    bool autoload;
-    bool autofix;
-    std::vector<std::string> logFiles;
-    int loglevel;
-} AppConfiguration;
-
 int main(int argc, char** argv){
     
-    
+    RS rs;
     
     sf::RenderWindow window;
     window.create(sf::VideoMode(500,500), "main");
@@ -49,7 +31,7 @@ int main(int argc, char** argv){
         
         window.clear();
         
-        RS::draw(window);
+        rs.draw(window);
         
         window.display();
     }

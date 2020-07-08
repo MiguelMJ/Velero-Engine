@@ -226,6 +226,7 @@ namespace ge{
                 g_assetinfo.at(fp).timesAccessed += 1;
                 return it->second.get();
             }else{
+                LOG_IF_F(ERROR, str.empty(), "Texture {} not loaded", str);
                 return &default_texture;
             }
         }
@@ -236,6 +237,7 @@ namespace ge{
                 g_assetinfo.at(fp).timesAccessed += 1;
                 return it->second.get();
             }else{
+                LOG_IF_F(ERROR, str.empty(), "Sound {} not loaded", str);
                 return &default_sound;
             }
         }
@@ -245,6 +247,7 @@ namespace ge{
             if(it != g_fonts.end()){
                 return it->second.get();
             }else{
+                LOG_IF_F(ERROR, str.empty(), "Font {} not loaded", str);
                 return &default_font;
             }
         }
@@ -306,7 +309,8 @@ namespace ge{
                 if(it != g_textures.end()){
                     g_assetinfo.at(fp).timesAccessed++;
                     default_texture = *it->second.get();
-                    return true;
+                }else{
+                    LOG_F(ERROR,"Texture {} not available for default",fp);
                 }
             }
             return ok;
@@ -319,6 +323,8 @@ namespace ge{
                 if(it != g_sounds.end()){
                     g_assetinfo.at(fp).timesAccessed++;
                     default_sound = *it->second.get();
+                }else{
+                    LOG_F(ERROR,"Sound {} not available for default",fp);
                 }
             }
             return ok;
@@ -331,6 +337,8 @@ namespace ge{
                 if(it != g_fonts.end()){
                     g_assetinfo.at(fp).timesAccessed++;
                     default_font = *it->second.get();
+                }else{
+                    LOG_F(ERROR,"Font {} not available for default",fp);
                 }
             }
             return ok;
@@ -343,6 +351,8 @@ namespace ge{
 //                 if(it != g_tilesets.end()){
 //                     g_assetinfo.at(fp).timesAccessed++;
 //                     default_tileset = *it->second.get();
+//                 }else{
+//                     LOG_F(ERROR,"Texture {} not available for default",fp);
 //                 }
             }
             return ok;
@@ -355,6 +365,8 @@ namespace ge{
 //                 if(it != g_tilemaps.end()){
 //                     g_assetinfo.at(fp).timesAccessed++;
 //                     default_tilemap = *it->second.get();
+//                 }else{
+//                     LOG_F(ERROR,"Texture {} not available for default",fp);
 //                 }
             }
             return ok;
@@ -367,6 +379,8 @@ namespace ge{
 //                 if(it != g_animations.end()){
 //                      g_assetinfo.at(fp).timesAccessed++;
 //                     default_animation = *it->second.get();
+//                 }else{
+//                     LOG_F(ERROR,"Texture {} not available for default",fp);
 //                 }
             }
             return ok;
@@ -379,6 +393,8 @@ namespace ge{
 //                 if(it != g_eventscripts.end()){
 //                     g_assetinfo.at(fp).timesAccessed++;
 //                     default_eventscript = *it->second.get();
+//                 }else{
+//                     LOG_F(ERROR,"Texture {} not available for default",fp);
 //                 }
             }
             return ok;
@@ -391,6 +407,8 @@ namespace ge{
 //                 if(it != g_prototypes.end()){
 //                     g_assetinfo.at(fp).timesAccessed++;
 //                     default_prototype = *it->second.get();
+//                 }else{
+//                     LOG_F(ERROR,"Texture {} not available for default",fp);
 //                 }
             }
             return ok;
@@ -403,6 +421,8 @@ namespace ge{
 //                 if(it != g_scenes.end()){
 //                     g_assetinfo.at(fp).timesAccessed++;
 //                     default_scene = *it->second.get();
+//                 }else{
+//                     LOG_F(ERROR,"Texture {} not available for default",fp);
 //                 }
             }
             return ok;

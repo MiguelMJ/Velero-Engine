@@ -16,7 +16,7 @@ namespace ge{
 //         std::map<std::string, std::unique_ptr<Scene> > g_scenes;
         std::map<std::string, AssetInfo> g_assetinfo;
         
-        // default values
+        // default assets
         
         sf::Texture default_texture;
         sf::SoundBuffer default_sound;
@@ -29,28 +29,45 @@ namespace ge{
 //         Scene default_scene;
         
         // "private" auxiliar
+        std::map <std::string, std::string> assetNameCache; 
+        std::string findAsset(const std::string& name){
+            auto it = assetNameCache.find(name);
+            if(it != assetNameCache.end()){
+                return it->second;
+            }
+            FileHandle file;
+            for(auto it = g_path.begin(); it != g_path.end(); it++){
+                FilePath fp(*it);
+                file = fs::open(fp.resolve(name).path());
+                if(file.exists()){
+                    assetNameCache[name] = file.path();
+                    break;
+                }
+            }
+            return file.path();
+        }
         template<class T>
         T* loadAsset(const std::string& str){
             T* ret = nullptr;
             bool ok = false;
             FilePath path(str);
-            if(path.pointsToContent()){
-                ret = new T;
-                if(path.isAbsolute()){
-                    ok = ret->loadFromFile(path.fullPath());
-                }else{
-                    for(auto& p: g_path){
-                        FilePath src(p);
-                        ok = ret->loadFromFile(src.resolve(str).fullPath());
-                        if(ok){
-                            break;
-                        }
+            ret = new T;
+            if(path.isAbsolute()){
+                ok = ret->loadFromFile(path.fullPath());
+            }else{
+                std::clog.setstate(std::ios_base::failbit);
+                for(auto& p: g_path){
+                    FilePath src(p);
+                    ok = ret->loadFromFile(src.resolve(str).fullPath());
+                    if(ok){
+                        break;
                     }
                 }
-                if(!ok){
-                    delete ret;
-                    ret = nullptr;
-                }
+                std::clog.clear();
+            }
+            if(!ok){
+                delete ret;
+                ret = nullptr;
             }
             return ret;
         }
@@ -97,7 +114,8 @@ namespace ge{
         void addPath(const std::string& p){
             g_path.push_back(p);
         }
-        bool load(const std::string& str){
+        bool load(const std::string& name, bool find){
+            std::string str = find ? findAsset(name) : name;
             bool ret;
             AssetType type = typeFromExtension(str);
             auto it = g_assetinfo.find(str);
@@ -153,15 +171,19 @@ namespace ge{
             return ret;
         }
         bool loadRecursively(const std::string& str){
-            FileHandle dir = fs::open(str);
-            dir.traverse([](FileHandle& fh) -> bool {
-                load(fh.path());
-                return true;
-            }, [](FileHandle& dir) -> bool {
-                return true;
-            });
+            FileHandle dir = fs::open(findAsset(str));
+            if(dir.isDirectory()){
+                dir.traverse([](FileHandle& fh) -> bool {
+                    load(fh.path());
+                    return true;
+                }, [](FileHandle& dir) -> bool {
+                    return true;
+                });
+            }else{
+                // warning
+            }
         }
-        std::set<std::string> unloadedDependencies(const std::string& str){
+        std::set<std::string> unloadedDependencies(){
             std::set<std::string> unloaded;
             for(auto& info: g_assetinfo){
                 std::vector<std::string>& deps = info.second.dependencies;
@@ -205,23 +227,28 @@ namespace ge{
             return ret;
         }
         sf::Texture* getTexture(const std::string& str){
-            auto it = g_textures.find(str);
+            std::string fp = findAsset(str);
+            auto it = g_textures.find(fp);
             if(it != g_textures.end()){
+                g_assetinfo.at(fp).timesAccessed += 1;
                 return it->second.get();
             }else{
                 return &default_texture;
             }
         }
         sf::SoundBuffer* getSound(const std::string& str){
-            auto it = g_sounds.find(str);
+            std::string fp = findAsset(str);
+            auto it = g_sounds.find(fp);
             if(it != g_sounds.end()){
+                g_assetinfo.at(fp).timesAccessed += 1;
                 return it->second.get();
             }else{
                 return &default_sound;
             }
         }
         sf::Font* getFont(const std::string& str){
-            auto it = g_fonts.find(str);
+            std::string fp = findAsset(str);
+            auto it = g_fonts.find(fp);
             if(it != g_fonts.end()){
                 return it->second.get();
             }else{
@@ -278,65 +305,114 @@ namespace ge{
 //             }
 //         }
 */
-        void setDefaultTexture(const std::string& str){
-            if(load(str)){
-                auto it = g_textures.find(str);
+        bool setDefaultTexture(const std::string& str){
+            std::string fp = findAsset(str);
+            bool ok = load(fp, false);
+            if(ok){
+                auto it = g_textures.find(fp);
                 if(it != g_textures.end()){
+                    g_assetinfo.at(fp).timesAccessed++;
                     default_texture = *it->second.get();
+                    return true;
                 }
             }
+            return ok;
         }
-        void setDefaultSound(const std::string& str){
-            if(load(str)){
-                auto it = g_sounds.find(str);
+        bool setDefaultSound(const std::string& str){
+            std::string fp = findAsset(str);
+            bool ok = load(fp, false);
+            if(ok){
+                auto it = g_sounds.find(fp);
                 if(it != g_sounds.end()){
+                    g_assetinfo.at(fp).timesAccessed++;
                     default_sound = *it->second.get();
                 }
             }
+            return ok;
         }
-        void setDefaultFont(const std::string& str){
-            if(load(str)){
-                auto it = g_fonts.find(str);
+        bool setDefaultFont(const std::string& str){
+            std::string fp = findAsset(str);
+            bool ok = load(fp, false);
+            if(ok){
+                auto it = g_fonts.find(fp);
                 if(it != g_fonts.end()){
+                    g_assetinfo.at(fp).timesAccessed++;
                     default_font = *it->second.get();
                 }
             }
+            return ok;
         }
-        void setDefaultTileset(const std::string& str){
-//                 auto it = g_tilesets.find(str);
+        bool setDefaultTileset(const std::string& str){
+            std::string fp = findAsset(str);
+            bool ok = load(fp, false);
+            if(ok){
+//                 auto it = g_tilesets.find(fp);
 //                 if(it != g_tilesets.end()){
+//                     g_assetinfo.at(fp).timesAccessed++;
 //                     default_tileset = *it->second.get();
 //                 }
+            }
+            return ok;
         }
-        void setDefaultTileMap(const std::string& str){
-//                 auto it = g_tilemaps.find(str);
+        bool setDefaultTileMap(const std::string& str){
+            std::string fp = findAsset(str);
+            bool ok = load(fp, false);
+            if(ok){
+//                 auto it = g_tilemaps.find(fp);
 //                 if(it != g_tilemaps.end()){
+//                     g_assetinfo.at(fp).timesAccessed++;
 //                     default_tilemap = *it->second.get();
 //                 }
+            }
+            return ok;
         }
-        void setDefaultAnimation(const std::string& str){
-//                 auto it = g_animations.find(str);
+        bool setDefaultAnimation(const std::string& str){
+            std::string fp = findAsset(str);
+            bool ok = load(fp, false);
+            if(ok){
+//                 auto it = g_animations.find(fp);
 //                 if(it != g_animations.end()){
+//                      g_assetinfo.at(fp).timesAccessed++;
 //                     default_animation = *it->second.get();
 //                 }
+            }
+            return ok;
         }
-        void setDefaultEventScript(const std::string& str){
-//                 auto it = g_eventscripts.find(str);
+        bool setDefaultEventScript(const std::string& str){
+            std::string fp = findAsset(str);
+            bool ok = load(fp, false);
+            if(ok){
+//                 auto it = g_eventscripts.find(fp);
 //                 if(it != g_eventscripts.end()){
+//                     g_assetinfo.at(fp).timesAccessed++;
 //                     default_eventscript = *it->second.get();
 //                 }
+            }
+            return ok;
         }
-        void setDefaultProtype(const std::string& str){
-//                 auto it = g_prototypes.find(str);
+        bool setDefaultProtype(const std::string& str){
+            std::string fp = findAsset(str);
+            bool ok = load(fp, false);
+            if(ok){
+//                 auto it = g_prototypes.find(fp);
 //                 if(it != g_prototypes.end()){
+//                     g_assetinfo.at(fp).timesAccessed++;
 //                     default_prototype = *it->second.get();
 //                 }
+            }
+            return ok;
         }
-        void setDefaultScene(const std::string& str){
-//                 auto it = g_scenes.find(str);
+        bool setDefaultScene(const std::string& str){
+            std::string fp = findAsset(str);
+            bool ok = load(fp, false);
+            if(ok){
+//                 auto it = g_scenes.find(fp);
 //                 if(it != g_scenes.end()){
+//                     g_assetinfo.at(fp).timesAccessed++;
 //                     default_scene = *it->second.get();
 //                 }
+            }
+            return ok;
         }
     }
 }

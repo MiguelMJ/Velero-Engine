@@ -41,17 +41,19 @@ namespace ge{
         std::string name;
         AssetState state;
         std::vector<std::string> dependencies;
-        int timesAccesed;
+        int timesAccessed;
     } AssetInfo;
     namespace AssetSystem{
+        const std::vector<std::string>& path();
         void addPath(const std::string&);
-        bool load(const std::string&);
+        bool load(const std::string& name, bool find=true);
         bool loadRecursively(const std::string&);
-        bool checkDependencies(const std::string&);
-        bool checkAllDependencies();
-        bool fixDependencies(const std::string&);
-        bool fixAllDependencies();
-        std::vector<AssetInfo> getUnused();
+        std::set<std::string> unloadedDependencies();
+        bool loadDependencies(const std::string&);
+        std::vector<AssetInfo> getInfo(
+            bool(*condition)(const AssetInfo&) =
+            [](const AssetInfo&)->bool{return true;}
+        );
         sf::Texture* getTexture(const std::string& str="");
         sf::SoundBuffer* getSound(const std::string& str="");
         sf::Font* getFont(const std::string& str="");
@@ -61,15 +63,15 @@ namespace ge{
         // EventScript* getEventScript(const std::string& str="");
         // Protoype* getPrototype(const std::string& str="");
         // Scene* getScene(const std::string& str="");
-        void setDefaultTexture(const std::string&);
-        void setDefaultSound(const std::string&);
-        void setDefaultFont(const std::string&);
-        void setDefaultTileset(const std::string&);
-        void setDefaultTileMap(const std::string&);
-        void setDefaultAnimation(const std::string&);
-        void setDefaultEventScript(const std::string&);
-        void setDefaultProtype(const std::string&);
-        void setDefaultScene(const std::string&);
+        bool setDefaultTexture(const std::string&);
+        bool setDefaultSound(const std::string&);
+        bool setDefaultFont(const std::string&);
+        bool setDefaultTileset(const std::string&);
+        bool setDefaultTileMap(const std::string&);
+        bool setDefaultAnimation(const std::string&);
+        bool setDefaultEventScript(const std::string&);
+        bool setDefaultProtype(const std::string&);
+        bool setDefaultScene(const std::string&);
     }
 }
 

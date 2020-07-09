@@ -21,6 +21,7 @@ SRC_FILES = \
 		src/AssetSystem.cpp\
 		\
 		dev/Sprite.cpp\
+		dev/EntityComponent.cpp\
 		
 		
 SRC_TARGET = main.cpp

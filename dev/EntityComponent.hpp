@@ -26,6 +26,7 @@ namespace ge{
         virtual void handle(const Event*, std::type_index, size_t);
     };
     
+    typedef std::pair < std::type_index , std::unique_ptr<Component> > typecomppair;
     class Entity : public sf::Transformable, public EventListener{
     private:
         unsigned long m_id;
@@ -48,7 +49,7 @@ namespace ge{
             for(auto& et : cptr->m_eventsHandled){
                 m_eventHandlers.insert(typepair(et,ct));
             }
-            m_components.emplace(ct,cptr);
+            m_components.insert(typecomppair(ct,std::unique_ptr<Component>(cptr)));
         }
         void removeComponents(std::type_index);
         unsigned long getId();

@@ -1,0 +1,5 @@
+main
+logs/
+debug/
+tests/
+*.o

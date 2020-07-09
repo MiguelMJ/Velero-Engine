@@ -33,7 +33,7 @@ OBJ += $(SRC_FILES:%.cpp=%.o)
 INCLUDES += -I${HOME}/src/fmt-6.2.1/include
 LINKDIRS += -L${HOME}/src/fmt-6.2.1/build
 LIBS += -lfmt
-CFLAGS += -DLOGURU_USE_FMTLIB=1
+CXXFLAGS += -DLOGURU_USE_FMTLIB=1
 
 # CPPFS
 INCLUDES += -I${HOME}/src/cppfs/source/cppfs/include/\
@@ -43,10 +43,10 @@ LDFLAGS += -Wl,-rpath=${HOME}/src/cppfs/build/
 LIBS += -lcppfs
 
 # LOGURU
-OBJ += ${HOME}/src/loguru-2.1.0/loguru.o
+#OBJ += ${HOME}/src/loguru-2.1.0/loguru.o
 INCLUDES += -I${HOME}/src/loguru-2.1.0/
 LIBS += -lpthread -ldl
-CFLAGS += -DLOGURU_THREADNAME_WIDTH=0 -DLOGURU_FILENAME_WIDTH=0
+CXXFLAGS += -DLOGURU_THREADNAME_WIDTH=0 -DLOGURU_FILENAME_WIDTH=0
 
 # SFML
 LIBS += -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system
@@ -59,6 +59,7 @@ all: $(EXEC)
 	
 clean:
 	rm -f *.o src/*.o dev/.*o
-
-%.test: $(OBJ)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(LINKDIRS) $^ $*.cpp -o $@ $(LIBS) $(LDFLAGS)
+clean-test:
+	rm -f tests/*.test
+%.test: $(OBJ) clean-test
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(LINKDIRS) $(OBJ) $*.cpp -o $@ $(LIBS) $(LDFLAGS)

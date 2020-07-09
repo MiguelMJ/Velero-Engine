@@ -1,3 +1,5 @@
+#include "loguru.cpp"
+
 #include "geutil.hpp"
 
 static const float PI = 3.14159265f;
@@ -52,6 +54,18 @@ namespace ge{
             t1 = (orig2.x + dir2.x * t2 - orig1.x) / dir1.x;
         }
         return std::make_pair(t1, t2);
+    }
+    float getAngle(sf::Vector2f d){
+        return std::atan2(d.y, d.x);
+    }
+    sf::Vector2f getVector(float ang){
+        return sf::Vector2f(std::cos(ang), std::sin(ang));
+    }
+    float length(sf::Vector2f v){
+        return std::sqrt(v.x*v.x + v.y*v.y);
+    }
+    sf::Vector2f normalize(sf::Vector2f v){
+        return v/length(v);
     }
     float rad2deg(float rad){
         return rad * 180 / PI;

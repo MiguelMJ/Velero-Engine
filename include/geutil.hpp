@@ -26,6 +26,10 @@ namespace ge{
     Ray make_ray(sf::Vector2f orig, float ang); // rads
     Ray make_ray(Segment s);
     std::pair<float, float> intersection(Ray r1, Ray r2);
+    float getAngle(sf::Vector2f v);
+    sf::Vector2f getVector(float ang); // rads
+    sf::Vector2f normalize(sf::Vector2f v); // rads
+    float length(sf::Vector2f v);
     float rad2deg(float rad);
     float deg2rad(float deg);
     

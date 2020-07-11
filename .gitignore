@@ -1,5 +1,6 @@
-main
+*main
 logs/
 debug/
-tests/
+release/
+*tests/
 *.o

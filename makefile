@@ -1,15 +1,19 @@
+#
 # General
+#
 EXEC = main
 CXX = g++
-CXXFLAGS = -O3 -std=c++11 -Wpedantic -fmax-errors=3
+CXXFLAGS = -std=c++11 -fmax-errors=3 $(INCLUDES) $(LINKDIRS)
 CC = $(CXX)
 CFLAGS = $(CXXFLAGS)
+
 INCLUDES = -Iinclude -Idev
-CPPFLAGS = $(INCLUDES)
 LINKDIRS =
 LDFLAGS = 
 LIBS =
-SRC_FILES = \
+LINKAGE = $(LIBS) $(LDFLAGS)
+TARGET = main
+SRC_FILES = $(TARGET).cpp\
 		src/RenderSystem.cpp\
 		src/DynamicLayer.cpp\
 		src/LightingLayer.cpp\
@@ -22,12 +26,30 @@ SRC_FILES = \
 		\
 		dev/Sprite.cpp\
 		dev/EntityComponent.cpp\
-		
-		
-SRC_TARGET = main.cpp
-OBJ_TARGET = main.o
+
+
 			
 OBJ += $(SRC_FILES:%.cpp=%.o)
+
+#
+# Debug build settings
+#
+DBGDIR = debug
+DBGEXEC = $(DBGDIR)/$(EXEC)
+DBGOBJ = $(addprefix $(DBGDIR)/, $(OBJ))
+DBGCFLAGS = -g -O0 -DDEBUG
+
+#
+# Release build settings
+#
+RELDIR = release
+RELEXEC = $(RELDIR)/$(EXEC)
+RELOBJ = $(addprefix $(RELDIR)/, $(OBJ))
+RELCFLAGS = -O3 -DNDEBUG
+
+#
+# Libraries
+#
 
 # FMT
 INCLUDES += -I${HOME}/src/fmt-6.2.1/include
@@ -43,7 +65,7 @@ LDFLAGS += -Wl,-rpath=${HOME}/src/cppfs/build/
 LIBS += -lcppfs
 
 # LOGURU
-#OBJ += ${HOME}/src/loguru-2.1.0/loguru.o
+# OBJ += ${HOME}/src/loguru-2.1.0/loguru.o # loguru.cpp included in geutils.cpp
 INCLUDES += -I${HOME}/src/loguru-2.1.0/
 LIBS += -lpthread -ldl
 CXXFLAGS += -DLOGURU_THREADNAME_WIDTH=0 -DLOGURU_FILENAME_WIDTH=0
@@ -52,13 +74,56 @@ CXXFLAGS += -DLOGURU_THREADNAME_WIDTH=0 -DLOGURU_FILENAME_WIDTH=0
 LIBS += -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system
 
 
+#
+# Rules
+#
+.PHONY: all clean debug prep release remake
+
+# Default build
+all: prep release
+
+#
+# Debug rules
+#
+debug: $(DBGEXEC)
+
+$(DBGEXEC): $(DBGOBJ)
+	$(CXX) $(CXXFLAGS) $(DBGCFLAGS) $^ -o $(DBGEXEC) $(LINKAGE)
+
+$(DBGDIR)/%.o: %.cpp
+	$(CXX) -c $(CXXFLAGS) $(DBGCFLAGS) -o $@ $<
+
+#
+# Release rules
+#
+release: $(RELEXEC)
+
+$(RELEXEC): $(RELOBJ)
+	$(CXX) $(CXXFLAGS) $(RELCFLAGS) $^ -o $(RELEXEC) $(LINKAGE)
+
+$(RELDIR)/%.o: %.cpp
+	$(CXX) -c $(CXXFLAGS) $(RELCFLAGS) -o $@ $<
+	
+	
 $(EXEC): $(OBJ) $(OBJ_TARGET)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(LINKDIRS) $^ -o $(EXEC) $(LIBS) $(LDFLAGS) 
 	@echo Build succesfull
-all: $(EXEC)
 	
+#
+# Other rules
+#
+prep:
+	@mkdir -p $(DBGDIR)/src
+	@mkdir -p $(DBGDIR)/dev
+	@mkdir -p $(RELDIR)/src
+	@mkdir -p $(RELDIR)/dev
+
+remake: clean all
+
 clean:
-	rm -f *.o src/*.o dev/.*o
+	rm -f $(RELEXEC) $(RELOBJ) $(DBGEXE) $(DBGOBJ)
+	
+	
 clean-test:
 	rm -f tests/*.test
 %.test: $(OBJ) clean-test

@@ -22,9 +22,8 @@ namespace ge{
         std::vector<bool> m_layerIsVisible;
         std::vector<sf::RenderStates> m_renderStates;
     public:
-        sf::View view;
+        sf::View m_view;
         
-        // extern sf::View view;
         Layer* pushLayer(std::string);
         LightingLayer* pushLightingLayer(std::string);
         Layer* duplicateLayer(size_t,  std::string);
@@ -32,17 +31,17 @@ namespace ge{
         void moveLayer(size_t, int);
         
         void deleteLayer (const std::string&);
-        size_t layerCount();
+        size_t layerCount() const;
         void setLocked(size_t, bool);
         void setVisible (size_t, bool);
         void setVisible (const Renderable*, bool);
         sf::RenderStates& getRenderState (size_t);
-        Layer* getLayer(std::string);
-        Layer* getLayer (size_t);
-        LightingLayer* getLightingLayer(std::string);
-        LightingLayer* getLightingLayer (size_t);
-        size_t getLayerId (std::string);
-        bool isLightingLayer (size_t);
+        Layer* getLayer(std::string) const;
+        Layer* getLayer (size_t) const;
+        LightingLayer* getLightingLayer(std::string) const;
+        LightingLayer* getLightingLayer (size_t) const;
+        size_t getLayerId (std::string) const;
+        bool isLightingLayer (size_t) const;
         
         void draw(sf::RenderTarget&);
     };

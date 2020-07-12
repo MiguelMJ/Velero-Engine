@@ -4,21 +4,35 @@ namespace ge{
     void Component::setActive(bool a){
         if(a && !m_active){
             m_active = true;
-            onActivate();
+            if(m_ptrEntity->isActive()){
+                onActivate();
+            }
         }else if(!a && m_active){
             m_active = false;
-            onDeactivate();
+            if(!m_ptrEntity->isActive()){
+                onDeactivate();
+            }
         }
     }
+    void Component::onAdd(){}
+    void Component::onRemove(){}
     void Component::onActivate(){}
     void Component::onDeactivate(){}
     void Component::handle(const Event*,std::type_index,size_t){}
+    
+    Entity::Entity(unsigned long id, std::string name, bool active)
+        : m_id(id)
+        , m_name(name)
+        , m_active(active)
+    {}
     void Entity::notify(const Event* e, std::type_index t, size_t ch){
         auto iteh = m_eventHandlers.find(t);
         while(iteh != m_eventHandlers.end() && iteh->first == t){
             auto itc = m_components.find(iteh->second);
             while(itc != m_components.end() && itc->first == iteh->second){
-                itc->second->handle(e,t,ch);
+                if(itc->second->m_active){
+                    itc->second->handle(e,t,ch);
+                }
                 itc++;
             }
             iteh++;
@@ -45,12 +59,36 @@ namespace ge{
                 iteh++;
             }
         }
-        m_components.erase(t);
+        auto itcm = m_components.find(t);
+        while(itcm != m_components.end() && itcm->first == t){
+            itcm->second->onRemove();
+            itcm = m_components.erase(itcm);
+        }
+    }
+    void Entity::setActive(bool active){
+        if(active){
+            for(auto& c: m_components){
+                c.second->onActivate();
+            }
+        }else{
+            for(auto& c: m_components){
+                c.second->onDeactivate();
+            }
+        }
+        m_active = active;
+    }
+    bool Entity::isActive(){
+        return m_active;
     }
     unsigned long Entity::getId(){
         return m_id;
     }
     std::string Entity::getName(){
         return m_name;
+    }
+    Entity::~Entity(){
+        for(auto& it : m_components){
+            it.second->onRemove();
+        }
     }
 }

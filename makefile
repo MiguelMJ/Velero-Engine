@@ -12,8 +12,7 @@ LINKDIRS =
 LDFLAGS = 
 LIBS =
 LINKAGE = $(LIBS) $(LDFLAGS)
-TARGET = main
-SRC_FILES = $(TARGET).cpp\
+SRC_FILES = $(EXEC).cpp\
 		src/RenderSystem.cpp\
 		src/DynamicLayer.cpp\
 		src/LightingLayer.cpp\
@@ -73,6 +72,15 @@ CXXFLAGS += -DLOGURU_THREADNAME_WIDTH=0 -DLOGURU_FILENAME_WIDTH=0
 # SFML
 LIBS += -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system
 
+#
+# Custom output functions
+#
+define print_info
+	@echo "\033[1;38;2;250;250;50m$(1)\033[0m"
+endef
+define print_success
+	@echo "\033[1;38;2;50;250;50m$(1)\033[0m"
+endef
 
 #
 # Rules
@@ -86,28 +94,29 @@ all: prep release
 # Debug rules
 #
 debug: $(DBGEXEC)
-
+	$(call print_success,$< ready)
+	
 $(DBGEXEC): $(DBGOBJ)
+	$(call print_info,Building $@)
 	$(CXX) $(CXXFLAGS) $(DBGCFLAGS) $^ -o $(DBGEXEC) $(LINKAGE)
 
 $(DBGDIR)/%.o: %.cpp
+	$(call print_info,Building $@)
 	$(CXX) -c $(CXXFLAGS) $(DBGCFLAGS) -o $@ $<
 
 #
 # Release rules
 #
 release: $(RELEXEC)
-
+	$(call print_success,$< ready)
+	
 $(RELEXEC): $(RELOBJ)
+	$(call print_info,Building $@)
 	$(CXX) $(CXXFLAGS) $(RELCFLAGS) $^ -o $(RELEXEC) $(LINKAGE)
 
 $(RELDIR)/%.o: %.cpp
+	$(call print_info,Building $@)
 	$(CXX) -c $(CXXFLAGS) $(RELCFLAGS) -o $@ $<
-	
-	
-$(EXEC): $(OBJ) $(OBJ_TARGET)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(LINKDIRS) $^ -o $(EXEC) $(LIBS) $(LDFLAGS) 
-	@echo Build succesfull
 	
 #
 # Other rules
@@ -115,16 +124,13 @@ $(EXEC): $(OBJ) $(OBJ_TARGET)
 prep:
 	@mkdir -p $(DBGDIR)/src
 	@mkdir -p $(DBGDIR)/dev
+	@mkdir -p $(DBGDIR)/tests
 	@mkdir -p $(RELDIR)/src
 	@mkdir -p $(RELDIR)/dev
+	@mkdir -p $(RELDIR)/tests
 
 remake: clean all
 
 clean:
-	rm -f $(RELEXEC) $(RELOBJ) $(DBGEXE) $(DBGOBJ)
+	rm -f -r $(RELDIR) $(DBGDIR)
 	
-	
-clean-test:
-	rm -f tests/*.test
-%.test: $(OBJ) clean-test
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(LINKDIRS) $(OBJ) $*.cpp -o $@ $(LIBS) $(LDFLAGS)

@@ -6,7 +6,7 @@
 namespace ge{
     class Renderable: public sf::Drawable, public sf::Transformable{
     private:
-        void draw(sf::RenderTarget& t, sf::RenderStates s) const = 0;
+        virtual void draw(sf::RenderTarget& t, sf::RenderStates s) const override = 0;
         friend class Layer;
     public:
         virtual ~Renderable(){}

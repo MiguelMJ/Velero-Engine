@@ -112,7 +112,7 @@ namespace ge{
             m_lockedLayers.swap(tmp);
         }
     }
-    size_t RenderSystem::layerCount(){
+    size_t RenderSystem::layerCount() const{
         return m_layers.size();
     }
     void RenderSystem::setLocked(size_t id, bool l){
@@ -145,9 +145,9 @@ namespace ge{
         }
     }
     sf::RenderStates& RenderSystem::getRenderState (size_t id){
-        return m_renderStates[id];
+        return m_renderStates.at(id);
     }
-    Layer* RenderSystem::getLayer(std::string str){
+    Layer* RenderSystem::getLayer(std::string str) const{
         Layer* ret = nullptr;
         auto it = m_layerIndex.find(str);
         if(it != m_layerIndex.end()){
@@ -155,16 +155,16 @@ namespace ge{
         }
         return ret;
     }
-    Layer* RenderSystem::getLayer (size_t id){
+    Layer* RenderSystem::getLayer (size_t id) const{
         return m_layers[id].get();
     }
-    LightingLayer* RenderSystem::getLightingLayer(std::string str){
+    LightingLayer* RenderSystem::getLightingLayer(std::string str) const{
         return static_cast<LightingLayer*> (getLayer(str));
     }
-    LightingLayer* RenderSystem::getLightingLayer (size_t id){
+    LightingLayer* RenderSystem::getLightingLayer (size_t id) const{
         return static_cast<LightingLayer*> (getLayer(id));
     }
-    size_t RenderSystem::getLayerId (std::string str){
+    size_t RenderSystem::getLayerId (std::string str) const{
         size_t ret = -1;
         auto it = m_layerIndex.find(str);
         if(it != m_layerIndex.end()){
@@ -172,7 +172,7 @@ namespace ge{
         }
         return ret;
     }
-    bool RenderSystem::isLightingLayer (size_t id){
+    bool RenderSystem::isLightingLayer (size_t id) const{
         return typeid(*m_layers[id]) == typeid(LightingLayer);
     }
     void RenderSystem::draw(sf::RenderTarget& t){

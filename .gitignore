@@ -2,5 +2,7 @@
 logs/
 debug/
 release/
+docs/html
+docs/latex
 *tests/
 *.o

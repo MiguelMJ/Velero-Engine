@@ -22,12 +22,10 @@ SRC_FILES = $(EXEC).cpp\
 		src/Random.cpp\
 		src/EventSystem.cpp\
 		src/AssetSystem.cpp\
+		src/EntityComponent.cpp\
 		\
-		dev/Sprite.cpp\
-		dev/EntityComponent.cpp\
+		
 
-
-			
 OBJ += $(SRC_FILES:%.cpp=%.o)
 
 #

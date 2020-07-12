@@ -1,3 +1,7 @@
+/** @file EntityComponent.hpp
+ *  @author Miguel Mejía Jiménez
+ */
+
 #ifndef __ENTITYCOMPONENT_HPP__
 #define __ENTITYCOMPONENT_HPP__
 
@@ -11,18 +15,41 @@
 namespace ge{
     typedef std::pair<std::type_index, std::type_index> typepair;
     class Entity; // fw declaration
+    /** 
+     * @brief Base class for entity components 
+     * @details Every component class must inherit from this class in 
+     *          order to be used within an entity. Components are not      
+     *          moved into entities, but copied via copy constructor, so
+     *          it is necesary in order to function properly. In most
+     *          cases, the default copy constructor is enough. 
+     */
     class Component{
     private:
         bool m_active;
     protected:
         friend class Entity;
-        Entity* m_ptrEntity=nullptr;
+        /** 
+         * @member Pointer to the entity that contains this component.
+         */
+        Entity* m_ptrEntity;
+        /** 
+         * @member Types of the events that the entity should pass to this
+         *         component.
+         */
         std::set<std::type_index> m_eventsHandled;
+        /**
+         * @member Channels of ge::EventSystem to which the entity should
+         *         listen while this component is active.
+         */
         std::set<std::string> m_channels;
     public:
-        void setActive(bool);
-        // onCreate es necesaria porque el constructor que se usará
-        // en Prototype será siempre el de copia
+        /**
+         * @brief Set the active flag of the component
+         * @details When a component is active, 
+         * @param active Value to set the active flag
+         */
+        void setActive(bool active);
+        
         virtual void onAdd();
         virtual void onRemove();
         virtual void onActivate();
@@ -31,7 +58,7 @@ namespace ge{
     };
     
     typedef std::pair < std::type_index , std::unique_ptr<Component> > typecomppair;
-    class Entity : public sf::Transformable, public EventListener{
+    class Entity final: public sf::Transformable, public EventListener{
     private:
         unsigned long m_id;
         std::string m_name;

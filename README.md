@@ -1,20 +1,7 @@
-# Game Engine
+# Velero Engine
 
-#### Project structure:
+![logo](docs/logo.jpg)
 
-`./src/`: Finished cpp files.
+Velero is a game engine written in C++ and based in SFML.
 
-`./include/`: Finished hpp files.
-
-`./dev/`: hpp and cpp files in development.
-
-`./docs/`: Project documentation
-
-`./tests/`: Source and binaries for tests
-
-#### Compile script
-
-`./compile`: Compiles `./main.cpp` into `./main`
-
-`./compile example`: Compiles `./tests/example.cpp` into `./tests/example.test`
-
+The full documentation is [here](https://codedocs.xyz/MiguelMJ/Velero-Engine/)

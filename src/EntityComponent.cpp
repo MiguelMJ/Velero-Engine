@@ -66,14 +66,8 @@ namespace ge{
         }
     }
     void Entity::setActive(bool active){
-        if(active){
-            for(auto& c: m_components){
-                c.second->onActivate();
-            }
-        }else{
-            for(auto& c: m_components){
-                c.second->onDeactivate();
-            }
+        for(auto& c: m_components){
+            c.second->setActive(active);
         }
         m_active = active;
     }

@@ -3,7 +3,7 @@
 
 /** @mainpage Home
  * \htmlonly 
- *  <style> div.image img[src="docs/logo_long.jpg"]{width:10cm;} </style> 
+ *  <style> div.image img[src="logo_long.jpg"]{width:10cm;} </style> 
  * \endhtmlonly 
  * 
  * @image html logo_long.jpg

@@ -1,6 +1,6 @@
 # Velero Engine
 
-<img src="docs/logo_long.jpg" alt="logo" width="10cm">
+<img src="docs/logo_long.jpg" alt="logo" width=200>
 
 Velero is a game engine written in C++ and based in SFML.
 

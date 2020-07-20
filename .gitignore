@@ -3,6 +3,8 @@ logs/
 debug/
 release/
 docs/html
-docs/latex
+docs/*jpg
+docs/*odg
 *tests/
 *.o
+*.swp

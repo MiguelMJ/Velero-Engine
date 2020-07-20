@@ -2,7 +2,11 @@
 #define __GE_CONFIG_HPP__
 
 /** @mainpage Home
- * @image html logo.jpg
+ * \htmlonly 
+ *  <style> div.image img[src="logo_long.jpg"]{width:10cm;} </style> 
+ * \endhtmlonly 
+ * 
+ * @image html logo_long.jpg
  * # Introduction
  * This is an introduction
  * # Instalation

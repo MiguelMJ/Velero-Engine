@@ -115,7 +115,7 @@ namespace ge{
         /**
          * @brief Process an @ref Event received by the @ref Entity.
          * @details The usual structure of this function should be a main
-         * switch of the __type__ and a static cast at the beginning of 
+         * switch of the @p type and a static cast at the beginning of 
          * each case, before the logic applied to that event. The types 
          * processed and the channels that deliver the @ref Event will be 
          * limited to the ones contained in the @ref m_eventsHandled 
@@ -124,7 +124,8 @@ namespace ge{
          * @param event Pointer to the @ref Event received.
          * @param type Type information of the event.
          * @param channel ID of the channel from which the event was
-         * received.
+         * received. Its value will be -1 when the notification doesn't 
+         * come from ge::EventSystem
          * @see m_eventsHandled m_channels
          */
         virtual void handle(const Event* event, std::type_index type, size_t channel);
@@ -164,55 +165,107 @@ namespace ge{
         Entity(unsigned long id=0, std::string name="", bool active=true);
         
         /**
-         * @brief Receives an @ref Event and processes it.
-         * @details The Entity looks up which of its components are able
-         * to handle events of that __type__, and passes the event to
+         * @brief Receive an @ref Event and processes it.
+         * @details The entity looks up which of its components are able
+         * to handle events of that @p type, and passes the event to
          * them.
-         * @param event Pointer to the @ref Event.
-         * @param type Type information about the @ref Event.
+         * @param event Pointer to the event.
+         * @param type Type information about the event.
          * @param channel ID of the channel from the @ref ge::EventSystem 
-         * that delivered the @ref Event.
+         * that delivered the @ref Event. Its value will be -1 when the
+         * notification doesn't come from that system.
          */
         void notify(const Event* event, std::type_index type, size_t channel) override;
         
         /**
-         * @brief Receives an @ref Event from 
+         * @brief Receive an @ref Event and processes it.
+         * @details This method overloads its more general version to
+         * be used outside the ge::EventSystem.
+         * @param event Object inheriting from @ref Event 
+         * @see notify
          */
         template <class T>
         void notify(const T& event){
             notify(&event, typeid(T), -1);
         }
+        
+        /**
+         * @brief Add a component and set its _active_ flag.
+         * @details A copy of the @p component is added. The active flag 
+         * of the component is set as an and operation between the 
+         * parameter @p active and the _active_ flag of the entity. The 
+         * Entity will register to the channels and 
+         * events associated to it.
+         * @param component Object inheriting from @ref Component.
+         * @param active Value to set the _active_ flag of 
+         * the @p Component.
+         * @see Component::onAdd Component::setActive
+         */
         template <class T>
-        void addComponent(const T& c, bool active=true){
+        void addComponent(const T& component, bool active=true){
             std::type_index ct(typeid(T));
-            Component* cptr = new T(c);
+            Component* cptr = new T(component);
             cptr->m_ptrEntity = this;
             cptr->onAdd();
             for(auto& ch : cptr->m_channels){
                 size_t chid = EventSystem::getChannelId(ch);
                 m_subscribeCount[chid]++;
-                this->EventListener::m_channels.insert(ch);
+                auto& evlich = this->EventListener::m_channels;
+                if(evlich.find(ch) == evlich.end()){
+                    evlich.insert(ch);
+                    EventSystem::subscribe(chid, this);
+                }
             }
             for(auto& et : cptr->m_eventsHandled){
                 m_eventHandlers.insert(typepair(et,ct));
             }
-            cptr->setActive(active);
+            cptr->setActive(active && this->m_active);
             m_components.insert(typecomppair(ct,std::unique_ptr<Component>(cptr)));
         }
         
-        void removeComponents(std::type_index);
+        /**
+         * @brief Remove all components of a given @p type.
+         * @details If the removed component is the last one associated 
+         * to a channel, then the Entity will unsubscribe from it.
+         * @param type Type of the Components to be removed.
+         * @see Component::onRemove
+         */
+        void removeComponents(std::type_index type);
         
+        /**
+         * @brief Set the _active_ flag of the entity.
+         * @details If the new value of the _active_ flag is the same as 
+         * the old, it has no effect. Otherwise, the _active_ flag is set 
+         * the same for all the components of the entity.
+         * @param active Value to set the _active_ flag.
+         * @see Component::setActive
+         */
         void setActive(bool active);
         
+        /**
+         * @brief Get the _active_ flag of the entity.
+         * @returns The _active_ flag.
+         * @see isActive
+         */
         bool isActive();
         
         /**
-         * @return Entity ID.
+         * @brief Get the entity identifier.
+         * @returns Entity ID.
          */
         unsigned long getId();
         
+        /**
+         * @brief Get the entity name.
+         * @returns Entity name.
+         */
         std::string getName();
         
+        /**
+         * @brief Destructor
+         * @details Removes all the components.
+         * @see Component::onRemove
+         */
         ~Entity();
     };
 }

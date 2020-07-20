@@ -4,14 +4,10 @@ namespace ge{
     void Component::setActive(bool a){
         if(a && !m_active){
             m_active = true;
-            if(m_ptrEntity->isActive()){
-                onActivate();
-            }
+            onActivate();
         }else if(!a && m_active){
             m_active = false;
-            if(!m_ptrEntity->isActive()){
-                onDeactivate();
-            }
+            onDeactivate();
         }
     }
     void Component::onAdd(){}
@@ -39,17 +35,22 @@ namespace ge{
         }
     }
     void Entity::removeComponents(std::type_index t){
-        auto itc = m_components.find(t);
-        if(itc == m_components.end()){
+        auto itcm = m_components.find(t);
+        if(itcm == m_components.end()){
             return;
         }
-        auto& channels = itc->second->m_channels;
-        for(auto& ch : channels){
-            size_t chid = EventSystem::getChannelId(ch);
-            this->m_subscribeCount[chid]--;
-            if(this->m_subscribeCount[chid] <= 0){
-               this->EventListener::m_channels.erase(ch);
+        while(itcm != m_components.end() && itcm->first == t){
+            auto& channels = itcm->second->m_channels;
+            for(auto& ch : channels){
+                size_t chid = EventSystem::getChannelId(ch);
+                this->m_subscribeCount[chid]--;
+                if(this->m_subscribeCount[chid] <= 0){
+                    this->EventListener::m_channels.erase(ch);
+                    ge::EventSystem::unsubscribe(chid, this);
+                }
             }
+            itcm->second->onRemove();
+            itcm = m_components.erase(itcm);
         }
         auto iteh = m_eventHandlers.begin();
         while(iteh != m_eventHandlers.end()){
@@ -58,11 +59,6 @@ namespace ge{
             }else{
                 iteh++;
             }
-        }
-        auto itcm = m_components.find(t);
-        while(itcm != m_components.end() && itcm->first == t){
-            itcm->second->onRemove();
-            itcm = m_components.erase(itcm);
         }
     }
     void Entity::setActive(bool active){

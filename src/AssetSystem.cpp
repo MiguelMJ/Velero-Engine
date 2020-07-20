@@ -49,10 +49,8 @@ namespace ge{
         }
         template<class T>
         T* loadAsset(const std::string& str){
-            T* ret = nullptr;
-            bool ok = false;
-            ret = new T;
-            ok = ret->loadFromFile(str);
+            T* ret = new T;
+            bool ok = ret->loadFromFile(str);
             if(!ok){
                 LOG_F(ERROR, "Unable to load asset: {}", str);
                 delete ret;

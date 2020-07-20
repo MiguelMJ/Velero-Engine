@@ -3,7 +3,6 @@ logs/
 debug/
 release/
 docs/html
-docs/*jpg
 docs/*odg
 *tests/
 *.o

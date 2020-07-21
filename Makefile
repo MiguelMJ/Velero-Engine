@@ -7,26 +7,15 @@ CXXFLAGS = -std=c++11 -fmax-errors=3 $(INCLUDES) $(LINKDIRS)
 CC = $(CXX)
 CFLAGS = $(CXXFLAGS)
 
-INCLUDES = -Iinclude -Idev
+INCLUDES = -Iinclude
 LINKDIRS =
 LDFLAGS = 
 LIBS =
 LINKAGE = $(LIBS) $(LDFLAGS)
-SRC_FILES = $(EXEC).cpp\
-		src/RenderSystem.cpp\
-		src/DynamicLayer.cpp\
-		src/LightingLayer.cpp\
-		src/StaticLayer.cpp\
-		src/LightSource.cpp\
-		src/geutil.cpp\
-		src/Random.cpp\
-		src/EventSystem.cpp\
-		src/AssetSystem.cpp\
-		src/EntityComponent.cpp\
-		\
+SRC_FILES = $(EXEC).cpp $(wildcard src/*.cpp)
 		
-
-OBJ += $(SRC_FILES:%.cpp=%.o)
+OBJ = $(SRC_FILES:%.cpp=%.o)
+DEP = $(OBJ:%.o=%.d)
 
 #
 # Debug build settings
@@ -34,6 +23,7 @@ OBJ += $(SRC_FILES:%.cpp=%.o)
 DBGDIR = debug
 DBGEXEC = $(DBGDIR)/$(EXEC)
 DBGOBJ = $(addprefix $(DBGDIR)/, $(OBJ))
+DBGDEP = $(addprefix $(DBGDIR)/, $(DEP))
 DBGCFLAGS = -g -O0 -DDEBUG
 
 #
@@ -42,6 +32,7 @@ DBGCFLAGS = -g -O0 -DDEBUG
 RELDIR = release
 RELEXEC = $(RELDIR)/$(EXEC)
 RELOBJ = $(addprefix $(RELDIR)/, $(OBJ))
+RELDEP = $(addprefix $(RELDIR)/, $(DEP))
 RELCFLAGS = -O3 -DNDEBUG
 
 #
@@ -86,77 +77,75 @@ endef
 .PHONY: all debug prep release remake clean clean-release clean-debug docs
 
 # Default build
-all: prep release
+all: release
+
+# Include dependency rules
+-include $(DBGDEP)
+-include $(RELDEP)
 
 #
 # Debug rules
 #
-debug: $(DBGEXEC)
-	$(call print_success,$< ready)
-	
+debug: prep $(DBGEXEC)
+
 $(DBGEXEC): $(DBGOBJ)
 	$(call print_info,Building $@)
-	$(CXX) $(CXXFLAGS) $(DBGCFLAGS) $^ -o $(DBGEXEC) $(LINKAGE)
+	@$(CXX) $(CXXFLAGS) $(DBGCFLAGS) $^ -o $(DBGEXEC) $(LINKAGE)
+	$(call print_success,$< ready)
 
-$(DBGDIR)/%.o: %.cpp
-	$(call print_info,Building $@)
-	$(CXX) -c $(CXXFLAGS) $(DBGCFLAGS) -o $@ $<
+$(DBGDIR)/%.d: %.cpp
+	$(call print_info,Checking debug dependencies for $<)
+	$(CPP) $(CFLAGS) $< -MM -MT $(@:.d=.o) >$@
+	@echo '\t$$(call print_info,Building $$@)' >> $@
+	@echo '\t$$(CXX) -c $$(CXXFLAGS) $$(DBGCFLAGS) -o $$@ $$<' >> $@
+
+# $(DBGDIR)/%.o: %.cpp
+# 	$(call print_info,Building $@)
+# 	$(CXX) -c $(CXXFLAGS) $(DBGCFLAGS) -o $@ $<
 
 #
 # Release rules
 #
-release: $(RELEXEC)
-	$(call print_success,$< ready)
+release: prep $(RELEXEC)
 	
 $(RELEXEC): $(RELOBJ)
 	$(call print_info,Building $@)
 	$(CXX) $(CXXFLAGS) $(RELCFLAGS) $^ -o $(RELEXEC) $(LINKAGE)
+	$(call print_success,$< ready)
 
-$(RELDIR)/%.o: %.cpp
-	$(call print_info,Building $@)
-	$(CXX) -c $(CXXFLAGS) $(RELCFLAGS) -o $@ $<
+$(RELDIR)/%.d: %.cpp
+	$(call print_info,Checking release dependencies for $<)
+	$(CPP) $(CFLAGS) $< -MM -MT $(@:.d=.o) >$@
+	@echo '\t$$(call print_info,Building $$@)' >> $@
+	@echo '\t$$(CXX) -c $$(CXXFLAGS) $$(RELCFLAGS) -o $$@ $$<' >> $@
+	
+# $(RELDIR)/%.o: %.cpp
+# 	$(call print_info,Building $@)
+# 	$(CXX) -c $(CXXFLAGS) $(RELCFLAGS) -o $@ $<
 	
 #
 # Other rules
 #
 prep:
 	@mkdir -p $(DBGDIR)/src
-	@mkdir -p $(DBGDIR)/dev
-	@mkdir -p $(DBGDIR)/tests
 	@mkdir -p $(RELDIR)/src
-	@mkdir -p $(RELDIR)/dev
-	@mkdir -p $(RELDIR)/tests
 
 remake: clean all
 
-clean: clean-release
+clean: clean-release clean-debug
 
 clean-release:
-	rm -f -r $(RELDIR)
+	@rm -f -r $(RELDIR)
+	@mkdir -p $(RELDIR)/src
 clean-debug:
-	rm -f -r $(DBGDIR)
-	
+	@rm -f -r $(DBGDIR)
+	@mkdir -p $(DBGDIR)/src
 # 
 # Documentation rules
 # 
 
 DOXYFILE = docs/Doxyfile
-HEADERS = include/AssetSystem.hpp\
-	include/DynamicLayer.hpp\
-	include/EntityComponent.hpp\
-	include/Event.hpp\
-	include/EventListener.hpp\
-	include/EventSystem.hpp\
-	include/geutil.hpp\
-	include/Layer.hpp\
-	include/LightingLayer.hpp\
-	include/LightSource.hpp\
-	include/Random.hpp\
-	include/Renderable.hpp\
-	include/RenderSystem.hpp\
-	include/StaticLayer.hpp\
-	
 	
 docs:
-	doxygen $(DOXYFILE)
+	@doxygen $(DOXYFILE)
 	

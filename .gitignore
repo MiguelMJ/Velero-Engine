@@ -6,4 +6,5 @@ docs/html
 docs/*odg
 *tests/
 *.o
+*.d
 *.swp

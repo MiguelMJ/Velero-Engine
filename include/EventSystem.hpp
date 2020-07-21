@@ -13,12 +13,16 @@
 #include "EventListener.hpp"
 
 namespace ge{
-    // The  only reason I dont use unique_ptr is because
+    // The  only reason I dont use unique_ptr is because 
     // it makes every container uncopiable, and the channels
     // can't be created that way
     typedef const Event* constevptr;
     typedef std::pair<std::type_index, constevptr> channelentry;
     typedef std::queue<channelentry>  channel;
+    
+    /**
+     * @brief System to publish and listen to [events](@ref Event).
+     */
     namespace EventSystem{
         namespace _private_{
             extern std::vector<channel> g_channels;

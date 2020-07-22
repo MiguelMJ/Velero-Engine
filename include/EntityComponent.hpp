@@ -1,5 +1,7 @@
-/** @file EntityComponent.hpp
+/** 
+ * @file
  * @author Miguel Mejía Jiménez
+ * @copyright MIT License
  * @brief This file contains the classes for 
  * entities and components
  * and two convenient typedefs.

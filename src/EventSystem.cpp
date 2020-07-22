@@ -20,10 +20,10 @@ namespace ge{
                 g_subscribers[getChannelId(strch)].erase(el);;
             }
         }
-        void subscribe(size_t ch,EventListener* el){
+        void subscribe(size_t ch, EventListener* el){
             g_subscribers[ch].insert(el);
         }
-        void unsubscribe(size_t ch,EventListener* el){
+        void unsubscribe(size_t ch, EventListener* el){
             g_subscribers[ch].erase(el);
         }
         size_t getChannelId (const std::string& str){

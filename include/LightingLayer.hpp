@@ -2,7 +2,7 @@
  * @file
  * @author Miguel Mejía Jiménez
  * @copyright MIT License
- * @brief This file contains the Layer abstract class.
+ * @brief This file contains the LightingLayer class.
  */
 #ifndef __LIGHTINGLAYER_HPP__
 #define __LIGHTINGLAYER_HPP__

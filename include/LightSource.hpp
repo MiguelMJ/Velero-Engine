@@ -1,3 +1,9 @@
+/**
+ * @file
+ * @author Miguel Mejía Jiménez
+ * @copyright MIT License
+ * @brief This file contains the LightingSource class.
+ */
 #ifndef __LIGHTSOURCE_HPP__
 #define __LIGHTSOURCE_HPP__
 
@@ -8,7 +14,7 @@
 #include "SFML/Graphics.hpp"
 
 #include "Renderable.hpp"
-#include "geutil.hpp"
+#include "geometry.hpp"
 
 namespace ge{
     /**

@@ -21,7 +21,8 @@
 #include <exception>
 #include <memory>
 
-#include "geutil.hpp"
+#include "log.hpp"
+#include "stringmanip.hpp"
 
 namespace ge{
     /**

@@ -1,20 +1,11 @@
-#ifndef __GEUTIL_HPP__
-#define __GEUTIL_HPP__
+#ifndef __GEOMETRY_HPP__
+#define __GEOMETRY_HPP__
 
-#include <algorithm>
-#include <cctype>
-#include <utility>
-#include <cmath>
-#include <limits>
-#include <array>
-
-#include "SFML/System.hpp"
-#include "SFML/Graphics.hpp"
-
-#include "loguru.hpp"
-
-namespace ge{
-    // geometry
+namespace ge::util{
+    
+    static const float PI = 3.14159265f;
+    static const float PI2 = PI*2;
+    
     typedef std::pair<sf::Vector2f, sf::Vector2f> Segment;
     std::array<Segment, 4> segmentsFromRect(sf::FloatRect rect);
     typedef struct{
@@ -32,15 +23,6 @@ namespace ge{
     float length(sf::Vector2f v);
     float rad2deg(float rad);
     float deg2rad(float deg);
-    
-    // work with VertexArray
-    sf::VertexArray getVertex(sf::FloatRect rect, sf::Color c=sf::Color::White);
-    void setColor(sf::VertexArray& va, sf::Color);
-    void setColor(sf::VertexArray& va, sf::Color, int first, int size);
-    void move(sf::VertexArray& va, sf::Vector2f);
-    
-    // work with strings
-    void toLower(std::string& str);
 }
 
 #endif

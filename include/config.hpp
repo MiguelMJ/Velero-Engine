@@ -1,6 +1,16 @@
 #ifndef __GE_CONFIG_HPP__
 #define __GE_CONFIG_HPP__
 
+/**
+ * @namespace ge
+ * @brief Contains every class and function from the engine
+ * that doesn't come from a third party library.
+ */
+/**
+ * @namespace ge::util
+ * @brief Several utilities.
+ */
+
 /** @mainpage Home
  * 
  * \htmlonly 

@@ -1,7 +1,6 @@
 #include "LightingLayer.hpp"
 
 namespace ge{
-    using namespace util;
 
     sf::BlendMode l_lightBlend(
         sf::BlendMode::Factor::Zero,              // color src

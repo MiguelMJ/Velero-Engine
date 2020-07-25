@@ -1,6 +1,6 @@
 #include "geometry.hpp"
 
-namespace ge::util{
+namespace ge{
     std::array<Segment, 4> segmentsFromRect(sf::FloatRect rect){
         sf::Vector2f tl(rect.left, rect.top);
         sf::Vector2f tr(rect.left + rect.width, rect.top);

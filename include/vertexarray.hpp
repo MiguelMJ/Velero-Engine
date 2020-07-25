@@ -1,6 +1,8 @@
 #ifndef __VERTEXARRAY_HPP__
 #define __VERTEXARRAY_HPP__
 
+#include "SFML/Graphics.hpp"
+
 namespace ge{
     sf::VertexArray getVertex(sf::FloatRect rect, sf::Color c=sf::Color::White);
     void setColor(sf::VertexArray& va, sf::Color);

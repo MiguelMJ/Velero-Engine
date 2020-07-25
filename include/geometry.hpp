@@ -1,6 +1,9 @@
 #ifndef __GEOMETRY_HPP__
 #define __GEOMETRY_HPP__
 
+#include "SFML/Graphics.hpp"
+#include <utility>
+
 namespace ge{      
     static const float PI = 3.14159265f;
     static const float PI2 = PI*2;

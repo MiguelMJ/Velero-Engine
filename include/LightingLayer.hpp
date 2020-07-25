@@ -11,6 +11,7 @@
 
 #include <set>
 
+#include "vertexarray.hpp"
 #include "Layer.hpp"
 #include "LightSource.hpp"
 

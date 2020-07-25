@@ -15,6 +15,7 @@ namespace ge{
         sf::RenderStates rs;
         rs.transform.translate(-m_offset);
         m_renderTexture.draw(sl, rs);
+        m_renderTexture.display();
     }
     StaticLayer::StaticLayer(const DynamicLayer& dl):
     StaticLayer()

@@ -110,7 +110,7 @@ namespace ge{
         void publish(size_t channel_id, const T& event){
             std::type_index ind(typeid(T));
             channelentry ind_ev(ind, &event);
-            _private_::g_channels[ch].push(ind_ev);
+            _private_::g_channels[channel_id].push(ind_ev);
         }
         
         /**

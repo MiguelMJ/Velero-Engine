@@ -9,9 +9,9 @@
 
 namespace ge{
     /**
-     * @brief This is an interface to allow handling 
-     * and polymorphic storage of in-game events. It 
-     * has no members nor functions.
+     * @brief Interface to allow handling and polymorphic storage of 
+     * in-game events.
+     * @see EventListener EventSystem
      */
     class Event{
         

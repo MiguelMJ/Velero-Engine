@@ -22,7 +22,7 @@ namespace ge{
     class Entity; // fw declaration
     
     /**
-     * @brief Base class for [entity](@ref Entity) components.
+     * @brief Abstract base class for [entity](@ref Entity) components.
      * @details Every component class must inherit from this one in 
      * order to be used within an entity. Components are not      
      * moved into entities, but copied via copy constructor, so
@@ -51,7 +51,7 @@ namespace ge{
         void setActive(bool active);
     private:
         friend class Entity;
-        bool m_active; ///< @brief Active flag @see setActive //
+        bool m_active;
     protected:
         
         

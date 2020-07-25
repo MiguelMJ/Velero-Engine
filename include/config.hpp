@@ -18,6 +18,9 @@
  * - [fmtlib](https://github.com/fmtlib/fmt)
  * - [loguru](https://github.com/emilk/loguru)
  * - ... and indirect dependencies.
+ * 
+ * <!-- # UML -->
+ * <!-- @diafile Base.dia "Class diagram" -->
  */
 
 

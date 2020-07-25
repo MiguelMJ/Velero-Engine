@@ -172,6 +172,7 @@ namespace ge{
                 });
             }else{
                 LOG_F(WARNING, "Not a directory!");
+                return false;
             }
         }
         std::set<std::string> unloadedDependencies(){

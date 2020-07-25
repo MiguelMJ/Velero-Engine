@@ -4,11 +4,12 @@ namespace ge{
     bool l_firstConstructor(true);
     sf::Texture l_lightTexture;
     
+    std::vector<Segment> LightSource::s_defaultSegmentPool;
     LightSource::LightSource()
         : m_polygon(sf::TriangleFan, 1)
         , m_glow(true)
         , m_color(sf::Color::White)
-        , m_ptrSegmentPool(nullptr)
+        , m_ptrSegmentPool(&s_defaultSegmentPool)
         {
         // The first time we call a contructor, we create the texture
         // for all LightSources

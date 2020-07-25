@@ -1,3 +1,9 @@
+/**
+ * @file
+ * @author Miguel Mejía Jiménez
+ * @copyright MIT License
+ * @brief This file contains the Layer abstract class.
+ */
 #ifndef __LAYER_HPP__
 #define __LAYER_HPP__
 
@@ -6,15 +12,41 @@
 #include "Renderable.hpp"
 
 namespace ge{
+    /**
+     * @brief Abstract base class for containers of 
+     * [renderables](@ref Renderable) for the
+     * [render system](@ref RenderSystem).
+     */
     class Layer: public sf::Drawable{
     private:
-        virtual void draw(sf::RenderTarget&, sf::RenderStates) const = 0;
+        /**
+         * @brief Draws all the renderables contained by the layer.
+         * @param target Render target.
+         * @param states Current render states.
+         */
+        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
     public:
         virtual ~Layer(){}
-        virtual void addRenderable(const Renderable*) = 0;
-        virtual void removeRenderable(const Renderable*) = 0;
+        /**
+         * @brief Add a renderable to the layer.
+         * @param renderable Pointer to the renderable object.
+         */
+        virtual void addRenderable(const Renderable* renderable) = 0;
+        /**
+         * @brief Remove a renderable from the layer.
+         * @param renderable Pointer to the renderable object.
+         */
+        virtual void removeRenderable(const Renderable* renderable) = 0;
+        /**
+         * @brief Remove all the renderables from the layer.
+         */
         virtual void clear() = 0;
-        virtual void setVisible(const Renderable*, bool) = 0;
+        /**
+         * @brief Show or hide certain renderable contained in the layer.
+         * @param renderable Pointer to the renderable object.
+         * @param visible True to show the renderable, false to hide it.
+         */
+        virtual void setVisible(const Renderable* renderable, bool visible) = 0;
     };
 }
 

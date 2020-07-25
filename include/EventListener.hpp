@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @author Miguel Mejía Jiménez
+ * @copyright MIT License
+ * @brief This file contains the 
+ * EventListener class.
+ */
 #ifndef __EVENTLISTENER_HPP__
 #define __EVENTLISTENER_HPP__
 
@@ -9,11 +16,16 @@
 #include "Event.hpp"
 
 namespace ge{
-    /* 
-     * 
+    /**
+     * @brief Abstract base class for objects that use the 
+     * [event system](@ref EventSystem).
      */
     class EventListener{
     public:
+        /**
+         * @brief Names of the channels the listener should subscribe to.
+         * @see EventSystem::subscribe EventSystem::unsubscribe
+         */
         std::set<std::string> m_channels;
         /**
          * @brief Receive an event and process it.

@@ -87,6 +87,13 @@ namespace ge{
         m_fogOffset = {x,y};
         ge::move(m_fogQuad, m_fogOffset);
     }
+    void LightingLayer::adjustFog(const sf::View& view){
+        auto size = view.getSize();
+        auto center = view.getCenter();
+        auto position = center - size/2.0f;
+        setFogPosition(position.x, position.y);
+        setFogSize(size.x, size.y);
+    }
     void LightingLayer::setFogColor(sf::Color c){
         m_fogColor.r = c.r;
         m_fogColor.g = c.g;
@@ -96,13 +103,15 @@ namespace ge{
         m_fogColor.a = 255 * o;
     }
     void LightingLayer::updateFog(){
-        m_fogTexture.clear(m_fogColor);
-        sf::RenderStates fogrs;
-        fogrs.blendMode = l_lightBlend;
-        fogrs.transform.translate(-m_fogOffset);
-        for(auto& ls: m_visibleLights){
-            m_fogTexture.draw(*ls, fogrs);
+        if(m_fogColor.a > 0){
+            m_fogTexture.clear(m_fogColor);
+            sf::RenderStates fogrs;
+            fogrs.blendMode = l_lightBlend;
+            fogrs.transform.translate(-m_fogOffset);
+            for(auto& ls: m_visibleLights){
+                m_fogTexture.draw(*ls, fogrs);
+            }
+            m_fogTexture.display();
         }
-        m_fogTexture.display();
     }
 }

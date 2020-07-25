@@ -1,6 +1,8 @@
 #include "LightSource.hpp"
 
 namespace ge{
+    using namespace util;
+    
     bool l_firstConstructor(true);
     sf::Texture l_lightTexture;
     

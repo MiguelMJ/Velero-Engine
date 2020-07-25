@@ -1,7 +1,7 @@
 #ifndef __VERTEXARRAY_HPP__
 #define __VERTEXARRAY_HPP__
 
-namespace ge::util{
+namespace ge{
     sf::VertexArray getVertex(sf::FloatRect rect, sf::Color c=sf::Color::White);
     void setColor(sf::VertexArray& va, sf::Color);
     void setColor(sf::VertexArray& va, sf::Color, int first, int size);

@@ -1,8 +1,7 @@
 #ifndef __GEOMETRY_HPP__
 #define __GEOMETRY_HPP__
 
-namespace ge::util{
-    
+namespace ge{      
     static const float PI = 3.14159265f;
     static const float PI2 = PI*2;
     

@@ -1,6 +1,6 @@
 #include "vertexarray.hpp"
 
-namespace ge::util{
+namespace ge{
     sf::VertexArray getVertex(sf::FloatRect rect, sf::Color c){
         sf::VertexArray ret(sf::LineStrip, 5);
         ret[0].position = {rect.left, rect.top};

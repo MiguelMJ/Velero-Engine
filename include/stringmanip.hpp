@@ -4,8 +4,7 @@
 #include <string>
 #include <algorithm>
 
-namespace ge::util{
+namespace ge{ 
     void toLower(std::string& str);
 }
-
 #endif

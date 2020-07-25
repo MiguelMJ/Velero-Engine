@@ -55,8 +55,7 @@ namespace ge{
          * @brief Constructor.
          */
         LightSource();
-        virtual ~LightSource();
-        
+                
         /**
          * @copydoc Renderable::getGlobalBounds
          */

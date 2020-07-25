@@ -43,7 +43,6 @@ namespace ge{
         setRadius(1.0f);
         castLight();
     }
-    LightSource::~LightSource(){}
     
     void LightSource::draw(sf::RenderTarget& t, sf::RenderStates s) const{
         s.transform *= Transformable::getTransform();

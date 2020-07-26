@@ -4,7 +4,7 @@ namespace ge{
 
     sf::BlendMode l_lightBlend(
         sf::BlendMode::Factor::Zero,              // color src
-        sf::BlendMode::Factor::One,          // color dst
+        sf::BlendMode::Factor::One,               // color dst
         sf::BlendMode::Equation::Add,             // color eq
         sf::BlendMode::Factor::Zero,              // alpha src
         sf::BlendMode::Factor::OneMinusSrcAlpha,  // alpha dst

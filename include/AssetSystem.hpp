@@ -29,16 +29,16 @@ namespace ge{
      * @brief Different types of assets managed by the engine.
      */
     typedef enum {
-        Texture,
-        Sound,
-        Font,
-        Tileset,
-        Tilemap,
-        Animation,
-        EventScript,
-        Prototype,
-        Scene,
-        Unrecognized
+        Texture, ///< sf::Texture
+        Sound, ///< sf::SoundBuffer
+        Font, ///< sf::Font
+        Tileset, ///< @ref Tileset
+        Tilemap, ///< @ref Tilemap
+        Animation, ///< @ref Animation
+        EventScript, ///< @ref EventScript
+        Prototype, ///< @ref Prototype
+        Scene, ///< @ref Scene
+        Unrecognized ///< An error ocurred. Probably due to a bad extension.
     } AssetType;
     /**
      * @brief Possible states of a tracked assets.
@@ -52,11 +52,11 @@ namespace ge{
      * @brief Information of a tracked asset.
      */
     typedef struct{
-        AssetType type;
-        std::string name;
-        AssetState state;
-        std::vector<std::string> dependencies;
-        int timesAccessed;
+        AssetType type; ///< Asset type.
+        std::string name; ///< Path to the asset.
+        AssetState state; ///< Current asset state.
+        std::vector<std::string> dependencies; ///< Paths to dependencies.
+        int timesAccessed; ///< How many times it has been requested.
     } AssetInfo;
     /**
      * @brief System to load and access to assets.

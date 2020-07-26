@@ -15,9 +15,13 @@
  * 
  * @image html logo_long.jpg
  * # Introduction
- * This is an introduction
+ * This engine has a customized ECS architecture, adapted to the needs I have found learning how to program video games.
+ * 
+ * To understand the documentation, it is necessary to have a solid knowledge base in C++ and some familiarity with SFML.
+ * 
  * # Instalation
  * This is the instalation section
+ * 
  * ## Dependencies
  * - [SFML](https://github.com/SFML/SFML)
  * - [cppfs](https://github.com/cginternals/cppfs)

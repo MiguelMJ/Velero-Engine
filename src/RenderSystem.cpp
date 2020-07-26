@@ -2,7 +2,7 @@
 
 
 namespace ge{
-    Layer* RenderSystem::pushLayer(std::string str){
+    Layer* RenderSystem::pushLayer(const std::string& str){
         m_layerIndex[str] = m_layers.size();
         auto ptr = new DynamicLayer();
         m_layers.emplace_back(ptr);
@@ -11,7 +11,7 @@ namespace ge{
         m_renderStates.push_back(sf::RenderStates());
         return ptr;
     }
-    LightingLayer* RenderSystem::pushLightingLayer(std::string str){
+    LightingLayer* RenderSystem::pushLightingLayer(const std::string& str){
         m_layerIndex[str] = m_layers.size();
         auto ptr = new LightingLayer();
         m_layers.emplace_back(ptr);
@@ -20,7 +20,7 @@ namespace ge{
         m_renderStates.push_back(sf::RenderStates());
         return ptr;
     }
-    Layer* RenderSystem::duplicateLayer(size_t id, std::string str){
+    Layer* RenderSystem::duplicateLayer(size_t id, const std::string& str){
         if(isLightingLayer(id)){
             return duplicateLightingLayer(id, str);
         }else if(! m_layerIsLocked[id]){
@@ -36,7 +36,7 @@ namespace ge{
             return newll;
         }
     }
-    LightingLayer* RenderSystem::duplicateLightingLayer(size_t id, std::string str){
+    LightingLayer* RenderSystem::duplicateLightingLayer(size_t id, const std::string& str){
         auto ptrll = static_cast<LightingLayer*> (m_layers[id].get());
         LightingLayer* newll = new LightingLayer(*ptrll);
         m_layers.emplace_back(newll);
@@ -147,7 +147,7 @@ namespace ge{
     sf::RenderStates& RenderSystem::getRenderState (size_t id){
         return m_renderStates.at(id);
     }
-    Layer* RenderSystem::getLayer(std::string str) const{
+    Layer* RenderSystem::getLayer(const std::string& str) const{
         Layer* ret = nullptr;
         auto it = m_layerIndex.find(str);
         if(it != m_layerIndex.end()){
@@ -158,13 +158,13 @@ namespace ge{
     Layer* RenderSystem::getLayer (size_t id) const{
         return m_layers[id].get();
     }
-    LightingLayer* RenderSystem::getLightingLayer(std::string str) const{
+    LightingLayer* RenderSystem::getLightingLayer(const std::string& str) const{
         return static_cast<LightingLayer*> (getLayer(str));
     }
     LightingLayer* RenderSystem::getLightingLayer (size_t id) const{
         return static_cast<LightingLayer*> (getLayer(id));
     }
-    size_t RenderSystem::getLayerId (std::string str) const{
+    size_t RenderSystem::getLayerId (const std::string& str) const{
         size_t ret = -1;
         auto it = m_layerIndex.find(str);
         if(it != m_layerIndex.end()){
@@ -176,6 +176,7 @@ namespace ge{
         return typeid(*m_layers[id]) == typeid(LightingLayer);
     }
     void RenderSystem::draw(sf::RenderTarget& t){
+        t.setView(m_view);
         for(int i=0; i < m_layers.size(); i++){
             if(m_layerIsVisible[i]){
                 t.draw(*m_layers[i], m_renderStates[i]);

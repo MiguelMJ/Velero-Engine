@@ -62,35 +62,35 @@ namespace ge{
         }
         AssetType typeFromExtension(const std::string& str){
             static std::map<std::string, AssetType> formats = {
-                {".bmp", Texture},
-                {".png", Texture},
-                {".tga", Texture},
-                {".jpg", Texture},
-                {".gif", Texture},
-                {".psd", Texture},
-                {".hdr", Texture},
-                {".pic", Texture},
-                {".wav", Sound},
-                {".ogg", Sound},
-                {".flac", Sound},
-                {".ttf", Font},
-                {".cff", Font},
-                {".x11", Font},
-                {".sfnt", Font},
-                {".pfr", Font},
-                {".bdf", Font},
-                {".tileset", AssetType::Tileset},
-                {".tilemap", AssetType::Tilemap},
-                {".animation", AssetType::Animation},
-                {".eventscript", AssetType::EventScript},
-                {".prototype", AssetType::Prototype},
-                {".scene", AssetType::Scene}
+                {".bmp", TEXTURE},
+                {".png", TEXTURE},
+                {".tga", TEXTURE},
+                {".jpg", TEXTURE},
+                {".gif", TEXTURE},
+                {".psd", TEXTURE},
+                {".hdr", TEXTURE},
+                {".pic", TEXTURE},
+                {".wav", SOUND},
+                {".ogg", SOUND},
+                {".flac", SOUND},
+                {".ttf", FONT},
+                {".cff", FONT},
+                {".x11", FONT},
+                {".sfnt", FONT},
+                {".pfr", FONT},
+                {".bdf", FONT},
+                {".tileset", AssetType::TILESET},
+                {".tilemap", AssetType::TILEMAP},
+                {".animation", AssetType::ANIMATION},
+                {".eventscript", AssetType::EVENTSCRIPT},
+                {".prototype", AssetType::PROTOTYPE},
+                {".scene", AssetType::SCENE}
             };
             std::string extension = FilePath(str).extension();
             ge::toLower(extension);
             auto it2 = formats.find(extension);
             if(it2 == formats.end()){
-                return AssetType::Unrecognized;
+                return AssetType::UNRECOGNIZED;
             }else{
                 return it2->second;
             }
@@ -110,44 +110,44 @@ namespace ge{
             auto it = g_assetinfo.find(str);
             if(it != g_assetinfo.end()){
                 AssetState st = it->second.state;
-                if(st == Error){
+                if(st == ERROR){
                     ret = false;
-                }else if(st == Loaded){
+                }else if(st == LOADED){
                     ret = true;
                 }
-            }else if(type == Unrecognized){
+            }else if(type == UNRECOGNIZED){
                 AssetInfo& info = g_assetinfo[str];
                 info.type = type;
                 info.name = str;
-                info.state = Error;
+                info.state = ERROR;
                 ret = false;
             }else{
                 AssetInfo& info = g_assetinfo[str];
                 info.type = type;
                 info.name = str;
-                info.state = Error;
+                info.state = ERROR;
                 switch(type){
-                case Texture:{
+                case TEXTURE:{
                     auto ptrtex = loadAsset<sf::Texture>(str);
                     if(ptrtex != nullptr){
                         g_textures[str] = move(std::unique_ptr<sf::Texture> (ptrtex));
-                        info.state = Loaded;
+                        info.state = LOADED;
                     }
                     break;
                 }
-                case Sound:{
+                case SOUND:{
                     auto ptrsnd = loadAsset<sf::SoundBuffer>(str);
                     if(ptrsnd != nullptr){
                         g_sounds[str] = move(std::unique_ptr<sf::SoundBuffer> (ptrsnd));
-                        info.state = Loaded;
+                        info.state = LOADED;
                     }
                     break;
                 }
-                case Font:{
+                case FONT:{
                     auto ptrfnt = loadAsset<sf::Font>(str);
                     if(ptrfnt != nullptr){
                         g_fonts[str] = move(std::unique_ptr<sf::Font>(ptrfnt));
-                        info.state = Loaded;
+                        info.state = LOADED;
                     }
                     break;
                 }
@@ -155,7 +155,7 @@ namespace ge{
                     // error
                     break;
                 }
-                ret = info.state == Loaded;
+                ret = info.state == LOADED;
             }
             return ret;
         }
@@ -181,7 +181,7 @@ namespace ge{
                 std::vector<std::string>& deps = info.second.dependencies;
                 for(auto& dep: deps){
                     auto it = g_assetinfo.find(dep);
-                    if(it == g_assetinfo.end() || it->second.state != Loaded){
+                    if(it == g_assetinfo.end() || it->second.state != LOADED){
                         unloaded.insert(dep);
                     }
                 }

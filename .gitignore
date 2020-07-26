@@ -4,6 +4,7 @@ debug/
 release/
 docs/html
 docs/*odg
+assets
 *tests/
 *.o
 *.d

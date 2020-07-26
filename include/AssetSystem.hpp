@@ -29,24 +29,24 @@ namespace ge{
      * @brief Different types of assets managed by the engine.
      */
     typedef enum {
-        Texture, ///< sf::Texture
-        Sound, ///< sf::SoundBuffer
-        Font, ///< sf::Font
-        Tileset, ///< @ref Tileset
-        Tilemap, ///< @ref Tilemap
-        Animation, ///< @ref Animation
-        EventScript, ///< @ref EventScript
-        Prototype, ///< @ref Prototype
-        Scene, ///< @ref Scene
-        Unrecognized ///< An error ocurred. Probably due to a bad extension.
+        TEXTURE, ///< sf::Texture
+        SOUND, ///< sf::SoundBuffer
+        FONT, ///< sf::Font
+        TILESET, ///< @ref Tileset
+        TILEMAP, ///< @ref Tilemap
+        ANIMATION, ///< @ref Animation
+        EVENTSCRIPT, ///< @ref EventScript
+        PROTOTYPE, ///< @ref Prototype
+        SCENE, ///< @ref Scene
+        UNRECOGNIZED///< An error ocurred. Probably due to a bad extension.
     } AssetType;
     /**
      * @brief Possible states of a tracked assets.
      */
     typedef enum{
-        Unloaded, ///< Asset tracked but not loaded.
-        Loaded,   ///< Asset succesfully loaded.
-        Error     ///< Asset not found or impossible to load.
+        UNLOADED, ///< Asset tracked but not loaded.
+        LOADED,   ///< Asset succesfully loaded.
+        ERROR     ///< Asset not found or impossible to load.
     } AssetState;
     /**
      * @brief Information of a tracked asset.

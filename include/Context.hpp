@@ -17,11 +17,12 @@
 #define M_ES ge::EventSystem
 
 namespace ge{
-    extern RenderSystem renderSystem;
-    
     void setCurrentScene(Scene* scene);
     Scene* getCurrentScene();
     void launch();
+    
+    extern RenderSystem renderSystem;
+    extern sf::RenderWindow window;
 }
 
 #endif

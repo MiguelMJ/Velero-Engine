@@ -4,7 +4,9 @@
 #include "SFML/Graphics.hpp"
 
 namespace ge{
-    sf::VertexArray getVertex(sf::FloatRect rect, sf::Color c=sf::Color::White);
+    sf::VertexArray getLines(sf::FloatRect rect, sf::Color c=sf::Color::White);
+    sf::VertexArray getQuad(sf::FloatRect rect, sf::Color c=sf::Color::White);
+    void setTextureRect(sf::VertexArray& va, sf::FloatRect rect, int pos=0);
     void setColor(sf::VertexArray& va, sf::Color);
     void setColor(sf::VertexArray& va, sf::Color, int first, int size);
     void move(sf::VertexArray& va, sf::Vector2f);

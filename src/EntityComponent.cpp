@@ -15,6 +15,7 @@ namespace ge{
     void Component::onActivate(){}
     void Component::onDeactivate(){}
     void Component::handle(const Event*,std::type_index,size_t){}
+    Component::~Component(){}
     
     Entity::Entity(unsigned long id, std::string name, bool active)
         : m_id(id)

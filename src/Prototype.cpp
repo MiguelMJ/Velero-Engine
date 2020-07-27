@@ -30,12 +30,19 @@ namespace ge{
         getline(ss,m_nameOfBase);
         trim(m_name);
         trim(m_nameOfBase);
+        fin >> std::ws;
         while(ok && !fin.eof()){
             Component* c = ComponentParser::parse(fin);
             ok = c != nullptr;
-            m_components.emplace_back(c);
+            if(ok){
+                m_components.emplace_back(c);
+            }
+            fin >> std::ws;
         }
         fin.close();
         return ok;
+    }
+    Prototype::~Prototype(){
+        m_components.clear();
     }
 }

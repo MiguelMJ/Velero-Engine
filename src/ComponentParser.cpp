@@ -6,9 +6,12 @@ namespace ge{
         Component* parse(std::istream& in){
             std::string key;
             in >> std::ws >> key >> std::ws;
+            if(key.empty()){
+                return nullptr;
+            }
             auto it = g_parserIndex.find(key);
             if(it == g_parserIndex.end()){
-                LOG_F(ERROR, "Unrecognized component {}", key);
+                LOG_F(ERROR, "Unrecognized component: {}", key);
                 return nullptr;
             }
             return it->second(in);
@@ -17,6 +20,8 @@ namespace ge{
             if(g_parserIndex.find(name) != g_parserIndex.end()){
                 LOG_F(ERROR, "Component {} already registered",name);
                 return;
+            }else{
+                LOG_F(INFO, "Component {} registered",name);
             }
             g_parserIndex[name] = func;
         }

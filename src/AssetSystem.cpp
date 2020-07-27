@@ -40,8 +40,9 @@ namespace ge{
                 FilePath fp(*it);
                 file = fs::open(fp.resolve(name).path());
                 if(file.exists()){
-                    assetNameCache[name] = file.path();
-                    return file.path();
+                    auto fp = FilePath(file.path()).resolved();
+                    assetNameCache[name] = fp;
+                    return fp;
                 }
             }
             LOG_F(ERROR, "Unable to locate asset: {}", name);
@@ -52,11 +53,11 @@ namespace ge{
             T* ret = new T;
             bool ok = ret->loadFromFile(str);
             if(!ok){
-                LOG_F(ERROR, "Unable to load asset: {}", str);
+                LOG_F(ERROR, "Unable to load", str);
                 delete ret;
                 ret = nullptr;
             }else{
-                LOG_F(INFO, "Loaded asset: {}", str);
+                LOG_F(INFO, "Loaded", str);
             }
             return ret;
         }
@@ -86,10 +87,11 @@ namespace ge{
                 {".prototype", AssetType::PROTOTYPE},
                 {".scene", AssetType::SCENE}
             };
-            std::string extension = FilePath(str).extension();
+            std::string extension = str.substr(str.find_last_of('.'));
             ge::toLower(extension);
             auto it2 = formats.find(extension);
             if(it2 == formats.end()){
+                LOG_F(ERROR,"Unrecognized extension \"{}\"",extension);
                 return AssetType::UNRECOGNIZED;
             }else{
                 return it2->second;
@@ -105,15 +107,18 @@ namespace ge{
         }
         bool load(const std::string& name, bool find){
             bool ret;
-            std::string path = find ? findAsset(name) : name;
+            std::string path = find ? findAsset(name) : FilePath(name).resolved();
+            LOG_SCOPE_F(INFO,"Loading %s", path.c_str());
             AssetType type = typeFromExtension(path);
             auto it = g_assetinfo.find(path);
             // if it already exists we don't load it again.
             if(it != g_assetinfo.end()){
                 AssetState st = it->second.state;
                 if(st == ERROR){
+                    LOG_F(INFO,"Loaded with error");
                     ret = false;
                 }else if(st == LOADED){
+                    LOG_F(INFO,"Already loaded");
                     ret = true;
                 }
             }else if(type == UNRECOGNIZED){
@@ -180,9 +185,9 @@ namespace ge{
             LOG_SCOPE_F(INFO, "Loading from %s", fp.c_str());
             if(dir.isDirectory()){
                 dir.traverse([](FileHandle& fh) -> bool {
-                    load(fh.path());
-                    return true;
-                }, [](FileHandle& dir) -> bool {
+                    if(fh.isFile()){
+                        load(fh.path(), false);
+                    }
                     return true;
                 });
             }else{
@@ -240,7 +245,7 @@ namespace ge{
                 g_assetinfo.at(fp).timesAccessed += 1;
                 return it->second.get();
             }else{
-                LOG_IF_F(ERROR, str.empty(), "Texture {} not loaded", str);
+                LOG_IF_F(ERROR, !str.empty(), "Texture {} not loaded", fp);
                 return &default_texture;
             }
         }
@@ -251,7 +256,7 @@ namespace ge{
                 g_assetinfo.at(fp).timesAccessed += 1;
                 return it->second.get();
             }else{
-                LOG_IF_F(ERROR, str.empty(), "Sound {} not loaded", str);
+                LOG_IF_F(ERROR, !str.empty(), "Sound {} not loaded", str);
                 return &default_sound;
             }
         }
@@ -261,7 +266,7 @@ namespace ge{
             if(it != g_fonts.end()){
                 return it->second.get();
             }else{
-                LOG_IF_F(ERROR, str.empty(), "Font {} not loaded", str);
+                LOG_IF_F(ERROR, !str.empty(), "Font {} not loaded", str);
                 return &default_font;
             }
         }
@@ -305,7 +310,7 @@ namespace ge{
             if(it != g_prototypes.end()){
                 return it->second.get();
             }else{
-                LOG_IF_F(ERROR, str.empty(), "Prototype {} not loaded", str);
+                LOG_IF_F(ERROR, !str.empty(), "Couldn't get {}", fp);
                 return &default_prototype;
             }
         }

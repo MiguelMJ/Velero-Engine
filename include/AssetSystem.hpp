@@ -54,9 +54,9 @@ namespace ge{
      * @brief Information of a tracked asset.
      */
     typedef struct{
-        AssetType type; ///< Asset type.
+        AssetType type=UNRECOGNIZED; ///< Asset type.
         std::string name; ///< Path to the asset.
-        AssetState state; ///< Current asset state.
+        AssetState state=UNLOADED; ///< Current asset state.
         std::vector<std::string> dependencies; ///< Paths to dependencies.
         int timesAccessed; ///< How many times it has been requested.
     } AssetInfo;

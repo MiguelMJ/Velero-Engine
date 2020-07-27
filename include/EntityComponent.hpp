@@ -145,6 +145,7 @@ namespace ge{
          * @returns A pointer to the copy.
          */
         virtual Component* copy() const = 0;
+        virtual ~Component();
     };
     
     typedef std::pair < std::type_index , std::unique_ptr<Component> > typecomppair;

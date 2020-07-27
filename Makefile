@@ -56,7 +56,7 @@ LIBS += -lcppfs
 # OBJ += ${HOME}/src/loguru-2.1.0/loguru.o # loguru.cpp included in geutils.cpp
 INCLUDES += -I${HOME}/src/loguru-2.1.0/
 LIBS += -lpthread -ldl
-CXXFLAGS += -DLOGURU_THREADNAME_WIDTH=0 -DLOGURU_FILENAME_WIDTH=0
+CXXFLAGS += -DLOGURU_THREADNAME_WIDTH=0
 
 # SFML
 LIBS += -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system

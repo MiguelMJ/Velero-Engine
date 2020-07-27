@@ -24,6 +24,8 @@
 #include "log.hpp"
 #include "stringmanip.hpp"
 
+#include "Prototype.hpp"
+
 namespace ge{
     /**
      * @brief Different types of assets managed by the engine.
@@ -208,7 +210,7 @@ namespace ge{
          */
         // EventScript* getEventScript(const std::string& path="");
         
-        /*
+        /**
          * @brief Get a loaded Protoype.
          * @details If the prototype is not loaded, then the default one 
          * is retreived.
@@ -216,7 +218,7 @@ namespace ge{
          * @returns Either the specified prototype or the default one.
          * @see load setDefaultPrototype
          */
-        // Protoype* getPrototype(const std::string& path="");
+        Prototype* getPrototype(const std::string& path="");
         
         /*
          * @brief Get a loaded Scene.

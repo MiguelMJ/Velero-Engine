@@ -2,6 +2,7 @@
 #define __GE_SCENE_HPP__
 
 #include <map>
+#include <memory>
 
 #include "EntityComponent.hpp"
 

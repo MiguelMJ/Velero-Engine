@@ -34,6 +34,26 @@ namespace ge{
             iteh++;
         }
     }
+    void Entity::addComponentFromPtr(const Component* component, bool active){
+        std::type_index ct(typeid(component));
+        Component* cptr = component->copy();
+        cptr->m_ptrEntity = this;
+        cptr->onAdd();
+        for(auto& ch : cptr->m_channels){
+            size_t chid = EventSystem::getChannelId(ch);
+            m_subscribeCount[chid]++;
+            auto& evlich = this->EventListener::m_channels;
+            if(evlich.find(ch) == evlich.end()){
+                evlich.insert(ch);
+                EventSystem::subscribe(chid, this);
+            }
+        }
+        for(auto& et : cptr->m_eventsHandled){
+            m_eventHandlers.insert(typepair(et,ct));
+        }
+        cptr->setActive(active && this->m_active);
+        m_components.insert(typecomppair(ct,std::unique_ptr<Component>(cptr)));
+    }
     void Entity::removeComponents(std::type_index t){
         auto itcm = m_components.find(t);
         if(itcm == m_components.end()){

@@ -25,17 +25,17 @@ namespace ge{
      * @brief Abstract base class for [entity](@ref Entity) components.
      * @details Every component class must inherit from this one in 
      * order to be used within an entity. Components are not      
-     * moved into entities, but copied via copy constructor, so
-     * it is necesary in order to function properly. In most
+     * moved into entities, but copied, so the @ref copy function 
+     * is necesary in order to function properly. In most
      * cases, the default copy constructor is enough.
      * 
-     * The five virtual functions of this class do nothing by default. 
-     * When overriding them, the difference between addition/removal and 
-     * activation/deactivation should be clear. The first ones will be
-     * called once in the lifetime of the %Component, so they should 
-     * contain the complex operations and construct/clean the data. The 
-     * others might be called multiple times, without the need to destroy 
-     * or reconstruct the component.
+     * The other five virtual functions of this class do nothing by 
+     * default. When overriding them, the difference between addition/
+     * removal and activation/deactivation should be clear. The first 
+     * ones will be called once in the lifetime of the %Component, so 
+     * they should contain the complex operations and construct/clean the 
+     * data. The others might be called multiple times, without the need 
+     * to destroy or reconstruct the component.
      */
     class Component{
     public:
@@ -53,8 +53,6 @@ namespace ge{
         friend class Entity;
         bool m_active;
     protected:
-        
-        
         /**  
          * Pointer to the  @ref Entity that contains this component.
          */
@@ -134,6 +132,19 @@ namespace ge{
          * @see m_eventsHandled m_channels
          */
         virtual void handle(const Event* event, std::type_index type, size_t channel);
+        
+    public:
+        /**
+         * @brief Makes a copy of the component.
+         * @details The usual implementation would be a single line:
+         * @code{.cpp}
+         * Component* MyComponent::copy(){
+         *     return new MyComponent(*this);
+         * }
+         * @endcode
+         * @returns A pointer to the copy.
+         */
+        virtual Component* copy() const = 0;
     };
     
     typedef std::pair < std::type_index , std::unique_ptr<Component> > typecomppair;
@@ -160,6 +171,7 @@ namespace ge{
         std::multimap<std::type_index, std::unique_ptr<Component> > m_components;
         std::multimap<std::type_index, std::type_index> m_eventHandlers; // <Event type, Component type>
         std::map<size_t, int> m_subscribeCount; // <channel id, count>
+        friend class Prototype;
     public:
         /**
          * @brief Constructor.
@@ -201,31 +213,27 @@ namespace ge{
          * parameter @p active and the _active_ flag of the entity. The 
          * Entity will register to the channels and 
          * events associated to it.
-         * @param component Object inheriting from @ref Component.
+         * @param component Pointer to object inheriting from 
+         * @ref Component.
          * @param active Value to set the _active_ flag of 
          * the @p component.
-         * @see Component::onAdd Component::setActive
+         * @see Component::onAdd Component::setActive Component::copy
+         */
+        void addComponentFromPtr(const Component* component, bool active=true);
+        
+        /**
+         * @brief @copybrief addComponentFromPtr
+         * @details This is a copy of @ref addComponentFromPtr that prevents 
+         * the use of pointers to the user.
+         * @param component Object inheriting from @ref Component
+         * @param active Value to set the _active_ flag of 
+         * the @p component.
+         * @see addComponentFromPtr
+         * 
          */
         template <class T>
         void addComponent(const T& component, bool active=true){
-            std::type_index ct(typeid(T));
-            Component* cptr = new T(component);
-            cptr->m_ptrEntity = this;
-            cptr->onAdd();
-            for(auto& ch : cptr->m_channels){
-                size_t chid = EventSystem::getChannelId(ch);
-                m_subscribeCount[chid]++;
-                auto& evlich = this->EventListener::m_channels;
-                if(evlich.find(ch) == evlich.end()){
-                    evlich.insert(ch);
-                    EventSystem::subscribe(chid, this);
-                }
-            }
-            for(auto& et : cptr->m_eventsHandled){
-                m_eventHandlers.insert(typepair(et,ct));
-            }
-            cptr->setActive(active && this->m_active);
-            m_components.insert(typecomppair(ct,std::unique_ptr<Component>(cptr)));
+            addComponentFromPtr(&component, active);
         }
         
         /**

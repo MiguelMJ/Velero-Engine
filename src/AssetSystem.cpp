@@ -12,7 +12,7 @@ namespace ge{
 //         std::map<std::string, std::unique_ptr<Tilemap> > g_tilemaps;
 //         std::map<std::string, std::unique_ptr<Animation> > g_animations;
 //         std::map<std::string, std::unique_ptr<EventScript> > g_eventscripts;
-//         std::map<std::string, std::unique_ptr<Prototype> > g_prototypes;
+        std::map<std::string, std::unique_ptr<Prototype> > g_prototypes;
 //         std::map<std::string, std::unique_ptr<Scene> > g_scenes;
         std::map<std::string, AssetInfo> g_assetinfo;
         
@@ -25,7 +25,7 @@ namespace ge{
 //         Tilemap default_tilemap;
 //         Animation default_animation;
 //         EventScript default_eventscript;
-//         Prototype default_prototype;
+        Prototype default_prototype;
 //         Scene default_scene;
         
         // "private" auxiliar
@@ -105,9 +105,10 @@ namespace ge{
         }
         bool load(const std::string& name, bool find){
             bool ret;
-            std::string str = find ? findAsset(name) : name;
-            AssetType type = typeFromExtension(str);
-            auto it = g_assetinfo.find(str);
+            std::string path = find ? findAsset(name) : name;
+            AssetType type = typeFromExtension(path);
+            auto it = g_assetinfo.find(path);
+            // if it already exists we don't load it again.
             if(it != g_assetinfo.end()){
                 AssetState st = it->second.state;
                 if(st == ERROR){
@@ -116,43 +117,57 @@ namespace ge{
                     ret = true;
                 }
             }else if(type == UNRECOGNIZED){
-                AssetInfo& info = g_assetinfo[str];
+                AssetInfo& info = g_assetinfo[path];
                 info.type = type;
-                info.name = str;
+                info.name = path;
                 info.state = ERROR;
                 ret = false;
             }else{
-                AssetInfo& info = g_assetinfo[str];
+                AssetInfo& info = g_assetinfo[path];
                 info.type = type;
-                info.name = str;
+                info.name = path;
                 info.state = ERROR;
                 switch(type){
                 case TEXTURE:{
-                    auto ptrtex = loadAsset<sf::Texture>(str);
+                    auto ptrtex = loadAsset<sf::Texture>(path);
                     if(ptrtex != nullptr){
-                        g_textures[str] = move(std::unique_ptr<sf::Texture> (ptrtex));
+                        g_textures[path] = move(std::unique_ptr<sf::Texture> (ptrtex));
                         info.state = LOADED;
                     }
                     break;
                 }
                 case SOUND:{
-                    auto ptrsnd = loadAsset<sf::SoundBuffer>(str);
+                    auto ptrsnd = loadAsset<sf::SoundBuffer>(path);
                     if(ptrsnd != nullptr){
-                        g_sounds[str] = move(std::unique_ptr<sf::SoundBuffer> (ptrsnd));
+                        g_sounds[path] = move(std::unique_ptr<sf::SoundBuffer> (ptrsnd));
                         info.state = LOADED;
                     }
                     break;
                 }
                 case FONT:{
-                    auto ptrfnt = loadAsset<sf::Font>(str);
+                    auto ptrfnt = loadAsset<sf::Font>(path);
                     if(ptrfnt != nullptr){
-                        g_fonts[str] = move(std::unique_ptr<sf::Font>(ptrfnt));
+                        g_fonts[path] = move(std::unique_ptr<sf::Font>(ptrfnt));
+                        info.state = LOADED;
+                    }
+                    break;
+                }
+                case PROTOTYPE:{
+                    auto ptrpro = loadAsset<Prototype>(path);
+                    if(ptrpro != nullptr){
+                        if(!ptrpro->m_nameOfBase.empty()){
+                            info.dependencies.push_back(ptrpro->m_nameOfBase);
+                            if(loadDependencies(path)){ // done this way to prevent cycles
+                                ptrpro->m_base = getPrototype(ptrpro->m_nameOfBase);
+                            }
+                        }
+                        g_prototypes[path] = move(std::unique_ptr<Prototype>(ptrpro));
                         info.state = LOADED;
                     }
                     break;
                 }
                 default:
-                    // error
+                    LOG_F(WARNING, "Unimplemented asset type load: {}", path);
                     break;
                 }
                 ret = info.state == LOADED;
@@ -283,14 +298,18 @@ namespace ge{
 //                 return &default_eventscript;
 //             }
 //         }
-        // Protoype* getPrototype(const std::string& str="");{
-//             auto it = g_prototypes.find(str);
-//             if(it != g_prototypes.end()){
-//                 return it->second.get();
-//             }else{
-//                 return &default_prototype;
-//             }
-//         }
+*/
+        Prototype* getPrototype(const std::string& str){
+            std::string fp = findAsset(str);
+            auto it = g_prototypes.find(fp);
+            if(it != g_prototypes.end()){
+                return it->second.get();
+            }else{
+                LOG_IF_F(ERROR, str.empty(), "Prototype {} not loaded", str);
+                return &default_prototype;
+            }
+        }
+/*
         // Scene* getScene(const std::string& str="");{
 //             auto it = g_scenes.find(str);
 //             if(it != g_scenes.end()){

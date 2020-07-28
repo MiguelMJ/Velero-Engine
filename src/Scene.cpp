@@ -44,16 +44,21 @@ namespace ge{
             Prototype *prot;
             std::string ops;
             fin >> ch;
-            if(ch == '{'){
+            if(ch == '>'){
                 LOG_SCOPE_F(INFO,"Loading anonymous prototype");
                 del = true;
                 prot = new Prototype;
                 std::string chunk;
-                getline(fin, chunk, '}');
+                getline(fin, chunk, '<');
                 std::stringstream ss(chunk);
                 if(prot->loadFromStream(ss)){
                     getline(fin, ops);
+                    if(!prot->m_nameOfBase.empty()){
+                        AssetSystem::load(prot->m_nameOfBase);
+                        prot->m_base = AssetSystem::getPrototype(prot->m_nameOfBase);
+                    }
                     gen = true;
+                    DLOG_F(INFO, "Should generate from anon prot");
                 }else{
                     LOG_F(ERROR, "Error loading anonymous prototype");
                     ok = false;
@@ -64,7 +69,8 @@ namespace ge{
             }else if(ch == '#'){
                 fin.ignore(9999,'\n');
             }else{
-                
+                LOG_F(WARNING, "Expected '>', 'p' or '#': ignoring until \\n");
+                fin.ignore(9999,'\n');
             }
             if(gen){
                 auto opsmap = parseMap(ops);
@@ -89,6 +95,7 @@ namespace ge{
                     AssetSystem::load(src);
                     prot = AssetSystem::getPrototype(src);   
                 }
+                DLOG_F(INFO, "Generating entity");
                 addEntity(prot, false, name)->setPosition(pos);
             }
             if(del){

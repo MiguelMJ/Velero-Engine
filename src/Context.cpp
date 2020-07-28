@@ -27,5 +27,6 @@ namespace ge{
             M_RS.draw(window);
             window.display();
         }
+        Entity::s_removeComponents=false;
     }
 }

@@ -12,8 +12,8 @@ namespace ge{
     sf::BlendMode l_glowBlend = sf::BlendAdd;
     
     LightingLayer::LightingLayer()
-    : m_fogColor(sf::Color::Black)
-    , m_fogQuad(sf::Quads, 4)
+    : m_fogQuad(sf::Quads, 4)
+    , m_fogColor(sf::Color::Black)
     {
         setFogSize(10,10);
     }

@@ -281,6 +281,18 @@ namespace ge{
          * @see Component::onRemove
          */
         ~Entity();
+        
+        /**
+         * @brief Flag to remove the components of the entities in
+         * the constructor.
+         * @details The app might crash at the end, when the entities
+         * remove components from systems that might be already 
+         * destroyed (I'm not 100% sure if that is the problem, but
+         * this makes the workaround). To prevent this crash, this
+         * flag must be set to false somewhere at the end of the
+         * application.
+         */
+        static bool s_removeComponents;
     };
 }
 

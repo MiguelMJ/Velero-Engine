@@ -43,15 +43,20 @@ namespace ge{
             return ret;
         }
         bool freeChannel(const std::string& str){
-            size_t ch = getChannelId(str);
-            while (!g_channels.empty()) g_channels[ch].pop();
-            g_subscribers[ch].clear();
-            g_freeChannels.push(ch);
-            g_channelIndex.erase(g_channelIndex.find(str));
+            bool ret = false;
+            auto it = g_channelIndex.find(str);
+            if(it != g_channelIndex.end()){
+                size_t ch = it->second;
+                while (!g_channels.empty()) g_channels[ch].pop();
+                g_subscribers[ch].clear();
+                g_freeChannels.push(ch);
+                g_channelIndex.erase(g_channelIndex.find(str));
+            }
+            return ret;
         }
         std::set<constevptr> deletable;
         void dispatch(){
-            for(int i=0; i < g_channels.size(); i++){
+            for(unsigned i=0; i < g_channels.size(); i++){
                 dispatch(i);
             }
         }

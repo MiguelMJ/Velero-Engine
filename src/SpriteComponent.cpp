@@ -27,17 +27,17 @@ namespace ge{
         auto l = M_RS.getLayer(m_layer);
         if(l != nullptr){
             l->removeRenderable(this);
-        }else{
-            LOG_F(WARNING, "Layer {} doesn't exist", m_layer);
         }
     }
     void Sprite::onActivate() {
-        M_RS.getLayer(m_layer)->setVisible(this, true);
+        auto l = M_RS.getLayer(m_layer);
+        if (l) l->setVisible(this, true);
     }
     void Sprite::onDeactivate() {
-        M_RS.getLayer(m_layer)->setVisible(this, false);
+        auto l = M_RS.getLayer(m_layer);
+        if (l) l->setVisible(this, false);
     }
-    void Sprite::handle(const Event *event, std::type_index type, size_t channel){
+    void Sprite::handle(const Event*, std::type_index, size_t){
         
     }
     void Sprite::setLayer(const std::string& layer){

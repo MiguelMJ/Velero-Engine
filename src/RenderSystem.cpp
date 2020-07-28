@@ -21,8 +21,9 @@ namespace ge{
         return ptr;
     }
     Layer* RenderSystem::duplicateLayer(size_t id, const std::string& str){
+        Layer* ret = nullptr;
         if(isLightingLayer(id)){
-            return duplicateLightingLayer(id, str);
+            ret = duplicateLightingLayer(id, str);
         }else if(! m_layerIsLocked[id]){
             auto ptrll = static_cast<DynamicLayer*> (m_layers[id].get());
             Layer* newll = new DynamicLayer(*ptrll);
@@ -33,8 +34,9 @@ namespace ge{
                 sf::RenderStates(m_renderStates[id])
             );
             m_layerIndex[str] = m_layers.size();
-            return newll;
+            ret = newll;
         }
+        return ret;
     }
     LightingLayer* RenderSystem::duplicateLightingLayer(size_t id, const std::string& str){
         auto ptrll = static_cast<LightingLayer*> (m_layers[id].get());
@@ -49,8 +51,8 @@ namespace ge{
         return newll;
     }
     void RenderSystem::moveLayer(size_t id, int d){
-        int dest = id + d;
-        if(d != 0 && dest >= 0 && dest < m_layers.size()){
+        unsigned dest = std::max((int)id + d, 0);
+        if(d != 0 && dest < m_layers.size()){
             auto tmp = move(m_layers[id]);
             m_layers.erase(m_layers.begin()+id);
             m_layers.insert(m_layers.begin()+dest, move(tmp));
@@ -86,7 +88,7 @@ namespace ge{
     void RenderSystem::deleteLayer (const std::string& str){
         auto it  = m_layerIndex.find(str);
         if(it != m_layerIndex.end()){
-            int id = it->second;
+            unsigned id = it->second;
             // erase layer
             m_layers.erase(m_layers.begin()+id);
             // erase dynamic information if it's locked
@@ -149,9 +151,11 @@ namespace ge{
     }
     Layer* RenderSystem::getLayer(const std::string& str) const{
         Layer* ret = nullptr;
-        auto it = m_layerIndex.find(str);
-        if(it != m_layerIndex.end()){
-            ret = m_layers[it->second].get();
+        if(!str.empty()){
+            auto it = m_layerIndex.find(str);
+            if(it != m_layerIndex.end()){
+                ret = m_layers[it->second].get();
+            }
         }
         return ret;
     }
@@ -177,7 +181,7 @@ namespace ge{
     }
     void RenderSystem::draw(sf::RenderTarget& t){
         t.setView(m_view);
-        for(int i=0; i < m_layers.size(); i++){
+        for(unsigned i=0; i < m_layers.size(); i++){
             if(m_layerIsVisible[i]){
                 t.draw(*m_layers[i], m_renderStates[i]);
             }

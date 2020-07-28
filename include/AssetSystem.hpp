@@ -25,6 +25,7 @@
 #include "stringmanip.hpp"
 
 #include "Prototype.hpp"
+#include "Scene.hpp"
 
 namespace ge{
     /**
@@ -220,7 +221,7 @@ namespace ge{
          */
         Prototype* getPrototype(const std::string& path="");
         
-        /*
+        /**
          * @brief Get a loaded Scene.
          * @details If the scene is not loaded, then the default one is 
          * retreived.
@@ -228,7 +229,7 @@ namespace ge{
          * @returns Either the specified scene or the default one.
          * @see load setDefaultScene
          */
-        // Scene* getScene(const std::string& path="");
+        Scene* getScene(const std::string& path="");
         
         /**
          * @brief Set the default texture.

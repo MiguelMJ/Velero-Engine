@@ -98,8 +98,11 @@ namespace ge{
         return m_name;
     }
     Entity::~Entity(){
-        for(auto& it : m_components){
-            it.second->onRemove();
+        if(s_removeComponents){
+            for(auto& it : m_components){
+                it.second->onRemove();
+            }
         }
     }
+    bool Entity::s_removeComponents=true;
 }

@@ -8,8 +8,8 @@ namespace ge{
     std::vector<Segment> LightSource::s_defaultSegmentPool;
     LightSource::LightSource()
         : m_polygon(sf::TriangleFan, 1)
-        , m_glow(true)
         , m_color(sf::Color::White)
+        , m_glow(true)
         , m_ptrSegmentPool(&s_defaultSegmentPool)
         {
         // The first time we call a contructor, we create the texture
@@ -124,7 +124,7 @@ namespace ge{
         m_polygon[0].color = m_color;
         m_polygon[0].position = 
         m_polygon[0].texCoords = tr_i.transformPoint(castPoint);
-        for(int i=0; i < rays.size(); i++){
+        for(unsigned i=0; i < rays.size(); i++){
             sf::Vector2f p = tr_i.transformPoint(castRay(rays[i]));
             m_polygon[i+1].position = p;
             m_polygon[i+1].texCoords = p;

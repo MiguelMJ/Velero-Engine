@@ -7,8 +7,8 @@ namespace ge{
         
     }
     StaticLayer::StaticLayer(const StaticLayer& sl)
-    : m_quad(sl.m_quad)
-    , m_offset(sl.m_offset)
+    : m_offset(sl.m_offset)
+    , m_quad(sl.m_quad)
     {
         auto s = sl.m_renderTexture.getSize();
         m_renderTexture.create(s.x, s.y);

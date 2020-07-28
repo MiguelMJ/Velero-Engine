@@ -3,7 +3,7 @@
 #include "SpriteComponent.hpp"
 using namespace ge;
 
-int main(int argc, char** argv){
+int main(){
     
     ComponentParser::registerComponent("sprite", parseSprite);
     
@@ -21,7 +21,10 @@ int main(int argc, char** argv){
     
     ge::window.create(sf::VideoMode(500,500), "app");
     ge::window.setFramerateLimit(60);
-    auto e = M_AS::getPrototype("test.prototype")->generate(true);
+    
+    // user code here
+    auto scene = M_AS::getScene("level0.scene");
+    scene->setActive(true);
     
     launch();
     return 0;

@@ -31,7 +31,7 @@ namespace ge{
         va[pos+3].texCoords = {rect.left, rect.top + rect.height};
     }
     void setColor(sf::VertexArray& va, sf::Color c){
-        for(int i = 0; i < va.getVertexCount(); i++){
+        for(unsigned i = 0; i < va.getVertexCount(); i++){
             va[i].color = c;
         }
     }
@@ -41,7 +41,7 @@ namespace ge{
         }
     }
     void move(sf::VertexArray& va, sf::Vector2f d){
-        for(int i=0; i < va.getVertexCount(); i++){
+        for(unsigned i=0; i < va.getVertexCount(); i++){
             va[i].position.y += d.y;
             va[i].position.x += d.x;
         }

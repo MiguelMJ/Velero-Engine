@@ -13,20 +13,30 @@ namespace ge{
 //         std::map<std::string, std::unique_ptr<Animation> > g_animations;
 //         std::map<std::string, std::unique_ptr<EventScript> > g_eventscripts;
         std::map<std::string, std::unique_ptr<Prototype> > g_prototypes;
-//         std::map<std::string, std::unique_ptr<Scene> > g_scenes;
+        std::map<std::string, std::unique_ptr<Scene> > g_scenes;
         std::map<std::string, AssetInfo> g_assetinfo;
         
         // default assets
         
-        sf::Texture default_texture;
-        sf::SoundBuffer default_sound;
-        sf::Font default_font;
-//         Tileset default_tileset;
-//         Tilemap default_tilemap;
-//         Animation default_animation;
-//         EventScript default_eventscript;
-        Prototype default_prototype;
-//         Scene default_scene;
+        sf::Texture default_texture_instance;
+        sf::SoundBuffer default_sound_instance;
+        sf::Font default_font_instance;
+//         Tileset default_tileset_instance;
+//         Tilemap default_tilemap_instance;
+//         Animation default_animation_instance;
+//         EventScript default_eventscript_instance;
+        Prototype default_prototype_instance;
+        Scene default_scene_instance;
+        
+        sf::Texture *default_texture=&default_texture_instance;
+        sf::SoundBuffer *default_sound=&default_sound_instance;
+        sf::Font *default_font=&default_font_instance;
+//         Tileset *default_tileset=&default_tileset_instance;
+//         Tilemap *default_tilemap=&default_tilemap_instance;
+//         Animation *default_animation=&default_animation_instance;
+//         EventScript *default_eventscript=&default_eventscript_instance;
+        Prototype *default_prototype=&default_prototype_instance;
+        Scene *default_scene=&default_scene_instance;
         
         // "private" auxiliar
         std::map <std::string, std::string> assetNameCache; 
@@ -171,6 +181,15 @@ namespace ge{
                     }
                     break;
                 }
+                case SCENE:{
+                    auto ptrsce = loadAsset<Scene>(path);
+                    if(ptrsce != nullptr){
+                        g_scenes[path] = move(std::unique_ptr<Scene>(ptrsce));
+                        info.state = LOADED;
+                    }
+                    break;
+                }
+                
                 default:
                     LOG_F(WARNING, "Unimplemented asset type load: {}", path);
                     break;
@@ -194,6 +213,7 @@ namespace ge{
                 LOG_F(WARNING, "Not a directory!");
                 return false;
             }
+            return true;
         }
         std::set<std::string> unloadedDependencies(){
             std::set<std::string> unloaded;
@@ -246,7 +266,7 @@ namespace ge{
                 return it->second.get();
             }else{
                 LOG_IF_F(ERROR, !str.empty(), "Texture {} not loaded", fp);
-                return &default_texture;
+                return default_texture;
             }
         }
         sf::SoundBuffer* getSound(const std::string& str){
@@ -257,7 +277,7 @@ namespace ge{
                 return it->second.get();
             }else{
                 LOG_IF_F(ERROR, !str.empty(), "Sound {} not loaded", str);
-                return &default_sound;
+                return default_sound;
             }
         }
         sf::Font* getFont(const std::string& str){
@@ -267,7 +287,7 @@ namespace ge{
                 return it->second.get();
             }else{
                 LOG_IF_F(ERROR, !str.empty(), "Font {} not loaded", str);
-                return &default_font;
+                return default_font;
             }
         }
 /*
@@ -276,7 +296,7 @@ namespace ge{
 //             if(it != g_tilesets.end()){
 //                 return it->second.get();
 //             }else{
-//                 return &default_tileset;
+//                 return default_tileset;
 //             }
 //         }
         // Tilemap* getTilemap(const std::string& str=""){
@@ -284,7 +304,7 @@ namespace ge{
 //             if(it != g_tilemaps.end()){
 //                 return it->second.get();
 //             }else{
-//                 return &default_tilemap;
+//                 return default_tilemap;
 //             }
 //         }
         // Animation* getAnimation(const std::string& str="");{
@@ -292,7 +312,7 @@ namespace ge{
 //             if(it != g_animations.end()){
 //                 return it->second.get();
 //             }else{
-//                 return &default_animation;
+//                 return default_animation;
 //             }
 //         }
         // EventScript* getEventScript(const std::string& str="");{
@@ -300,7 +320,7 @@ namespace ge{
 //             if(it != g_eventscripts.end()){
 //                 return it->second.get();
 //             }else{
-//                 return &default_eventscript;
+//                 return default_eventscript;
 //             }
 //         }
 */
@@ -311,19 +331,21 @@ namespace ge{
                 return it->second.get();
             }else{
                 LOG_IF_F(ERROR, !str.empty(), "Couldn't get {}", fp);
-                return &default_prototype;
+                return default_prototype;
             }
         }
-/*
-        // Scene* getScene(const std::string& str="");{
-//             auto it = g_scenes.find(str);
-//             if(it != g_scenes.end()){
-//                 return it->second.get();
-//             }else{
-//                 return &default_scene;
-//             }
-//         }
-*/
+
+        Scene* getScene(const std::string& str){
+            std::string fp = findAsset(str);
+            auto it = g_scenes.find(fp);
+            if(it != g_scenes.end()){
+                return it->second.get();
+            }else{
+                LOG_IF_F(ERROR, !str.empty(), "Couldn't get {}", fp);
+                return default_scene;
+            }
+        }
+
         bool setDefaultTexture(const std::string& str){
             std::string fp = findAsset(str);
             bool ok = load(fp, false);
@@ -331,7 +353,7 @@ namespace ge{
                 auto it = g_textures.find(fp);
                 if(it != g_textures.end()){
                     g_assetinfo.at(fp).timesAccessed++;
-                    default_texture = *it->second.get();
+                    default_texture = it->second.get();
                 }else{
                     LOG_F(ERROR,"Texture {} not available for default",fp);
                 }
@@ -345,7 +367,7 @@ namespace ge{
                 auto it = g_sounds.find(fp);
                 if(it != g_sounds.end()){
                     g_assetinfo.at(fp).timesAccessed++;
-                    default_sound = *it->second.get();
+                    default_sound = it->second.get();
                 }else{
                     LOG_F(ERROR,"Sound {} not available for default",fp);
                 }
@@ -359,7 +381,7 @@ namespace ge{
                 auto it = g_fonts.find(fp);
                 if(it != g_fonts.end()){
                     g_assetinfo.at(fp).timesAccessed++;
-                    default_font = *it->second.get();
+                    default_font = it->second.get();
                 }else{
                     LOG_F(ERROR,"Font {} not available for default",fp);
                 }
@@ -373,7 +395,7 @@ namespace ge{
 //                 auto it = g_tilesets.find(fp);
 //                 if(it != g_tilesets.end()){
 //                     g_assetinfo.at(fp).timesAccessed++;
-//                     default_tileset = *it->second.get();
+//                     default_tileset = it->second.get();
 //                 }else{
 //                     LOG_F(ERROR,"Texture {} not available for default",fp);
 //                 }
@@ -387,7 +409,7 @@ namespace ge{
 //                 auto it = g_tilemaps.find(fp);
 //                 if(it != g_tilemaps.end()){
 //                     g_assetinfo.at(fp).timesAccessed++;
-//                     default_tilemap = *it->second.get();
+//                     default_tilemap = it->second.get();
 //                 }else{
 //                     LOG_F(ERROR,"Texture {} not available for default",fp);
 //                 }
@@ -401,7 +423,7 @@ namespace ge{
 //                 auto it = g_animations.find(fp);
 //                 if(it != g_animations.end()){
 //                      g_assetinfo.at(fp).timesAccessed++;
-//                     default_animation = *it->second.get();
+//                     default_animation = it->second.get();
 //                 }else{
 //                     LOG_F(ERROR,"Texture {} not available for default",fp);
 //                 }
@@ -415,7 +437,7 @@ namespace ge{
 //                 auto it = g_eventscripts.find(fp);
 //                 if(it != g_eventscripts.end()){
 //                     g_assetinfo.at(fp).timesAccessed++;
-//                     default_eventscript = *it->second.get();
+//                     default_eventscript = it->second.get();
 //                 }else{
 //                     LOG_F(ERROR,"Texture {} not available for default",fp);
 //                 }
@@ -426,13 +448,13 @@ namespace ge{
             std::string fp = findAsset(str);
             bool ok = load(fp, false);
             if(ok){
-//                 auto it = g_prototypes.find(fp);
-//                 if(it != g_prototypes.end()){
-//                     g_assetinfo.at(fp).timesAccessed++;
-//                     default_prototype = *it->second.get();
-//                 }else{
-//                     LOG_F(ERROR,"Texture {} not available for default",fp);
-//                 }
+                auto it = g_prototypes.find(fp);
+                if(it != g_prototypes.end()){
+                    g_assetinfo.at(fp).timesAccessed++;
+                    default_prototype = it->second.get();
+                }else{
+                    LOG_F(ERROR,"Texture {} not available for default",fp);
+                }
             }
             return ok;
         }
@@ -440,13 +462,13 @@ namespace ge{
             std::string fp = findAsset(str);
             bool ok = load(fp, false);
             if(ok){
-//                 auto it = g_scenes.find(fp);
-//                 if(it != g_scenes.end()){
-//                     g_assetinfo.at(fp).timesAccessed++;
-//                     default_scene = *it->second.get();
-//                 }else{
-//                     LOG_F(ERROR,"Texture {} not available for default",fp);
-//                 }
+                auto it = g_scenes.find(fp);
+                if(it != g_scenes.end()){
+                    g_assetinfo.at(fp).timesAccessed++;
+                    default_scene = it->second.get();
+                }else{
+                    LOG_F(ERROR,"Texture {} not available for default",fp);
+                }
             }
             return ok;
         }

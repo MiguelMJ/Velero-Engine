@@ -7,6 +7,7 @@ namespace ge{
             std::string key;
             in >> std::ws >> key >> std::ws;
             if(key.empty()){
+                LOG_F(ERROR, "Empty component");
                 return nullptr;
             }
             auto it = g_parserIndex.find(key);
@@ -16,6 +17,7 @@ namespace ge{
             }
             return it->second(in);
         }
+        
         void registerComponent(const std::string& name, cparsefunc func){
             if(g_parserIndex.find(name) != g_parserIndex.end()){
                 LOG_F(ERROR, "Component {} already registered",name);

@@ -55,9 +55,18 @@ namespace ge{
         /**
          * @brief Generate an entity from this prototype.
          * @param active True to activate the generated entity.
+         * @param name If the string is not empty, the generated entity 
+         * will have this name.
          * @returns Pointer to the generated Entity.
          */
-        Entity* generate(bool active=true);
+        Entity* generate(unsigned long id=0, std::string name = "", bool active=true);
+        
+        /**
+         * @brief Load the prototype from a stream.
+         * @param in Input stream.
+         * @returns True if the loading was succesful.
+         */
+        bool loadFromStream(std::istream& in);
         
         /**
          * @brief Load the prototype from a file.

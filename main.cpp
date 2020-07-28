@@ -24,8 +24,7 @@ int main(){
     ge::window.setFramerateLimit(60);
     
     // user code here
-    auto scene = M_AS::getScene("level0.scene");
-    scene->setActive(true);
+    ge::setCurrentScene(M_AS::getScene("level0.scene"));
     
     launch();
     return 0;

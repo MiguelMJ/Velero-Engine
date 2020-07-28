@@ -22,6 +22,13 @@ namespace ge{
                     window.close();
                 }
             }
+            
+            if(g_ptrNextScene != g_ptrCurrentScene){
+                g_ptrCurrentScene->setActive(false);
+                g_ptrCurrentScene = g_ptrNextScene;
+                g_ptrCurrentScene->setActive(true);
+            }
+            
             window.clear();
             M_RS.draw(window);
             window.display();

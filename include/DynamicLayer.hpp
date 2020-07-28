@@ -10,6 +10,7 @@
 #include <set>
 
 #include "Layer.hpp"
+#include "log.hpp"
 
 namespace ge{
     /**

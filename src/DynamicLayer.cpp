@@ -7,13 +7,16 @@ namespace ge{
         }
     }
     void DynamicLayer::addRenderable(const Renderable* r){
+        DLOG_F(INFO, "Renderable added to Dlayer");
         m_visibleComponents.insert(r);
     }
     void DynamicLayer::removeRenderable(const Renderable* r){
+        DLOG_F(INFO, "Renderable removed from Dlayer");
         m_visibleComponents.erase(r);
         m_invisibleComponents.erase(r);
     }
     void DynamicLayer::clear(){
+        DLOG_F(INFO, "Dlayer cleared");
         m_visibleComponents.clear();
         m_invisibleComponents.clear();
     }

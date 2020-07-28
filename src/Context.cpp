@@ -22,7 +22,6 @@ namespace ge{
                     window.close();
                 }
             }
-            
             window.clear();
             M_RS.draw(window);
             window.display();

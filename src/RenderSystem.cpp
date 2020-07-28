@@ -151,16 +151,14 @@ namespace ge{
     }
     Layer* RenderSystem::getLayer(const std::string& str) const{
         Layer* ret = nullptr;
-        if(!str.empty()){
-            auto it = m_layerIndex.find(str);
-            if(it != m_layerIndex.end()){
-                ret = m_layers[it->second].get();
-            }
+        auto it = m_layerIndex.find(str);
+        if(it != m_layerIndex.end()){
+            ret = m_layers[it->second].get();
         }
         return ret;
     }
     Layer* RenderSystem::getLayer (size_t id) const{
-        return m_layers[id].get();
+        return id < m_layers.size() ? m_layers[id].get() : nullptr;
     }
     LightingLayer* RenderSystem::getLightingLayer(const std::string& str) const{
         return static_cast<LightingLayer*> (getLayer(str));
@@ -177,7 +175,7 @@ namespace ge{
         return ret;
     }
     bool RenderSystem::isLightingLayer (size_t id) const{
-        return typeid(*m_layers[id]) == typeid(LightingLayer);
+        return typeid(*getLayer(id)) == typeid(LightingLayer);
     }
     void RenderSystem::draw(sf::RenderTarget& t){
         t.setView(m_view);
@@ -186,5 +184,13 @@ namespace ge{
                 t.draw(*m_layers[i], m_renderStates[i]);
             }
         }
+    }
+    std::vector<std::string> RenderSystem::layerNames()const{
+        std::vector<std::string> ret;
+        ret.resize(m_layerIndex.size());
+        for(auto& kv : m_layerIndex){
+            ret[kv.second] = kv.first;
+        }
+        return ret;
     }
 }

@@ -208,6 +208,13 @@ namespace ge{
          * @param target Render Target to draw the layers.
          */
         void draw(sf::RenderTarget& target);
+        
+        /**
+         * @brief Get a list of the layer names.
+         * @details The names are in the same order as the layers.
+         * @return List of layer names.
+         */
+        std::vector<std::string> layerNames()const;
     };
 }
 

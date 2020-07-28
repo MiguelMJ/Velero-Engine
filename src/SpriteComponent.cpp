@@ -21,6 +21,7 @@ namespace ge{
             l->addRenderable(this);
         }else{
             LOG_F(WARNING, "Layer {} doesn't exist", m_layer);
+            LOG_F(INFO, "Existing {} layers: {}", M_RS.layerCount(), M_RS.layerNames());
         }
     }
     void Sprite::onRemove() {

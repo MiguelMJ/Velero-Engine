@@ -1,5 +1,7 @@
 #include "Scene.hpp"
 
+#include "AssetSystem.hpp"
+
 namespace ge{
     Entity* Scene::addEntity(Prototype* prototype, bool active, const std::string& name){
         auto e = prototype->generate(m_nextID, name, active && m_active);
@@ -26,8 +28,11 @@ namespace ge{
             return;
         }
         auto e = it->second.get();
-        m_entityIndex.erase(m_entityIndex.find(e->getName()));
-        m_entities.erase(m_entities.find(id));
+        auto iti = m_entityIndex.find(e->getName());
+        if(iti != m_entityIndex.end()){
+            m_entityIndex.erase(iti);
+        }
+        m_entities.erase(it);
     }
     bool Scene::loadFromFile(const std::string& file){
         std::ifstream fin(file);
@@ -103,6 +108,7 @@ namespace ge{
             }
             fin >> std::ws;
         }
+        LOG_F(INFO, "{}({}) entities loaded to scene", entityCount(), namedEntitiesCount());
         return ok;
     }
     void Scene::setActive(bool active){
@@ -112,5 +118,23 @@ namespace ge{
             }
             m_active = active;
         }
+    }
+    iterator Scene::begin(){
+        return m_entities.begin();
+    }
+    const_iterator Scene::begin() const{
+        return m_entities.begin();
+    }
+    iterator Scene::end(){
+        return m_entities.end();
+    }
+    const_iterator Scene::end() const{
+        return m_entities.end();
+    }
+    size_t Scene::entityCount() const{
+        return m_entities.size();
+    }
+    size_t Scene::namedEntitiesCount() const{
+        return m_entityIndex.size();
     }
 }

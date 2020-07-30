@@ -1,6 +1,8 @@
 #include "Context.hpp"
 
 #include "SpriteComponent.hpp"
+
+#include "fmt/core.h"
 using namespace ge;
 
 int main(){
@@ -24,8 +26,16 @@ int main(){
     ge::window.setFramerateLimit(60);
     
     // user code here
-    ge::setCurrentScene(M_AS::getScene("level0.scene"));
+    auto s = M_AS::getScene("level0.scene");
+    ge::setCurrentScene(s);
     
+    LOG_F(INFO, "{}({}) entities in scene", s->entityCount(), s->namedEntitiesCount());
+    for(auto it = s->begin(); it != s->end(); it++){
+        LOG_F(INFO, "Entity [{}]: {} \"{}\"", it->first, it->second->getId(), it->second->getName());
+    }
+    
+    LOG_F(INFO, "Removing entity 1");
+    s -> removeEntity(1);
     launch();
     return 0;
 }

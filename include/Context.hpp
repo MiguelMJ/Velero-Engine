@@ -6,6 +6,7 @@
 
 #include "RenderSystem.hpp"
 #include "AssetSystem.hpp"
+#include "TimeSystem.hpp"
 #include "EventSystem.hpp"
 #include "Scene.hpp"
 
@@ -15,6 +16,8 @@
 #define M_RS ge::renderSystem
 #define M_AS ge::AssetSystem
 #define M_ES ge::EventSystem
+#define M_LTS ge::logicTimeSystem
+#define M_VTS ge::visualTimeSystem
 
 namespace ge{
     void setCurrentScene(Scene* scene);
@@ -22,6 +25,8 @@ namespace ge{
     void launch();
     
     extern RenderSystem renderSystem;
+    extern TimeSystem logicTimeSystem;
+    extern TimeSystem visualTimeSystem;
     extern sf::RenderWindow window;
 }
 

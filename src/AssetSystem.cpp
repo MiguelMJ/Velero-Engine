@@ -97,7 +97,12 @@ namespace ge{
                 {".prototype", AssetType::PROTOTYPE},
                 {".scene", AssetType::SCENE}
             };
-            std::string extension = str.substr(str.find_last_of('.'));
+            auto ppos = str.find_last_of('.');
+            if(ppos == std::string::npos){
+                LOG_F(ERROR,"Asset without extension \"{}\"",str);
+                return AssetType::UNRECOGNIZED;
+            }
+            std::string extension = str.substr(ppos);
             ge::toLower(extension);
             auto it2 = formats.find(extension);
             if(it2 == formats.end()){
@@ -231,11 +236,10 @@ namespace ge{
         bool loadDependencies(const std::string& str){
             static std::set<std::string> fixed;
             fixed.insert(str);
-            bool ret = false;
+            bool ret = true;
             auto it = g_assetinfo.find(str);
             if(it != g_assetinfo.end()){
                 auto& info = it->second;
-                ret = true;
                 auto itd = info.dependencies.begin();
                 while(ret && itd != info.dependencies.end()){
                     ret = load(*itd);

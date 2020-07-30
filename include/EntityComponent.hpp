@@ -267,13 +267,13 @@ namespace ge{
          * @brief Get the entity identifier.
          * @returns Entity ID.
          */
-        unsigned long getId();
+        unsigned long getId() const;
         
         /**
          * @brief Get the entity name.
          * @returns Entity name.
          */
-        std::string getName();
+        std::string getName() const;
         
         /**
          * @brief Destructor

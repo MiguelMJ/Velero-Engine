@@ -91,10 +91,10 @@ namespace ge{
     bool Entity::isActive(){
         return m_active;
     }
-    unsigned long Entity::getId(){
+    unsigned long Entity::getId() const{
         return m_id;
     }
-    std::string Entity::getName(){
+    std::string Entity::getName() const{
         return m_name;
     }
     Entity::~Entity(){

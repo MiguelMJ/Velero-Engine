@@ -8,6 +8,7 @@
 #include "AssetSystem.hpp"
 #include "TimeSystem.hpp"
 #include "EventSystem.hpp"
+#include "InputSystem.hpp"
 #include "Scene.hpp"
 
 #define assetSystem AssetSystem
@@ -16,6 +17,7 @@
 #define M_RS ge::renderSystem
 #define M_AS ge::AssetSystem
 #define M_ES ge::EventSystem
+#define M_IS ge::InputSystem
 #define M_LTS ge::logicTimeSystem
 #define M_VTS ge::visualTimeSystem
 

@@ -24,6 +24,7 @@ namespace ge{
             sf::Time delta(clock.restart());
             sf::Event event;
             while(window.pollEvent(event)){
+                M_IS::dispatch(event);
                 if(event.type == sf::Event::Closed){
                     window.close();
                 }
@@ -34,6 +35,7 @@ namespace ge{
                 g_ptrCurrentScene = g_ptrNextScene;
                 g_ptrCurrentScene->setActive(true);
             }
+            
             
             logicTimeSystem.update(delta);
             visualTimeSystem.update(delta);

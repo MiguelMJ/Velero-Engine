@@ -18,8 +18,7 @@ namespace ge{
      */
     class DynamicLayer: public Layer{
     private:
-        std::set<const Renderable*> m_visibleComponents;
-        std::set<const Renderable*> m_invisibleComponents;
+        std::set<const Renderable*> m_renderables;
         void draw (sf::RenderTarget&, sf::RenderStates) const override;
         
         /**
@@ -42,11 +41,6 @@ namespace ge{
          * @copydoc Layer::clear
          */
         void clear() override;
-        
-        /**
-         * @copydoc Layer::setVisible
-         */
-        void setVisible(const Renderable* renderable, bool visible) override;
     };
 }
 

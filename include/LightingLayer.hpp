@@ -34,8 +34,7 @@ namespace ge{
      */
     class LightingLayer: public Layer{
     private:
-        std::set <const LightSource*> m_visibleLights;
-        std::set <const LightSource*> m_invisibleLights;
+        std::set <const LightSource*> m_lights;
         sf::RenderTexture m_fogTexture;
         sf::VertexArray m_fogQuad;
         sf::Vector2f m_fogOffset;
@@ -90,11 +89,6 @@ namespace ge{
          * @copydoc Layer::clear
          */
         void clear() override;
-        
-        /**
-         * @copydoc Layer::setVisible
-         */
-        void setVisible(const Renderable* renderable, bool visible) override;
         
         /**
          * @brief Set fog size.

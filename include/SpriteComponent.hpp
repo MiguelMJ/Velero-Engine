@@ -22,8 +22,6 @@ namespace ge{
         Sprite();
         ~Sprite();
         sf::FloatRect getGlobalBounds() const override;
-        void onAdd() override;
-        void onRemove() override;
         void onActivate() override;
         void onDeactivate() override;
         Component* copy() const override;

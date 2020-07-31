@@ -20,7 +20,7 @@ namespace ge{
     StaticLayer::StaticLayer(const DynamicLayer& dl):
     StaticLayer()
     {
-        for(auto& r: dl.m_visibleComponents){
+        for(auto& r: dl.m_renderables){
             addRenderable(r);
         }
         display();
@@ -39,7 +39,7 @@ namespace ge{
             limit.x = m_offset.x + s.x;
             limit.y = m_offset.y + s.y;
         }
-        for(auto& r: ll.m_visibleLights){
+        for(auto& r: ll.m_lights){
             auto b = r->getGlobalBounds();
             limit = {
                 std::max(limit.x, b.left + b.width),
@@ -80,7 +80,6 @@ namespace ge{
     void StaticLayer::clear(){
         m_renderTexture.clear(sf::Color::Transparent);
     }
-    void StaticLayer::setVisible(const Renderable*,bool){}
     void StaticLayer::display(){
         if(m_unrendered.size() > 0){
             auto b = m_unrendered[0]->getGlobalBounds();

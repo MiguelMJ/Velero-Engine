@@ -140,13 +140,6 @@ namespace ge{
         void setVisible (size_t layer_id, bool visible);
         
         /**
-         * @brief Toggle the visibilit of a layer in all the layers.
-         * @param ren_ptr Pointer to the renderable to make in/visible.
-         * @param visible True to make visible, false to make invisible.
-         */
-        void setVisible (const Renderable* ren_ptr, bool visible);
-        
-        /**
          * @brief Get a reference to the render states of a layer.
          * @param layer_id Position of the layer  to get the render 
          * states.

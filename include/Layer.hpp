@@ -41,12 +41,6 @@ namespace ge{
          * @brief Remove all the renderables from the layer.
          */
         virtual void clear() = 0;
-        /**
-         * @brief Show or hide certain renderable contained in the layer.
-         * @param renderable Pointer to the renderable object.
-         * @param visible True to show the renderable, false to hide it.
-         */
-        virtual void setVisible(const Renderable* renderable, bool visible) = 0;
     };
 }
 

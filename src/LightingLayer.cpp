@@ -18,8 +18,7 @@ namespace ge{
         setFogSize(10,10);
     }
     LightingLayer::LightingLayer(const LightingLayer& ll)
-    : m_visibleLights(ll.m_visibleLights)
-    , m_invisibleLights(ll.m_invisibleLights)
+    : m_lights(ll.m_lights)
     , m_fogQuad(ll.m_fogQuad)
     , m_fogOffset(ll.m_fogOffset)
     , m_fogColor(ll.m_fogColor)
@@ -32,7 +31,7 @@ namespace ge{
         s.texture = &m_fogTexture.getTexture();
         t.draw(m_fogQuad, s);
         s.blendMode = l_glowBlend;
-        for(auto& ls: m_visibleLights){
+        for(auto& ls: m_lights){
             if(ls->m_glow){
                 t.draw(*ls, s);
             }
@@ -41,33 +40,14 @@ namespace ge{
     void LightingLayer::addRenderable(const Renderable* r) {
         const LightSource* ls = static_cast<const LightSource*> (r);
         const_cast<LightSource*>(ls) -> m_ptrSegmentPool = &m_segmentPool;;
-        m_visibleLights.insert(ls);
+        m_lights.insert(ls);
     }
     void LightingLayer::removeRenderable(const Renderable* r){
         auto ls = static_cast<const LightSource*>(r);
-        m_visibleLights.erase(ls);
-        m_invisibleLights.erase(ls);
+        m_lights.erase(ls);
     }
     void LightingLayer::clear(){
-        m_visibleLights.clear();
-        m_invisibleLights.clear();
-    }
-    void LightingLayer::setVisible(const Renderable* r, bool v){
-        const LightSource* ls = static_cast<const LightSource*> (r);
-        if(v){
-            auto it = m_invisibleLights.find(ls);
-            if(it != m_invisibleLights.end()){
-                m_visibleLights.insert(ls);
-                m_invisibleLights.erase(it);
-            }
-        }else{
-            auto it = m_visibleLights.find(ls);
-            if(it != m_visibleLights.end()){
-                m_invisibleLights.insert(ls);
-                m_visibleLights.erase(it);
-            }
-            
-        }
+        m_lights.clear();
     }
     void LightingLayer::setFogSize(float x, float y){
         m_fogTexture.create(x,y);
@@ -108,7 +88,7 @@ namespace ge{
             sf::RenderStates fogrs;
             fogrs.blendMode = l_lightBlend;
             fogrs.transform.translate(-m_fogOffset);
-            for(auto& ls: m_visibleLights){
+            for(auto& ls: m_lights){
                 m_fogTexture.draw(*ls, fogrs);
             }
             m_fogTexture.display();

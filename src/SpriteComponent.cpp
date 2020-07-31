@@ -15,28 +15,13 @@ namespace ge{
     sf::FloatRect Sprite::getGlobalBounds() const {
         return getTransform().transformRect(m_quad.getBounds());
     }
-    void Sprite::onAdd(){
-        auto l = M_RS.getLayer(m_layer);
-        if(l != nullptr){
-            l->addRenderable(this);
-        }else{
-            LOG_F(WARNING, "Layer {} doesn't exist", m_layer);
-            LOG_F(INFO, "Existing {} layers: {}", M_RS.layerCount(), M_RS.layerNames());
-        }
-    }
-    void Sprite::onRemove() {
-        auto l = M_RS.getLayer(m_layer);
-        if(l != nullptr){
-            l->removeRenderable(this);
-        }
-    }
     void Sprite::onActivate() {
         auto l = M_RS.getLayer(m_layer);
-        if (l) l->setVisible(this, true);
+        if (l) l->addRenderable(this);
     }
     void Sprite::onDeactivate() {
         auto l = M_RS.getLayer(m_layer);
-        if (l) l->setVisible(this, false);
+        if (l) l->removeRenderable(this);
     }
     void Sprite::handle(const Event*, std::type_index, size_t){
         

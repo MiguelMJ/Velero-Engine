@@ -2,37 +2,20 @@
 
 namespace ge{
     void DynamicLayer::draw (sf::RenderTarget& t, sf::RenderStates s) const {
-        for(auto& vc: m_visibleComponents){
+        for(auto& vc: m_renderables){
             t.draw(*vc, s);
         }
     }
     void DynamicLayer::addRenderable(const Renderable* r){
         DLOG_F(INFO, "Renderable added to Dlayer");
-        m_visibleComponents.insert(r);
+        m_renderables.insert(r);
     }
     void DynamicLayer::removeRenderable(const Renderable* r){
         DLOG_F(INFO, "Renderable removed from Dlayer");
-        m_visibleComponents.erase(r);
-        m_invisibleComponents.erase(r);
+        m_renderables.erase(r);
     }
     void DynamicLayer::clear(){
         DLOG_F(INFO, "Dlayer cleared");
-        m_visibleComponents.clear();
-        m_invisibleComponents.clear();
-    }
-    void DynamicLayer::setVisible(const Renderable* r, bool v){
-        if(v){
-            auto it = m_invisibleComponents.find(r);
-            if(it != m_invisibleComponents.end()){
-                m_visibleComponents.insert(r);
-                m_invisibleComponents.erase(it);
-            }
-        }else{
-            auto it = m_visibleComponents.find(r);
-            if(it != m_visibleComponents.end()){
-                m_invisibleComponents.insert(r);
-                m_visibleComponents.erase(it);
-            }
-        }
+        m_renderables.clear();
     }
 }

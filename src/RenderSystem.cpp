@@ -141,11 +141,6 @@ namespace ge{
     void RenderSystem::setVisible (size_t id, bool v){
         m_layerIsVisible[id] = v;
     }
-    void RenderSystem::setVisible (const Renderable* r, bool v){
-        for(auto& l : m_layers){
-            l->setVisible(r,v);
-        }
-    }
     sf::RenderStates& RenderSystem::getRenderState (size_t id){
         return m_renderStates.at(id);
     }

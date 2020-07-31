@@ -90,14 +90,6 @@ namespace ge{
         void clear() override;
         
         /**
-         * @brief Does nothing.
-         * @details This function exists because it's inherited.
-         * @param renderable Ignored pointer.
-         * @param visible Ignored flag.
-         */
-        void setVisible(const Renderable* renderable, bool visible) override;
-        
-        /**
          * @brief Updates the layer with the buffered renderables.
          * @details The layer displays the renderables added and clears 
          * the buffer. This function should not be called after 

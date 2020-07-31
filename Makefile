@@ -3,7 +3,7 @@
 #
 EXEC = main
 CXX = g++
-CXXFLAGS = -std=c++11 -fmax-errors=3 $(INCLUDES) $(LINKDIRS)
+CXXFLAGS = -std=c++11 -Wall -Wextra -Werror -fmax-errors=3 $(INCLUDES) $(LINKDIRS)
 CC = $(CXX)
 CFLAGS = $(CXXFLAGS)
 
@@ -24,7 +24,7 @@ DBGDIR = debug
 DBGEXEC = $(DBGDIR)/$(EXEC)
 DBGOBJ = $(addprefix $(DBGDIR)/, $(OBJ))
 DBGDEP = $(addprefix $(DBGDIR)/, $(DEP))
-DBGCFLAGS = -g -O0 -DDEBUG -Wall -Wextra -Werror 
+DBGCFLAGS = -g -O0 -DDEBUG
 
 #
 # Release build settings

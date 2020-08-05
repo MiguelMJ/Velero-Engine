@@ -1,7 +1,7 @@
 #include "geometry.hpp"
 
 namespace ge{
-    std::array<Segment, 4> segmentsFromRect(sf::FloatRect rect){
+    std::array<Segment, 4> segments(sf::FloatRect rect){
         sf::Vector2f tl(rect.left, rect.top);
         sf::Vector2f tr(rect.left + rect.width, rect.top);
         sf::Vector2f br(rect.left + rect.width, rect.top + rect.height);
@@ -16,6 +16,11 @@ namespace ge{
             bottom,
             left
         };
+    }
+    void transform(Polygon& polygon, const sf::Transform& transform){
+        for(auto& p : polygon){
+            p = transform.transformPoint(p);
+        }
     }
     Ray make_ray(sf::Vector2f p1, sf::Vector2f p2){
         sf::Vector2f d = p2 - p1;
@@ -50,6 +55,10 @@ namespace ge{
         }
         return std::make_pair(t1, t2);
     }
+    std::pair<float, float> intersection(Segment s1, Segment s2){
+        return intersection(make_ray(s1), make_ray(s2));
+    }
+    
     float getAngle(sf::Vector2f d){
         return std::atan2(d.y, d.x);
     }

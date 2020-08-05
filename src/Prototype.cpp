@@ -4,6 +4,7 @@ namespace ge{
     Entity* Prototype::generate(unsigned long id, std::string name, bool active){
         Entity* e;
         if (name.empty()) name = fmt::format("{}{:0>3}",m_name,m_generated);
+        LOG_SCOPE_F(INFO, "%s generating (%i)", name.c_str(), m_generated);
         if(m_base != nullptr){
             e = m_base->generate(active);
             e -> m_name = name;
@@ -13,6 +14,7 @@ namespace ge{
         }
         for(auto& c: m_components){
             e->addComponentFromPtr(c.get(), active);
+            LOG_F(INFO,"{}",c->to_string());
         }
         m_generated++;
         return e;
@@ -42,6 +44,8 @@ namespace ge{
             }
             in >> std::ws;
         }
+        LOG_IF_F(INFO, !m_nameOfBase.empty(),"Base: {}", m_nameOfBase);
+        LOG_F(INFO, "Components: {}", m_components.size());
         return ok;
     }
     bool Prototype::loadFromFile(const std::string& file){

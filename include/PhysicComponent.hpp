@@ -21,6 +21,7 @@ namespace ge{
         void onActivate() override;
         void onDeactivate() override;
         void handle(const Event* event, std::type_index type, size_t channel) override;
+        std::string to_string() const override;
         Component* copy() const override;
         void update(sf::Time delta) override;
     };

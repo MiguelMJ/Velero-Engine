@@ -145,6 +145,20 @@ namespace ge{
          * @returns A pointer to the copy.
          */
         virtual Component* copy() const = 0;
+        
+        /**
+         * @brief Makes a string containing the information of 
+         * the component.
+         * @details It would be recommendable to make a string that
+         * the parser of the component would be able to read.
+         * @returns A string with the component information.
+         */
+        virtual std::string to_string() const = 0;
+        /**
+         * @brief Get a pointer to the entity containing the component.
+         * @returns A pointer to the entity, or null.
+         */
+        Entity* getEntityPtr() const;
         virtual ~Component();
     };
     

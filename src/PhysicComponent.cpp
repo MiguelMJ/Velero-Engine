@@ -24,6 +24,18 @@ namespace ge{
         m_velocity += m_acceleration * d;
         Component::m_ptrEntity->move(m_velocity * s_meter * d);
     }
+    std::string Physic::to_string() const{
+        const char* format = 
+        "physic gravity = {}; velocity = {{{}, {}}}; acceleration = {{{}, {}}}; mass = {}";
+        return fmt::format(format, 
+                           m_gravity ? "on":"off",
+                           m_velocity.x,
+                           m_velocity.y,
+                           m_acceleration.x,
+                           m_acceleration.y,
+                           m_mass
+                          );
+    }
     Component* parsePhysic(std::istream& in){
         auto ret = new Physic();
         std::string line;

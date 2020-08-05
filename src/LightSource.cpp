@@ -73,7 +73,7 @@ namespace ge{
         m_glow = g;
     }
     void LightSource::castLight(){
-        auto bounds = ge::segmentsFromRect(Transformable::getTransform().transformRect(m_bounds));
+        auto bounds = ge::segments(Transformable::getTransform().transformRect(m_bounds));
         auto castRay = [&] (Ray r) -> sf::Vector2f {
             sf::Vector2f ret(r.origin);   
             float minRange = std::numeric_limits<float>::infinity();

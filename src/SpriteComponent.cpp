@@ -54,6 +54,31 @@ namespace ge{
     Component* Sprite::copy() const{
         return new Sprite(*this);
     }
+    std::string Sprite::to_string() const{
+        sf::Vector2f tl_tex, br_tex, tex_s;
+        sf::Vector2f tl_pos, br_pos, size;
+        sf::Vector2f pos;
+        tl_tex = m_quad[0].texCoords;
+        br_tex = m_quad[2].texCoords;
+        tex_s = br_tex - tl_tex;
+        tl_pos = m_quad[0].position;
+        br_pos = m_quad[2].position;
+        size = br_pos - tl_pos;
+        pos = getPosition();
+        const char* format = 
+        "sprite pos = {{{}, {}}}; layer = {}; size = {{{}, {}}}; rect = {{{}, {}, {}, {}}}";
+        return fmt::format(format,
+                           pos.x,
+                           pos.y,
+                           m_layer,
+                           size.x,
+                           size.y,
+                           tl_tex.x,
+                           tl_tex.y,
+                           tex_s.x,
+                           tex_s.y
+                    );
+    }
     Component* parseSprite(std::istream& in){
         auto ret = new Sprite();
         std::string line;

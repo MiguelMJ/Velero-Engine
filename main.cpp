@@ -2,6 +2,7 @@
 
 #include "SpriteComponent.hpp"
 #include "PhysicComponent.hpp"
+#include "ColliderComponent.hpp"
 
 #include "fmt/core.h"
 using namespace ge;
@@ -10,6 +11,7 @@ int main(){
     
     ComponentParser::registerComponent("sprite", parseSprite);
     ComponentParser::registerComponent("physic", parsePhysic);
+    ComponentParser::registerComponent("collider", parseCollider);
     
     M_RS.pushLayer("background");
     M_RS.pushLayer("behind");
@@ -29,7 +31,7 @@ int main(){
     
     // user code here
     auto s = M_AS::getScene("level0.scene");
-    ge::setCurrentScene(s);
+    ge::setNextScene(s);
     
     launch();
     return 0;

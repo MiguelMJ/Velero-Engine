@@ -25,6 +25,7 @@ namespace ge{
         void onActivate() override;
         void onDeactivate() override;
         Component* copy() const override;
+        std::string to_string() const override;
         void handle(const Event *event, std::type_index type, size_t channel);
         void setLayer(const std::string& layer);
         std::string getLayer();

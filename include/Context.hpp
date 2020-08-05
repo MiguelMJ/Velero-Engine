@@ -9,6 +9,7 @@
 #include "TimeSystem.hpp"
 #include "EventSystem.hpp"
 #include "InputSystem.hpp"
+#include "CollisionSystem.hpp"
 #include "Scene.hpp"
 
 #define assetSystem AssetSystem
@@ -20,15 +21,17 @@
 #define M_IS ge::InputSystem
 #define M_LTS ge::logicTimeSystem
 #define M_VTS ge::visualTimeSystem
+#define M_CS ge::collisionSystem
 
 namespace ge{
-    void setCurrentScene(Scene* scene);
+    void setNextScene(Scene* scene);
     Scene* getCurrentScene();
     void launch();
     
     extern RenderSystem renderSystem;
     extern TimeSystem logicTimeSystem;
     extern TimeSystem visualTimeSystem;
+    extern CollisionSystem collisionSystem;
     extern sf::RenderWindow window;
 }
 

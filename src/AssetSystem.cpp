@@ -121,7 +121,7 @@ namespace ge{
             g_path.push_back(p);
         }
         bool load(const std::string& name, bool find){
-            bool ret;
+            bool ret = false;
             std::string path = find ? findAsset(name) : FilePath(name).resolved();
             LOG_SCOPE_F(INFO,"Loading %s", path.c_str());
             AssetType type = typeFromExtension(path);

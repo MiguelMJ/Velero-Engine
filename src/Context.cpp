@@ -11,9 +11,9 @@ namespace ge{
     RenderSystem renderSystem;
     TimeSystem logicTimeSystem;
     TimeSystem visualTimeSystem;
+    CollisionSystem collisionSystem;
     
-    
-    void setCurrentScene(Scene* scene){
+    void setNextScene(Scene* scene){
         g_ptrNextScene = scene;
     }
     Scene* getCurrentScene(){
@@ -40,8 +40,10 @@ namespace ge{
             logicTimeSystem.update(delta);
             visualTimeSystem.update(delta);
             
+            // collisionSystem.solveCollisions();
+            
             window.clear();
-            M_RS.draw(window);
+            renderSystem.draw(window);
             window.display();
         }
         Entity::s_removeComponents=false;

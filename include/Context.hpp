@@ -16,6 +16,7 @@
 #define eventSystem EventSystem
 
 #define M_RS ge::renderSystem
+#define M_RSD ge::renderSystemD
 #define M_AS ge::AssetSystem
 #define M_ES ge::EventSystem
 #define M_IS ge::InputSystem
@@ -29,6 +30,7 @@ namespace ge{
     void launch();
     
     extern RenderSystem renderSystem;
+    extern RenderSystem renderSystemD;
     extern TimeSystem logicTimeSystem;
     extern TimeSystem visualTimeSystem;
     extern CollisionSystem collisionSystem;

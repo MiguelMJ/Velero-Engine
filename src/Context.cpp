@@ -9,6 +9,7 @@ namespace ge{
     
     sf::RenderWindow window;
     RenderSystem renderSystem;
+    RenderSystem renderSystemD;
     TimeSystem logicTimeSystem;
     TimeSystem visualTimeSystem;
     CollisionSystem collisionSystem;
@@ -44,6 +45,7 @@ namespace ge{
             
             window.clear();
             renderSystem.draw(window);
+            renderSystemD.draw(window);
             window.display();
         }
         Entity::s_removeComponents=false;

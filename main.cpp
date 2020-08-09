@@ -13,6 +13,7 @@ int main(){
     ComponentParser::registerComponent("physic", parsePhysic);
     ComponentParser::registerComponent("collider", parseCollider);
     
+    M_RSD.pushLayer("debug");
     M_RS.pushLayer("background");
     M_RS.pushLayer("behind");
     M_RS.pushLayer("middle");

@@ -18,7 +18,7 @@ namespace ge{
     void rtrim(std::string& str, std::string totrim=" \t\n");
     void trim(std::string& str, std::string totrim=" \t\n");
     std::vector<std::string> tokenize(const std::string& str, char del=' ');
-    std::unordered_map<std::string, std::string> parseMap (const std::string& str, char pair_del=';', char kv_del='=', bool dotrim=true);
+    std::unordered_multimap<std::string, std::string> parseMap (const std::string& str, char pair_del=';', char kv_del='=', bool dotrim=true);
     template<typename T>
     sf::Vector2<T> parseVector2(std::string str){
         sf::Vector2<T> ret;

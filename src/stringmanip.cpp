@@ -40,8 +40,8 @@ namespace ge{
         }
         return ret;
     }
-    std::unordered_map<std::string, std::string> parseMap (const std::string& str, char pair_del, char kv_del, bool dotrim){
-        std::unordered_map<std::string, std::string> ret;
+    std::unordered_multimap<std::string, std::string> parseMap (const std::string& str, char pair_del, char kv_del, bool dotrim){
+        std::unordered_multimap<std::string, std::string> ret;
         auto pairs = tokenize(str, pair_del);
         for(auto& pair: pairs){
             std::string key, val;
@@ -52,7 +52,7 @@ namespace ge{
                 trim(key);
                 trim(val);
             }
-            ret[key]=val;
+            ret.insert({key,val});
         }
         return ret;
     }

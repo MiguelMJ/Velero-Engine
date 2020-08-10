@@ -63,7 +63,6 @@ namespace ge{
             c->m_transformedPolygon = c->m_basePolygon;
             transform(c->m_transformedPolygon, c->getEntityPtr()->getTransform());
         }
-        // LOG_F(INFO,"Solving for {} colliders!", m_colliders.size());
         for(auto it1 = m_colliders.begin(); it1 != m_colliders.end(); it1++){
             auto it2 = it1;
             it2++;
@@ -76,6 +75,7 @@ namespace ge{
                     c2->m_transformedPolygon,
                     solution)
                 ){
+                    LOG_F(INFO, "COLLISION!");
                     int p1 = c1->m_priority, p2 = c2->m_priority;
                     if(p1 < p2){
                         c1->getEntityPtr()->move(solution);

@@ -8,8 +8,8 @@ namespace ge{
     Sprite::~Sprite(){}
     void Sprite::draw(sf::RenderTarget& target, sf::RenderStates states) const {
         states.texture = m_texture;
-        states.transform *= this->getTransform();
         states.transform *= m_ptrEntity->getTransform();
+        states.transform *= this->getTransform();
         target.draw(m_quad, states);
     }
     sf::FloatRect Sprite::getGlobalBounds() const {

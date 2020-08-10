@@ -41,7 +41,7 @@ namespace ge{
             logicTimeSystem.update(delta);
             visualTimeSystem.update(delta);
             
-            // collisionSystem.solveCollisions();
+            collisionSystem.solveCollisions();
             
             window.clear();
             renderSystem.draw(window);

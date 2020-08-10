@@ -42,7 +42,7 @@ namespace ge{
                 float curroverlap = std::min(max_r1, max_r2) - std::max(min_r1, min_r2);
                 if(curroverlap < overlap){
                     overlap = curroverlap;
-                    solution = normalize(axisProj) * overlap;
+                    solution = normalize(axisProj) * overlap / length(axisProj);
                 }
                 
                 if (!(max_r2 >= min_r1 && max_r1 >= min_r2))
@@ -75,7 +75,7 @@ namespace ge{
                     c2->m_transformedPolygon,
                     solution)
                 ){
-                    LOG_F(INFO, "COLLISION!");
+                    LOG_F(INFO, "COLLISION! Solution: {{{},{}}}", solution.x, solution.y);
                     int p1 = c1->m_priority, p2 = c2->m_priority;
                     if(p1 < p2){
                         c1->getEntityPtr()->move(solution);
@@ -83,7 +83,7 @@ namespace ge{
                         c2->getEntityPtr()->move(-solution);
                     }else{
                         c1->getEntityPtr()->move(solution * 0.5f);
-                        c2->getEntityPtr()->move(solution * 0.5f);
+                        c2->getEntityPtr()->move(solution * -0.5f);
                     }
                 }
                 it2++;

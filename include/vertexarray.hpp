@@ -3,7 +3,10 @@
 
 #include "SFML/Graphics.hpp"
 
+#include "geometry.hpp"
+
 namespace ge{
+    sf::VertexArray getLines(Polygon poly, sf::Color c=sf::Color::White);
     sf::VertexArray getLines(sf::FloatRect rect, sf::Color c=sf::Color::White);
     sf::VertexArray getQuad(sf::FloatRect rect, sf::Color c=sf::Color::White);
     void setTextureRect(sf::VertexArray& va, sf::FloatRect rect, int pos=0);

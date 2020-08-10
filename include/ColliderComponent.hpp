@@ -3,11 +3,14 @@
 
 #include <istream>
 
-#include "geometry.hpp"
+#include "SFML/Graphics/VertexArray.hpp"
+
 #include "EntityComponent.hpp"
+#include "Renderable.hpp"
+#include "geometry.hpp"
 
 namespace ge{
-    class Collider : public Component{
+    class Collider : public Component, public Renderable{
     public:
         int m_priority = 0;
         Polygon m_basePolygon;
@@ -16,6 +19,9 @@ namespace ge{
         void onActivate() override;
         void onDeactivate() override;
         std::string to_string() const override;
+        sf::FloatRect getGlobalBounds() const override;
+    private:
+        void draw(sf::RenderTarget& t, sf::RenderStates s) const override;
     };
     Component* parseCollider(std::istream& in);
 }

@@ -4,20 +4,13 @@
 #include "fmt/ranges.h"
 
 namespace ge{
-    sf::VertexArray getLines(Polygon poly, sf::Color c){
+    sf::VertexArray getLines(const Polygon& poly, sf::Color c){
         sf::VertexArray ret(sf::LineStrip, poly.size()+1);
         for(unsigned i = 0; i < poly.size(); i++){
             ret[i].position = poly[i];
             ret[i].color = c;
         }
         ret[poly.size()] = ret[0];
-#ifdef DEBUG
-        std::string polystr;
-        for(auto& v: poly){
-            polystr.append(fmt::format("{{{},{}}}",v.x,v.y));
-        }
-        DLOG_F(INFO, "VA from poly: {{{}}}", polystr);
-#endif
         return ret;
     }
     sf::VertexArray getLines(sf::FloatRect rect, sf::Color c){

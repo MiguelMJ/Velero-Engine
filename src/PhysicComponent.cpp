@@ -4,7 +4,7 @@
 #include "stringmanip.hpp"
 
 namespace ge{
-    float Physic::s_meter(10);
+    float Physic::s_meter(64);
     sf::Vector2f Physic::s_gravity(0,9.1);
     void Physic::onActivate(){
         M_LTS.addUpdatable(this);

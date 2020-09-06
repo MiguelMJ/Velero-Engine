@@ -36,10 +36,8 @@ namespace ge{
                            m_mass
                           );
     }
-    Component* parsePhysic(std::istream& in){
+    Component* parsePhysic(const std::string& line){
         auto ret = new Physic();
-        std::string line;
-        getline(in, line);
         auto dict = parseMap(line);
         for(auto& kv : dict){
             if(kv.first == "gravity"){

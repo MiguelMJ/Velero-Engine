@@ -22,8 +22,8 @@ namespace ge{
     template<typename T>
     sf::Vector2<T> parseVector2(std::string str){
         sf::Vector2<T> ret;
-        ltrim(str," \t\n{");
-        rtrim(str," \t\n}");
+        ltrim(str," \t\n[");
+        rtrim(str," \t\n]");
         std::stringstream ss(str);
         ss >> ret.x;
         ss.ignore(100,',');
@@ -34,8 +34,8 @@ namespace ge{
     template<typename T>
     sf::Rect<T> parseRect(std::string str){
         sf::Rect<T> ret;
-        ltrim(str," \t\n{");
-        rtrim(str," \t\n}");
+        ltrim(str," \t\n[");
+        rtrim(str," \t\n]");
         std::stringstream ss(str);
         ss >> ret.left;
         ss.ignore(100,',');

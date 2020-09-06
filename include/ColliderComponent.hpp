@@ -23,7 +23,7 @@ namespace ge{
     private:
         void draw(sf::RenderTarget& t, sf::RenderStates s) const override;
     };
-    Component* parseCollider(std::istream& in);
+    Component* parseCollider(const std::string& in);
 }
 
 #endif

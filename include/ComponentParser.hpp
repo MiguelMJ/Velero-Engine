@@ -9,7 +9,7 @@
 
 namespace ge{
     namespace ComponentParser{
-        typedef Component* (*cparsefunc) (std::istream& in);
+        typedef Component* (*cparsefunc) (const std::string& in);
         Component* parse(std::istream& in);
         void registerComponent(const std::string& name, cparsefunc func);
     }

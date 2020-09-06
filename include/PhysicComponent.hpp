@@ -25,7 +25,7 @@ namespace ge{
         Component* copy() const override;
         void update(sf::Time delta) override;
     };
-    Component* parsePhysic(std::istream& in);
+    Component* parsePhysic(const std::string& in);
 }
 
 #endif

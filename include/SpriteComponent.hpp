@@ -17,7 +17,7 @@ namespace ge{
         sf::Texture* m_texture;
         std::string m_layer;
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-        friend Component* parseSprite(std::istream& in);
+        friend Component* parseSprite(const std::string& in);
     public:
         Sprite();
         ~Sprite();
@@ -33,7 +33,7 @@ namespace ge{
         Sprite& setTextureRect(sf::FloatRect rect);
         Sprite& setColor(sf::Color color);
     };
-    Component* parseSprite(std::istream& in);
+    Component* parseSprite(const std::string& in);
 }
 
 #endif

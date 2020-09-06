@@ -79,10 +79,8 @@ namespace ge{
                            tex_s.y
                     );
     }
-    Component* parseSprite(std::istream& in){
+    Component* parseSprite(const std::string& line){
         auto ret = new Sprite();
-        std::string line;
-        getline(in, line);
         auto dict = parseMap(line);
         bool fixedrect = false;
         bool fixedsize = false;

@@ -34,10 +34,8 @@ namespace ge{
     sf::FloatRect Collider::getGlobalBounds() const{
         return getLines(m_transformedPolygon).getBounds();
     }
-    Component* parseCollider(std::istream& in){
+    Component* parseCollider(const std::string& line){
         auto ret = new Collider;
-        std::string line;
-        getline(in, line);
         auto dict = parseMap(line);
         for(auto& kv : dict){
             if(kv.first == "point"){

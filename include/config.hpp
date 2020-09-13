@@ -9,11 +9,7 @@
 
 /** @mainpage Home
  * 
- * \htmlonly 
- *  <style> div.image img[src="logo_long.jpg"]{width:10cm;} </style>  
- * \endhtmlonly 
- * 
- * @image html logo_long.jpg
+ * @image html logotype.svg
  * # Introduction
  * This engine has a customized ECS architecture, adapted to the needs I have found learning how to program video games.
  * 

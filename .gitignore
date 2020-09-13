@@ -2,8 +2,7 @@
 logs/
 debug/
 release/
-docs/html
-docs/*odg
+doc/
 assets
 *tests/
 *.o

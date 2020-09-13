@@ -1,4 +1,4 @@
-<p align="center"><a href="https://codedocs.xyz/MiguelMJ/Velero-Engine/"><img src="docs/logo_long.jpg" alt="logo" title="Velero Engine" width=450></a></p>
+<p align="center"><a href="https://codedocs.xyz/MiguelMJ/Velero-Engine/"><img src="docs/logotype.svg" alt="logo" title="Velero Engine" width=450></a></p>
 
 ***
 

@@ -144,7 +144,7 @@ clean-debug:
 # Documentation rules
 # 
 
-DOXYFILE = docs/Doxyfile
+DOXYFILE = doc/Doxyfile
 	
 docs:
 	@doxygen $(DOXYFILE)

@@ -6,7 +6,7 @@
 #include "SFML/System/Vector2.hpp"
 #include "SFML/System/Time.hpp"
 
-#include "EntityComponent.hpp"
+#include "Component.hpp"
 #include "Updatable.hpp"
 
 namespace ge{

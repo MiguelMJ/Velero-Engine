@@ -8,7 +8,7 @@
 #include "vertexarray.hpp"
 #include "log.hpp"
 #include "Context.hpp"
-#include "EntityComponent.hpp"
+#include "Component.hpp"
 
 namespace ge{
     class Sprite: public Renderable, public Component{

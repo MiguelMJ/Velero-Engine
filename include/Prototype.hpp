@@ -12,7 +12,7 @@
 #include <vector>
 #include <memory>
 
-#include "EntityComponent.hpp"
+#include "Entity.hpp"
 #include "ComponentParser.hpp"
 #include "stringmanip.hpp"
 

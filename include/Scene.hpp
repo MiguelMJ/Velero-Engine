@@ -11,7 +11,7 @@
 #include <memory>
 #include <fstream>
 
-#include "EntityComponent.hpp"
+#include "Entity.hpp"
 #include "Prototype.hpp"
 
 namespace ge{

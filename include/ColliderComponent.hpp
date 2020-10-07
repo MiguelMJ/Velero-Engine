@@ -1,11 +1,10 @@
 #ifndef __COLLIDERCOMPONENT_HPP__
 #define __COLLIDERCOMPONENT_HPP__
 
-#include <istream>
-
 #include "SFML/Graphics/VertexArray.hpp"
 
-#include "EntityComponent.hpp"
+#include "Component.hpp"
+#include "Entity.hpp"
 #include "Renderable.hpp"
 #include "geometry.hpp"
 

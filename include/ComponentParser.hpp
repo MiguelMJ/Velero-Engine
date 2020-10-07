@@ -5,7 +5,7 @@
 #include <map>
 #include <string>
 #include "log.hpp"
-#include "EntityComponent.hpp"
+#include "Component.hpp"
 
 namespace ge{
     namespace ComponentParser{

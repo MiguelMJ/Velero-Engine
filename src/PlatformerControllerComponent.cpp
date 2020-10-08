@@ -1,0 +1,88 @@
+#include "PlatformerControllerComponent.hpp"
+
+#include "Entity.hpp"
+#include "Context.hpp"
+#include "PhysicComponent.hpp"
+#include "CollisionEvent.hpp"
+#include "AssetSystem.hpp"
+
+#include <map>
+
+namespace ge{
+    
+    void setSpeedY(Physic& ph, const float& f){
+        ph.m_velocity.y = f;
+    }
+    void setSpeedX(Physic& ph, const float& f){
+        ph.m_velocity.x = f;
+    }
+    
+    PlatformerController::PlatformerController(){
+        Component::m_eventsHandled.insert(typeid(CollisionEvent));
+    }
+    void PlatformerController::handle(const Event* ev, std::type_index, size_t){
+        isInAir = isInAir && ((CollisionEvent*)ev)->solution.y > 0;
+    }
+    sf::FloatRect PlatformerController::getGlobalBounds()const{
+        return getEntityPtr()->getTransform().transformRect(sf::FloatRect());
+    }
+    void PlatformerController::draw(sf::RenderTarget& t, sf::RenderStates s)const{
+        s.transform *= getEntityPtr()->getTransform();
+        sf::Text txt(isInAir?"AIR":"FLOOR", *M_AS::getFont( ));
+        t.draw(txt, s);
+    }
+    void PlatformerController::onActivate(){
+        M_LTS.addUpdatable(this);
+        M_RSD.getLayer("debug")->addRenderable(this);
+    }
+    void PlatformerController::onDeactivate(){
+        M_LTS.addUpdatable(this);
+        M_RSD.getLayer("debug")->removeRenderable(this);
+    }
+    void PlatformerController::update(sf::Time){
+        float moveSpeed = 10;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+            Effect<Physic, float> ef = {
+                -moveSpeed*3,
+                setSpeedY
+            };
+            getEntityPtr()->apply(ef);
+            isInAir = true;
+        }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+            Effect<Physic, float> ef = {
+                0,
+                setSpeedY
+            };
+            getEntityPtr()->apply(ef);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            Effect<Physic, float> ef = {
+                moveSpeed,
+                setSpeedX
+            };
+            getEntityPtr()->apply(ef);
+        }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            Effect<Physic, float> ef = {
+                -moveSpeed,
+                setSpeedX
+            };
+            getEntityPtr()->apply(ef);
+        }else{
+            Effect<Physic, float> ef = {
+                0,
+                setSpeedX
+            };
+            getEntityPtr()->apply(ef);
+        }
+    }
+    std::string PlatformerController::to_string() const{
+        return "";
+    }
+    Component* PlatformerController::copy() const{
+        return new PlatformerController();
+    }
+    Component* parsePlatformerController(const std::string&){
+        PlatformerController* pc = new PlatformerController;
+        return pc;
+    }
+}

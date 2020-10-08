@@ -3,6 +3,7 @@
 #include "SpriteComponent.hpp"
 #include "PhysicComponent.hpp"
 #include "ColliderComponent.hpp"
+#include "PlatformerControllerComponent.hpp"
 
 #include "fmt/core.h"
 using namespace ge;
@@ -12,6 +13,7 @@ int main(){
     ComponentParser::registerComponent("sprite", parseSprite);
     ComponentParser::registerComponent("physic", parsePhysic);
     ComponentParser::registerComponent("collider", parseCollider);
+    ComponentParser::registerComponent("platformer", parsePlatformerController);
     
     M_RSD.pushLayer("debug");
     M_RS.pushLayer("background");
@@ -22,6 +24,7 @@ int main(){
     
     M_AS::addPath("assets");
     M_AS::addPath("/home/miguel_mj/Programs/ASSETS/TEXTURES/");
+    M_AS::setDefaultFont("/home/miguel_mj/Programs/ASSETS/FONTS/Pixel Gosub.ttf");
     M_AS::loadRecursively("assets");
     
     auto ll = M_RS.pushLightingLayer("light");

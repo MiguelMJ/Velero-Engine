@@ -11,6 +11,7 @@
 
 #include "SFML/Graphics.hpp"
 
+#include "Effect.hpp"
 #include "EventListener.hpp"
 #include "EventSystem.hpp"
 
@@ -76,7 +77,29 @@ namespace ge{
         void notify(const T& event){
             notify(&event, typeid(T), -1);
         }
-        
+        /**
+         * @brief Applies an Effect to the entity.
+         * @tparam I Type of the information used by the effect.
+         * @param effect to be applied.
+         */
+        template<class I>
+        void apply(const Effect<Entity, I>& effect){
+            effect.fun(*this, effect.info);
+        }
+        /**
+         * 
+         */
+        template<class C, class I>
+        void apply(const Effect<C, I>& effect){
+            std::type_index t = typeid(C);
+            auto itcm = m_components.find(t);
+            if(itcm != m_components.end()){
+                while(itcm != m_components.end() && itcm->first == t){
+                    effect.fun(*((C*)itcm->second.get()), effect.info);
+                    itcm++;
+                }
+            }
+        }
         /**
          * @brief Add a component and set its _active_ flag.
          * @details A copy of the @p component is added. The active flag 

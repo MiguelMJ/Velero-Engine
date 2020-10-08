@@ -18,6 +18,7 @@ namespace ge{
         sf::Vector2f m_acceleration;
         float m_mass=1;
         bool m_gravity=true;
+        Physic();
         void onActivate() override;
         void onDeactivate() override;
         void handle(const Event* event, std::type_index type, size_t channel) override;

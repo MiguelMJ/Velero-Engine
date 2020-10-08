@@ -11,9 +11,12 @@
 namespace ge{
     class Collider : public Component, public Renderable{
     public:
+        bool m_solid = false;
         int m_priority = 0;
         Polygon m_basePolygon;
         Polygon m_transformedPolygon;
+        Collider();
+        void handle(const Event* event, std::type_index type, size_t channel) override;
         Component* copy() const override;
         void onActivate() override;
         void onDeactivate() override;

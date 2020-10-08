@@ -1,19 +1,31 @@
 #include "PhysicComponent.hpp"
-
+#include "CollisionEvent.hpp"
 #include "Context.hpp"
 #include "stringmanip.hpp"
 
 namespace ge{
     float Physic::s_meter(64);
     sf::Vector2f Physic::s_gravity(0,9.1);
+    Physic::Physic(){
+        Component::m_eventsHandled.insert(typeid(CollisionEvent));
+    }
     void Physic::onActivate(){
         M_LTS.addUpdatable(this);
     }
     void Physic::onDeactivate(){
         M_LTS.removeUpdatable(this);
     }
-    void Physic::handle(const Event*, std::type_index, size_t){
-        
+    void Physic::handle(const Event* ev, std::type_index type, size_t){
+        if(type == typeid(CollisionEvent)){
+            const CollisionEvent* cev = (const CollisionEvent*) ev;
+            Effect<Physic, float[3]> eff = {
+                {m_mass, m_velocity.x, m_velocity.y},
+                [&](Physic& ph, const float (&info)[3]){
+                    ph.m_acceleration += info[0] * sf::Vector2f(info[1],info[2]) / ph.m_mass;
+                }
+            };
+            cev->entity->apply(eff);
+        }
     }
     Component* Physic::copy() const{
         return new Physic(*this);

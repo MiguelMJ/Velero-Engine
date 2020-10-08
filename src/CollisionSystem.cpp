@@ -1,4 +1,5 @@
 #include "CollisionSystem.hpp"
+#include "CollisionEvent.hpp"
 
 namespace ge{
     // https://github.com/OneLoneCoder/olcPixelGameEngine/blob/master/Videos/OneLoneCoder_PGE_PolygonCollisions1.cpp
@@ -75,16 +76,28 @@ namespace ge{
                     c2->m_transformedPolygon,
                     solution)
                 ){
-                    LOG_F(INFO, "COLLISION! Solution: {{{},{}}}", solution.x, solution.y);
+                    // LOG_F(INFO, "COLLISION! Solution: {{{},{}}}", solution.x, solution.y);
                     int p1 = c1->m_priority, p2 = c2->m_priority;
-                    if(p1 < p2){
-                        c1->getEntityPtr()->move(solution);
-                    }else if(p2 < p1){
-                        c2->getEntityPtr()->move(-solution);
-                    }else{
-                        c1->getEntityPtr()->move(solution * 0.5f);
-                        c2->getEntityPtr()->move(solution * -0.5f);
+                    if(c1->m_solid && c2->m_solid){
+                        if(p1 < p2){
+                            c1->getEntityPtr()->move(solution);
+                        }else if(p2 < p1){
+                            c2->getEntityPtr()->move(-solution);
+                        }else{
+                            c1->getEntityPtr()->move(solution * 0.5f);
+                            c2->getEntityPtr()->move(solution * -0.5f);
+                        }
                     }
+                    CollisionEvent ev1, ev2;
+                    ev1.entity = c2->getEntityPtr();
+                    ev1.solution = solution;
+                    ev1.priority = p2;
+                    ev2.entity = c1->getEntityPtr();
+                    ev2.solution = -solution;
+                    ev2.priority = p1;
+                    
+                    c1->getEntityPtr()->notify(ev1);
+                    c2->getEntityPtr()->notify(ev2);
                 }
                 it2++;
             }

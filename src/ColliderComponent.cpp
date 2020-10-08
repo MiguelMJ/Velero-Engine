@@ -1,4 +1,6 @@
 #include "ColliderComponent.hpp"
+#include "CollisionEvent.hpp"
+#include "PhysicComponent.hpp"
 
 #include "fmt/core.h"
 
@@ -7,6 +9,21 @@
 #include "Context.hpp"
 
 namespace ge{
+    Collider::Collider(){
+        Component::m_eventsHandled.insert(typeid(CollisionEvent));
+    }
+    void Collider::handle(const ge::Event* e, std::type_index, size_t){
+        auto ce = (const CollisionEvent*) e;
+        if(ce->priority > m_priority && ce->solution.y < 0){
+            Effect<Physic,int> eff = {
+                0,
+                [&](Physic& ph, const int&){
+                    ph.m_velocity.y=0;
+                }
+            };
+            getEntityPtr()->apply(eff);
+        }
+    }
     Component* Collider::copy() const{
         return new Collider(*this);
     }
@@ -27,6 +44,7 @@ namespace ge{
             ss << fmt::format("; point = {{{},{}}}", p.x, p.y);
         }
         return ss.str();
+        return "NOT IMPLEMENTED";
     }
     void Collider::draw(sf::RenderTarget& t, sf::RenderStates s) const{
         t.draw(getLines(m_transformedPolygon, sf::Color::Cyan),s);
@@ -41,8 +59,10 @@ namespace ge{
             if(kv.first == "point"){
                 // DLOG_F(INFO"");
                 ret->m_basePolygon.push_back(parseVector2<float>(kv.second));
-            }else if(kv.first == "weight"){
+            }else if(kv.first == "priority"){
                 ret->m_priority = std::stoi(kv.second);
+            }else if(kv.first == "solid"){
+                ret->m_solid = kv.second == "on";
             }else{
                 LOG_F(WARNING, "Unrecognized key for Collider: {}", kv.first);
             }

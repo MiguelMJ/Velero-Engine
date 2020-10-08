@@ -20,7 +20,7 @@ namespace ge{
         }
     }
     void Entity::addComponentFromPtr(const Component* component, bool active){
-        std::type_index ct(typeid(component));
+        std::type_index ct(typeid(*component));
         Component* cptr = component->copy();
         cptr->m_ptrEntity = this;
         cptr->onAdd();

@@ -41,6 +41,7 @@ namespace ge{
         // "private" auxiliar
         std::map <std::string, std::string> assetNameCache; 
         std::string findAsset(const std::string& name){
+            if(name.empty()) return name;
             auto it = assetNameCache.find(name);
             if(it != assetNameCache.end()){
                 return it->second;
@@ -56,6 +57,7 @@ namespace ge{
                 }
             }
             LOG_F(ERROR, "Unable to locate asset: {}", name);
+            assetNameCache[name] = "";
             return name;
         }
         template<class T>
@@ -289,6 +291,8 @@ namespace ge{
             auto it = g_fonts.find(fp);
             if(it != g_fonts.end()){
                 return it->second.get();
+            }else if(!str.empty()){
+                return default_font;
             }else{
                 LOG_IF_F(ERROR, !str.empty(), "Font {} not loaded", str);
                 return default_font;

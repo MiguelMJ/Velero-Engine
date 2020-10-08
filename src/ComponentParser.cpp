@@ -11,7 +11,7 @@ namespace ge{
             }else{
                 char st;
                 in >> st >> std::ws;
-                CHECK_F(st == '{',"Expected {{");
+                CHECK_F(st == '{',"Expected {{, got {} for key {}", st, key);
             }
             if(key.empty()){
                 LOG_F(WARNING, "Empty component");

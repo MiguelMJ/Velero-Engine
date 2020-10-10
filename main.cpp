@@ -1,9 +1,8 @@
 #include "Context.hpp"
 
 #include "SpriteComponent.hpp"
-#include "PhysicComponent.hpp"
-#include "ColliderComponent.hpp"
 #include "PlatformerControllerComponent.hpp"
+#include "RigidBody.hpp"
 
 #include "fmt/core.h"
 using namespace ge;
@@ -11,9 +10,10 @@ using namespace ge;
 int main(){
     
     ComponentParser::registerComponent("sprite", parseSprite);
-    ComponentParser::registerComponent("physic", parsePhysic);
-    ComponentParser::registerComponent("collider", parseCollider);
+    // ComponentParser::registerComponent("physic", parsePhysic);
+    // ComponentParser::registerComponent("collider", parseCollider);
     ComponentParser::registerComponent("platformer", parsePlatformerController);
+    ComponentParser::registerComponent("body", parseRigidBody);
     
     M_RSD.pushLayer("debug");
     M_RS.pushLayer("background");

@@ -12,7 +12,7 @@ namespace ge{
     RenderSystem renderSystemD;
     TimeSystem logicTimeSystem;
     TimeSystem visualTimeSystem;
-    CollisionSystem collisionSystem;
+    b2World physicsSystem({0.0f,0.0f});
     
     void setNextScene(Scene* scene){
         g_ptrNextScene = scene;
@@ -21,6 +21,9 @@ namespace ge{
         return g_ptrCurrentScene;
     }
     void launch(){
+        physicsSystem.SetGravity({0.0, -10.0f});
+        int32 velocityIterations = 6;
+        int32 positionIterations = 2;
         while(window.isOpen()){
             sf::Time delta(clock.restart());
             sf::Event event;
@@ -37,11 +40,9 @@ namespace ge{
                 g_ptrCurrentScene->setActive(true);
             }
             
-            
+            physicsSystem.Step(delta.asSeconds(), velocityIterations, positionIterations);
             logicTimeSystem.update(delta);
             visualTimeSystem.update(delta);
-            
-            collisionSystem.solveCollisions();
             
             window.clear();
             renderSystem.draw(window);

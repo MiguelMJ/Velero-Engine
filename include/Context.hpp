@@ -4,12 +4,13 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/System.hpp"
 
+#include "box2d/b2_world.h"
+
 #include "RenderSystem.hpp"
 #include "AssetSystem.hpp"
 #include "TimeSystem.hpp"
 #include "EventSystem.hpp"
 #include "InputSystem.hpp"
-#include "CollisionSystem.hpp"
 #include "Scene.hpp"
 
 #define assetSystem AssetSystem
@@ -22,7 +23,7 @@
 #define M_IS ge::InputSystem
 #define M_LTS ge::logicTimeSystem
 #define M_VTS ge::visualTimeSystem
-#define M_CS ge::collisionSystem
+#define M_PS ge::physicsSystem
 
 namespace ge{
     void setNextScene(Scene* scene);
@@ -33,7 +34,7 @@ namespace ge{
     extern RenderSystem renderSystemD;
     extern TimeSystem logicTimeSystem;
     extern TimeSystem visualTimeSystem;
-    extern CollisionSystem collisionSystem;
+    extern b2World physicsSystem;
     extern sf::RenderWindow window;
 }
 

@@ -12,6 +12,7 @@ LINKDIRS =
 LDFLAGS = 
 LIBS =
 LINKAGE = $(LIBS) $(LDFLAGS)
+STATICLIBS =
 SRC_FILES = $(EXEC).cpp $(wildcard src/*.cpp)
 		
 OBJ = $(SRC_FILES:%.cpp=%.o)
@@ -60,6 +61,11 @@ CXXFLAGS += -DLOGURU_THREADNAME_WIDTH=0
 
 # SFML
 LIBS += -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system
+
+# BOX2D
+INCLUDES += -I${HOME}/src/box2d-2.4.0/include/
+LIBS += -lbox2d
+LINKDIRS += -L${HOME}/src/box2d-2.4.0/build/src/
 
 #
 # Custom output functions

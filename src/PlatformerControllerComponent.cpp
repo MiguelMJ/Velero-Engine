@@ -2,26 +2,17 @@
 
 #include "Entity.hpp"
 #include "Context.hpp"
-#include "PhysicComponent.hpp"
-#include "CollisionEvent.hpp"
 #include "AssetSystem.hpp"
 
 #include <map>
 
 namespace ge{
     
-    void setSpeedY(Physic& ph, const float& f){
-        ph.m_velocity.y = f;
-    }
-    void setSpeedX(Physic& ph, const float& f){
-        ph.m_velocity.x = f;
-    }
-    
     PlatformerController::PlatformerController(){
-        Component::m_eventsHandled.insert(typeid(CollisionEvent));
+        // Component::m_eventsHandled.insert(typeid(CollisionEvent));
     }
-    void PlatformerController::handle(const Event* ev, std::type_index, size_t){
-        isInAir = isInAir && ((CollisionEvent*)ev)->solution.y > 0;
+    void PlatformerController::handle(const Event* , std::type_index, size_t){
+        // isInAir = isInAir && ((CollisionEvent*)ev)->solution.y > 0;
     }
     sf::FloatRect PlatformerController::getGlobalBounds()const{
         return getEntityPtr()->getTransform().transformRect(sf::FloatRect());
@@ -39,7 +30,7 @@ namespace ge{
         M_LTS.addUpdatable(this);
         M_RSD.getLayer("debug")->removeRenderable(this);
     }
-    void PlatformerController::update(sf::Time){
+    void PlatformerController::update(sf::Time){/*
         float moveSpeed = 10;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             Effect<Physic, float> ef = {
@@ -74,7 +65,7 @@ namespace ge{
             };
             getEntityPtr()->apply(ef);
         }
-    }
+    */}
     std::string PlatformerController::to_string() const{
         return "";
     }

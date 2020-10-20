@@ -4,8 +4,8 @@
 #include <istream>
 #include <map>
 #include <string>
-#include "log.hpp"
-#include "Component.hpp"
+#include "VelEng/log.hpp"
+#include "VelEng/Component.hpp"
 
 namespace ge{
     namespace ComponentParser{

@@ -1,9 +1,9 @@
 #ifndef __PLATFORMERCONTROLLERCOMPONENT_HPP__
 #define __PLATFORMERCONTROLLERCOMPONENT_HPP__
 
-#include "Component.hpp"
-#include "Updatable.hpp"
-#include "Renderable.hpp"
+#include "VelEng/Component.hpp"
+#include "VelEng/Updatable.hpp"
+#include "VelEng/Renderable.hpp"
 
 namespace ge{
     class PlatformerController: public Component, public Updatable, public Renderable{

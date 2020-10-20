@@ -1,8 +1,8 @@
 #ifndef __COLLISIONEVENT_HPP__
 #define __COLLISIONEVENT_HPP__
 
-#include "Event.hpp"
-#include "Entity.hpp"   
+#include "VelEng/Event.hpp"
+#include "VelEng/Entity.hpp"   
 
 namespace ge{
     class CollisionEvent: public Event{

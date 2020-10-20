@@ -1,4 +1,4 @@
-#include "SpriteComponent.hpp"
+#include "VelEng/SpriteComponent.hpp"
 
 namespace ge{
     

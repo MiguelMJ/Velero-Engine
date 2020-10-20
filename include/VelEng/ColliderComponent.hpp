@@ -3,10 +3,10 @@
 
 #include "SFML/Graphics/VertexArray.hpp"
 
-#include "Component.hpp"
-#include "Entity.hpp"
-#include "Renderable.hpp"
-#include "geometry.hpp"
+#include "VelEng/Component.hpp"
+#include "VelEng/Entity.hpp"
+#include "VelEng/Renderable.hpp"
+#include "VelEng/geometry.hpp"
 
 namespace ge{
     class Collider : public Component, public Renderable{

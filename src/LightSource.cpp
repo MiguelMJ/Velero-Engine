@@ -1,4 +1,4 @@
-#include "LightSource.hpp"
+#include "VelEng/LightSource.hpp"
 
 namespace ge{
     

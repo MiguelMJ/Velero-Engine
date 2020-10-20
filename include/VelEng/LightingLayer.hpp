@@ -11,9 +11,9 @@
 
 #include <set>
 
-#include "vertexarray.hpp"
-#include "Layer.hpp"
-#include "LightSource.hpp"
+#include "VelEng/vertexarray.hpp"
+#include "VelEng/Layer.hpp"
+#include "VelEng/LightSource.hpp"
 
 namespace ge{
     /**

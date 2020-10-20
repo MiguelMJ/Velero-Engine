@@ -1,12 +1,12 @@
-#include "ColliderComponent.hpp"
-#include "CollisionEvent.hpp"
-#include "PhysicComponent.hpp"
+#include "VelEng/ColliderComponent.hpp"
+#include "VelEng/CollisionEvent.hpp"
+#include "VelEng/PhysicComponent.hpp"
 
 #include "fmt/core.h"
 
-#include "vertexarray.hpp"
-#include "stringmanip.hpp"
-#include "Context.hpp"
+#include "VelEng/vertexarray.hpp"
+#include "VelEng/stringmanip.hpp"
+#include "VelEng/Context.hpp"
 
 namespace ge{
     Collider::Collider(){

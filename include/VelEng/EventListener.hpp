@@ -13,7 +13,7 @@
 #include <string>
 #include <cstring> // size_t
 
-#include "Event.hpp"
+#include "VelEng/Event.hpp"
 
 namespace ge{
     /**

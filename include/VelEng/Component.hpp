@@ -11,7 +11,7 @@
 
 #include "SFML/Graphics.hpp"
 
-#include "Event.hpp"
+#include "VelEng/Event.hpp"
 #include <typeindex>
 #include <set>
 

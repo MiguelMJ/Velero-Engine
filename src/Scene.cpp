@@ -1,6 +1,6 @@
-#include "Scene.hpp"
+#include "VelEng/Scene.hpp"
 
-#include "AssetSystem.hpp"
+#include "VelEng/AssetSystem.hpp"
 
 namespace ge{
     Entity* Scene::addEntity(Prototype* prototype, bool active, const std::string& name){

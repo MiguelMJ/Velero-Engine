@@ -10,7 +10,7 @@
 #include "SFML/System/Vector2.hpp"
 #include "SFML/Graphics/Rect.hpp"
 
-#include "log.hpp"
+#include "VelEng/log.hpp"
 
 namespace ge{ 
     void toLower(std::string& str);

@@ -11,8 +11,8 @@
 #include <memory>
 #include <fstream>
 
-#include "Entity.hpp"
-#include "Prototype.hpp"
+#include "VelEng/Entity.hpp"
+#include "VelEng/Prototype.hpp"
 
 namespace ge{
     typedef std::pair<unsigned long, std::unique_ptr<Entity> > identitypair;

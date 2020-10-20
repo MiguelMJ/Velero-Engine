@@ -8,7 +8,7 @@
 #define __INPUTSYSTEM_HPP__
 
 #include "SFML/Window/Event.hpp"
-#include "InputListener.hpp"
+#include "VelEng/InputListener.hpp"
 
 namespace ge{
     /**

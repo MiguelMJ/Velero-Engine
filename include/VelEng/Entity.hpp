@@ -11,12 +11,12 @@
 
 #include "SFML/Graphics.hpp"
 
-#include "Effect.hpp"
-#include "EventListener.hpp"
-#include "EventSystem.hpp"
+#include "VelEng/Effect.hpp"
+#include "VelEng/EventListener.hpp"
+#include "VelEng/EventSystem.hpp"
 
 #include <map>
-#include "Component.hpp"
+#include "VelEng/Component.hpp"
 
 namespace ge{
     typedef std::pair < std::type_index , std::unique_ptr<Component> > typecomppair;

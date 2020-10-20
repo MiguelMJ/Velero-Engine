@@ -4,13 +4,13 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/System.hpp"
 
-#include "RenderSystem.hpp"
-#include "AssetSystem.hpp"
-#include "TimeSystem.hpp"
-#include "EventSystem.hpp"
-#include "InputSystem.hpp"
-#include "CollisionSystem.hpp"
-#include "Scene.hpp"
+#include "VelEng/RenderSystem.hpp"
+#include "VelEng/AssetSystem.hpp"
+#include "VelEng/TimeSystem.hpp"
+#include "VelEng/EventSystem.hpp"
+#include "VelEng/InputSystem.hpp"
+#include "VelEng/CollisionSystem.hpp"
+#include "VelEng/Scene.hpp"
 
 #define assetSystem AssetSystem
 #define eventSystem EventSystem

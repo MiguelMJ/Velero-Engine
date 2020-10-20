@@ -12,9 +12,9 @@
 #include <vector>
 #include <memory>
 
-#include "Entity.hpp"
-#include "ComponentParser.hpp"
-#include "stringmanip.hpp"
+#include "VelEng/Entity.hpp"
+#include "VelEng/ComponentParser.hpp"
+#include "VelEng/stringmanip.hpp"
 
 namespace ge{
     /**

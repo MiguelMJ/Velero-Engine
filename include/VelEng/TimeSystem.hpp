@@ -11,8 +11,8 @@
 
 #include "SFML/System/Time.hpp"
 
-#include "TimeSystem.hpp"
-#include "Updatable.hpp"
+#include "VelEng/TimeSystem.hpp"
+#include "VelEng/Updatable.hpp"
 namespace ge{
     /**
      * @brief System to update the state of objects affected by time.

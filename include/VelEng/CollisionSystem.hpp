@@ -3,7 +3,7 @@
 
 #include <set>
 
-#include "ColliderComponent.hpp"
+#include "VelEng/ColliderComponent.hpp"
 
 namespace ge{
     class CollisionSystem{

@@ -13,8 +13,8 @@
 
 #include "SFML/Graphics.hpp"
 
-#include "Renderable.hpp"
-#include "geometry.hpp"
+#include "VelEng/Renderable.hpp"
+#include "VelEng/geometry.hpp"
 
 namespace ge{
     /**

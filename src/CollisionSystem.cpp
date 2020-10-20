@@ -1,5 +1,5 @@
-#include "CollisionSystem.hpp"
-#include "CollisionEvent.hpp"
+#include "VelEng/CollisionSystem.hpp"
+#include "VelEng/CollisionEvent.hpp"
 
 namespace ge{
     // https://github.com/OneLoneCoder/olcPixelGameEngine/blob/master/Videos/OneLoneCoder_PGE_PolygonCollisions1.cpp

@@ -9,8 +9,8 @@
 
 #include <set>
 
-#include "Layer.hpp"
-#include "log.hpp"
+#include "VelEng/Layer.hpp"
+#include "VelEng/log.hpp"
 
 namespace ge{
     /**

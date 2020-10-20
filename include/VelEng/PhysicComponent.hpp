@@ -6,8 +6,8 @@
 #include "SFML/System/Vector2.hpp"
 #include "SFML/System/Time.hpp"
 
-#include "Component.hpp"
-#include "Updatable.hpp"
+#include "VelEng/Component.hpp"
+#include "VelEng/Updatable.hpp"
 
 namespace ge{
     class Physic: public Updatable, public Component{

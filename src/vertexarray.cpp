@@ -1,6 +1,6 @@
-#include "vertexarray.hpp"
+#include "VelEng/vertexarray.hpp"
 
-#include "log.hpp"
+#include "VelEng/log.hpp"
 #include "fmt/ranges.h"
 
 namespace ge{

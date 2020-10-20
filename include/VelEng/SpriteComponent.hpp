@@ -5,10 +5,10 @@
 
 #include "SFML/Graphics.hpp"
 
-#include "vertexarray.hpp"
-#include "log.hpp"
-#include "Context.hpp"
-#include "Component.hpp"
+#include "VelEng/vertexarray.hpp"
+#include "VelEng/log.hpp"
+#include "VelEng/Context.hpp"
+#include "VelEng/Component.hpp"
 
 namespace ge{
     class Sprite: public Renderable, public Component{

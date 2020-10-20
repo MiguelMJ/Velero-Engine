@@ -1,4 +1,4 @@
-#include "ComponentParser.hpp"
+#include "VelEng/ComponentParser.hpp"
 
 namespace ge{
     namespace ComponentParser{

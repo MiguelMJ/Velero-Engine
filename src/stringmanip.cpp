@@ -1,4 +1,4 @@
-#include "stringmanip.hpp"
+#include "VelEng/stringmanip.hpp"
 
 namespace ge{
     void toLower(std::string& str){

@@ -21,11 +21,11 @@
 #include <exception>
 #include <memory>
 
-#include "log.hpp"
-#include "stringmanip.hpp"
+#include "VelEng/log.hpp"
+#include "VelEng/stringmanip.hpp"
 
-#include "Prototype.hpp"
-#include "Scene.hpp"
+#include "VelEng/Prototype.hpp"
+#include "VelEng/Scene.hpp"
 
 namespace ge{
     /**

@@ -1,4 +1,4 @@
-#include "Component.hpp"
+#include "VelEng/Component.hpp"
 
 namespace ge{
     void Component::setActive(bool a){

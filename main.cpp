@@ -1,9 +1,9 @@
-#include "Context.hpp"
+#include "VelEng/Context.hpp"
 
-#include "SpriteComponent.hpp"
-#include "PhysicComponent.hpp"
-#include "ColliderComponent.hpp"
-#include "PlatformerControllerComponent.hpp"
+#include "VelEng/SpriteComponent.hpp"
+#include "VelEng/PhysicComponent.hpp"
+#include "VelEng/ColliderComponent.hpp"
+#include "VelEng/PlatformerControllerComponent.hpp"
 
 #include "fmt/core.h"
 using namespace ge;

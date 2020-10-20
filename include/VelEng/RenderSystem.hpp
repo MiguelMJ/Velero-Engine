@@ -14,9 +14,9 @@
 
 #include "SFML/Graphics.hpp"
 
-#include "DynamicLayer.hpp"
-#include "StaticLayer.hpp"
-#include "LightingLayer.hpp"
+#include "VelEng/DynamicLayer.hpp"
+#include "VelEng/StaticLayer.hpp"
+#include "VelEng/LightingLayer.hpp"
 
 namespace ge{
     /**

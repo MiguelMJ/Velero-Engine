@@ -3,7 +3,7 @@
 
 #include "SFML/Graphics.hpp"
 
-#include "geometry.hpp"
+#include "VelEng/geometry.hpp"
 
 namespace ge{
     sf::VertexArray getLines(const Polygon& poly, sf::Color c=sf::Color::White);

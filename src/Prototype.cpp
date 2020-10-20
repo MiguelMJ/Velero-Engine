@@ -1,4 +1,4 @@
-#include "Prototype.hpp"
+#include "VelEng/Prototype.hpp"
 
 namespace ge{
     Entity* Prototype::generate(unsigned long id, std::string name, bool active){

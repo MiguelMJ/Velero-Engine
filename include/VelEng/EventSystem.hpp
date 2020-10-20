@@ -15,9 +15,9 @@
 #include <queue>
 #include <utility>
 
-#include "log.hpp"
-#include "Event.hpp"
-#include "EventListener.hpp"
+#include "VelEng/log.hpp"
+#include "VelEng/Event.hpp"
+#include "VelEng/EventListener.hpp"
 
 namespace ge{
     // The  only reason I dont use unique_ptr is because 

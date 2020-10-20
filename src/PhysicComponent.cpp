@@ -1,7 +1,7 @@
-#include "PhysicComponent.hpp"
-#include "CollisionEvent.hpp"
-#include "Context.hpp"
-#include "stringmanip.hpp"
+#include "VelEng/PhysicComponent.hpp"
+#include "VelEng/CollisionEvent.hpp"
+#include "VelEng/Context.hpp"
+#include "VelEng/stringmanip.hpp"
 
 namespace ge{
     float Physic::s_meter(64);

@@ -1,4 +1,4 @@
-#include "Entity.hpp"
+#include "VelEng/Entity.hpp"
 
 namespace ge{
     Entity::Entity(unsigned long id, std::string name, bool active)

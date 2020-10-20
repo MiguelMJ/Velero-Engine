@@ -1,4 +1,4 @@
-#include "DynamicLayer.hpp"
+#include "VelEng/DynamicLayer.hpp"
 
 namespace ge{
     void DynamicLayer::draw (sf::RenderTarget& t, sf::RenderStates s) const {

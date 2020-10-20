@@ -1,6 +1,6 @@
 #include "VelEng/LightSource.hpp"
 
-namespace ge{
+namespace ven{
     
     bool l_firstConstructor(true);
     sf::Texture l_lightTexture;
@@ -73,13 +73,13 @@ namespace ge{
         m_glow = g;
     }
     void LightSource::castLight(){
-        auto bounds = ge::segments(Transformable::getTransform().transformRect(m_bounds));
+        auto bounds = ven::segments(Transformable::getTransform().transformRect(m_bounds));
         auto castRay = [&] (Ray r) -> sf::Vector2f {
             sf::Vector2f ret(r.origin);   
             float minRange = std::numeric_limits<float>::infinity();
             if(m_ptrSegmentPool != nullptr){
                 for(auto& seg : *m_ptrSegmentPool){
-                    auto t = ge::intersection(r, ge::make_ray(seg));
+                    auto t = ven::intersection(r, ven::make_ray(seg));
                     if(t.first > 0 && t.first < minRange && 
                         t.second >= 0 && t.second <= 1){
                         minRange = t.first;
@@ -88,7 +88,7 @@ namespace ge{
                 }
             }
             for(auto& seg : bounds){
-                auto t = ge::intersection(r, ge::make_ray(seg));
+                auto t = ven::intersection(r, ven::make_ray(seg));
                 if(t.first > 0 && t.first < minRange && 
                     t.second >= 0 && t.second <= 1){
                     minRange = t.first;

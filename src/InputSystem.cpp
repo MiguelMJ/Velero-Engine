@@ -3,7 +3,7 @@
 #include <map>
 #include <set>
 
-namespace ge{
+namespace ven{
     namespace InputSystem{
         std::map<sf::Event::EventType, std::set<InputListener*> > g_listeners;
         void subscribe(sf::Event::EventType type, InputListener* listener){

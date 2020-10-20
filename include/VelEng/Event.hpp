@@ -7,7 +7,7 @@
 #ifndef __EVENT_HPP__
 #define __EVENT_HPP__
 
-namespace ge{
+namespace ven{
     /**
      * @brief Interface to allow handling and polymorphic storage of 
      * in-game events.

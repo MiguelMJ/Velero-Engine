@@ -1,7 +1,7 @@
 #include "VelEng/EventSystem.hpp"
 
-using namespace ge::EventSystem::_private_;
-namespace ge{
+using namespace ven::EventSystem::_private_;
+namespace ven{
     namespace EventSystem{
         namespace _private_{
             std::vector<channel> g_channels;

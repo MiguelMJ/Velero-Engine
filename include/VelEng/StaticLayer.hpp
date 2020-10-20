@@ -16,7 +16,7 @@
 #include "VelEng/DynamicLayer.hpp"
 #include "VelEng/LightingLayer.hpp"
 
-namespace ge{
+namespace ven{
     /**
      * @brief Layer that doesn't allow changes.
      * @details This layer buffers the renderables added to it, and 

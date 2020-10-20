@@ -1,6 +1,6 @@
 #include "VelEng/Entity.hpp"
 
-namespace ge{
+namespace ven{
     Entity::Entity(unsigned long id, std::string name, bool active)
         : m_id(id)
         , m_name(name)
@@ -51,7 +51,7 @@ namespace ge{
                 this->m_subscribeCount[chid]--;
                 if(this->m_subscribeCount[chid] <= 0){
                     this->EventListener::m_channels.erase(ch);
-                    ge::EventSystem::unsubscribe(chid, this);
+                    ven::EventSystem::unsubscribe(chid, this);
                 }
             }
             itcm->second->onRemove();

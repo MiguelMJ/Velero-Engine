@@ -1,6 +1,6 @@
 #include "VelEng/Component.hpp"
 
-namespace ge{
+namespace ven{
     void Component::setActive(bool a){
         if(a && !m_active){
             m_active = true;

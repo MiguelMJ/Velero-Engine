@@ -10,7 +10,7 @@
 #include "SFML/Window/Event.hpp"
 #include "VelEng/InputListener.hpp"
 
-namespace ge{
+namespace ven{
     /**
      * @brief System for objects to listen to user input.
      */

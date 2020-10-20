@@ -1,6 +1,6 @@
 #include "VelEng/TimeSystem.hpp"
 
-namespace ge{
+namespace ven{
     void TimeSystem::addUpdatable(Updatable* updatable){
         m_updatables.insert(updatable);
     }

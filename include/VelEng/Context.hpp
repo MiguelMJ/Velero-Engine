@@ -15,16 +15,16 @@
 #define assetSystem AssetSystem
 #define eventSystem EventSystem
 
-#define M_RS ge::renderSystem
-#define M_RSD ge::renderSystemD
-#define M_AS ge::AssetSystem
-#define M_ES ge::EventSystem
-#define M_IS ge::InputSystem
-#define M_LTS ge::logicTimeSystem
-#define M_VTS ge::visualTimeSystem
-#define M_CS ge::collisionSystem
+#define M_RS ven::renderSystem
+#define M_RSD ven::renderSystemD
+#define M_AS ven::AssetSystem
+#define M_ES ven::EventSystem
+#define M_IS ven::InputSystem
+#define M_LTS ven::logicTimeSystem
+#define M_VTS ven::visualTimeSystem
+#define M_CS ven::collisionSystem
 
-namespace ge{
+namespace ven{
     void setNextScene(Scene* scene);
     Scene* getCurrentScene();
     void launch();

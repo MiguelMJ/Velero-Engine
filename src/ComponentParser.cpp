@@ -1,6 +1,6 @@
 #include "VelEng/ComponentParser.hpp"
 
-namespace ge{
+namespace ven{
     namespace ComponentParser{
         std::map<std::string, cparsefunc> g_parserIndex;
         Component* parse(std::istream& in){

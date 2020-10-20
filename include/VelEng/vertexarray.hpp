@@ -5,7 +5,7 @@
 
 #include "VelEng/geometry.hpp"
 
-namespace ge{
+namespace ven{
     sf::VertexArray getLines(const Polygon& poly, sf::Color c=sf::Color::White);
     sf::VertexArray getLines(sf::FloatRect rect, sf::Color c=sf::Color::White);
     sf::VertexArray getQuad(sf::FloatRect rect, sf::Color c=sf::Color::White);

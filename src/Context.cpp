@@ -1,6 +1,6 @@
 #include "VelEng/Context.hpp"
 
-namespace ge{
+namespace ven{
     
     Scene g_defaultScene;
     Scene *g_ptrCurrentScene = &g_defaultScene;

@@ -15,7 +15,7 @@
 #include "VelEng/Layer.hpp"
 #include "VelEng/LightSource.hpp"
 
-namespace ge{
+namespace ven{
     /**
      * @brief %Layer for [light sources](@ref LightSource).
      * @details This kind of layer is not meant to be used with regular 

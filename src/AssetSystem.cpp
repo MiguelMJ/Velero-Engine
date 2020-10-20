@@ -2,7 +2,7 @@
 
 using namespace cppfs;
 
-namespace ge{
+namespace ven{
     namespace AssetSystem{
         std::vector<std::string> g_path = {"."};
         std::map<std::string, std::unique_ptr<sf::Texture> > g_textures;
@@ -105,7 +105,7 @@ namespace ge{
                 return AssetType::UNRECOGNIZED;
             }
             std::string extension = str.substr(ppos);
-            ge::toLower(extension);
+            ven::toLower(extension);
             auto it2 = formats.find(extension);
             if(it2 == formats.end()){
                 LOG_F(ERROR,"Unrecognized extension \"{}\"",extension);

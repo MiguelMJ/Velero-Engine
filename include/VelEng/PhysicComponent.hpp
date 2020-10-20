@@ -9,7 +9,7 @@
 #include "VelEng/Component.hpp"
 #include "VelEng/Updatable.hpp"
 
-namespace ge{
+namespace ven{
     class Physic: public Updatable, public Component{
     public:
         static sf::Vector2f s_gravity;

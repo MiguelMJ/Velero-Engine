@@ -12,7 +12,7 @@
 
 #include "VelEng/log.hpp"
 
-namespace ge{ 
+namespace ven{ 
     void toLower(std::string& str);
     void ltrim(std::string& str, std::string totrim=" \t\n");
     void rtrim(std::string& str, std::string totrim=" \t\n");

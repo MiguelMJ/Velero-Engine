@@ -6,7 +6,7 @@
 #include "VelEng/PlatformerControllerComponent.hpp"
 
 #include "fmt/core.h"
-using namespace ge;
+using namespace ven;
 
 int main(){
     
@@ -30,12 +30,12 @@ int main(){
     auto ll = M_RS.pushLightingLayer("light");
     ll->setFogOpacity(0);
     
-    ge::window.create(sf::VideoMode(500,500), "app");
-    ge::window.setFramerateLimit(60);
+    ven::window.create(sf::VideoMode(500,500), "app");
+    ven::window.setFramerateLimit(60);
     
     // user code here
     auto s = M_AS::getScene("level0.scene");
-    ge::setNextScene(s);
+    ven::setNextScene(s);
     
     launch();
     return 0;

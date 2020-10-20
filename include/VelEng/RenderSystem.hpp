@@ -18,7 +18,7 @@
 #include "VelEng/StaticLayer.hpp"
 #include "VelEng/LightingLayer.hpp"
 
-namespace ge{
+namespace ven{
     /**
      * @brief System to group [layers](@ref Layer), manage and render 
      * them.

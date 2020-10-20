@@ -1,7 +1,7 @@
 #include "VelEng/CollisionSystem.hpp"
 #include "VelEng/CollisionEvent.hpp"
 
-namespace ge{
+namespace ven{
     // https://github.com/OneLoneCoder/olcPixelGameEngine/blob/master/Videos/OneLoneCoder_PGE_PolygonCollisions1.cpp
     bool separatedAxisTheoremCollision(const Polygon& r1, const Polygon& r2, sf::Vector2f& solution){
         const Polygon *poly1 = &r1;

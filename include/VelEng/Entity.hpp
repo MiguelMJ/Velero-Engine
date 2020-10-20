@@ -18,7 +18,7 @@
 #include <map>
 #include "VelEng/Component.hpp"
 
-namespace ge{
+namespace ven{
     typedef std::pair < std::type_index , std::unique_ptr<Component> > typecomppair;
     
     /**

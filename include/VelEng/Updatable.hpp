@@ -9,7 +9,7 @@
 
 #include "SFML/System/Time.hpp"
 
-namespace ge{
+namespace ven{
     /**
      * @brief Abstract base class for objects managed by 
      * [time systems](@ref TimeSystem)

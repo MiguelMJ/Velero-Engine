@@ -8,7 +8,7 @@
 
 #include <map>
 
-namespace ge{
+namespace ven{
     
     void setSpeedY(Physic& ph, const float& f){
         ph.m_velocity.y = f;

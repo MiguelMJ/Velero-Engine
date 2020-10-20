@@ -1,6 +1,6 @@
 #include "VelEng/random.hpp"
 
-namespace ge{
+namespace ven{
     // https://github.com/OneLoneCoder/olcPixelGameEngine/blob/master/Videos/OneLoneCoder_PGE_ProcGen_Universe.cpp
     // lines 168 - 192
     uint32_t nProcGen = 0;

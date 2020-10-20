@@ -15,7 +15,7 @@
 
 #include "VelEng/Event.hpp"
 
-namespace ge{
+namespace ven{
     /**
      * @brief Abstract base class for objects that use the 
      * [event system](@ref EventSystem).

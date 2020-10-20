@@ -2,7 +2,7 @@
 
 #include "VelEng/AssetSystem.hpp"
 
-namespace ge{
+namespace ven{
     Entity* Scene::addEntity(Prototype* prototype, bool active, const std::string& name){
         auto e = prototype->generate(m_nextID, name, active && m_active);
         m_entities.insert(identitypair(m_nextID, std::unique_ptr<Entity>(e)));

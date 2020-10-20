@@ -5,7 +5,7 @@
 
 #include "VelEng/ColliderComponent.hpp"
 
-namespace ge{
+namespace ven{
     class CollisionSystem{
     private:
         std::set<Collider*> m_colliders;

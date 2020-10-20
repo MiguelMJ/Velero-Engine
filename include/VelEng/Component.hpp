@@ -15,7 +15,7 @@
 #include <typeindex>
 #include <set>
 
-namespace ge{
+namespace ven{
     typedef std::pair<std::type_index, std::type_index> typepair;
     class Entity; // fw declaration
     

@@ -10,7 +10,7 @@
 #include "VelEng/Context.hpp"
 #include "VelEng/Component.hpp"
 
-namespace ge{
+namespace ven{
     class Sprite: public Renderable, public Component{
     private:
         sf::VertexArray m_quad;

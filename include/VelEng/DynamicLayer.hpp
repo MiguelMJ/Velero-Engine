@@ -12,7 +12,7 @@
 #include "VelEng/Layer.hpp"
 #include "VelEng/log.hpp"
 
-namespace ge{
+namespace ven{
     /**
      * @brief %Layer that allows changes in it.
      */

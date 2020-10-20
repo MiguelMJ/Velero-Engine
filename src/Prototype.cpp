@@ -1,6 +1,6 @@
 #include "VelEng/Prototype.hpp"
 
-namespace ge{
+namespace ven{
     Entity* Prototype::generate(unsigned long id, std::string name, bool active){
         Entity* e;
         if (name.empty()) name = fmt::format("{}{:0>3}",m_name,m_generated);

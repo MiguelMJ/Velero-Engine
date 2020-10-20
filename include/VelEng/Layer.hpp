@@ -11,7 +11,7 @@
 
 #include "VelEng/Renderable.hpp"
 
-namespace ge{
+namespace ven{
     /**
      * @brief Abstract base class for containers of 
      * [renderables](@ref Renderable) for the

@@ -27,7 +27,7 @@
 #include "VelEng/Prototype.hpp"
 #include "VelEng/Scene.hpp"
 
-namespace ge{
+namespace ven{
     /**
      * @brief Different types of assets managed by the engine.
      */

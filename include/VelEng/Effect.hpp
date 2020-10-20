@@ -1,7 +1,7 @@
 #ifndef _VELERO_EFFECT_HPP_
 #define _VELERO_EFFECT_HPP_
 
-namespace ge{
+namespace ven{
     template <class T, class U>
     class Effect{
     public:

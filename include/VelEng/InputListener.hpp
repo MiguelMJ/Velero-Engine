@@ -5,7 +5,7 @@
 
 #include "SFML/Window/Event.hpp"
 
-namespace ge{
+namespace ven{
     class InputListener{
     public:
         virtual void notify(sf::Event) = 0;

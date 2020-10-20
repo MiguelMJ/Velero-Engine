@@ -13,7 +13,7 @@
 
 #include "VelEng/TimeSystem.hpp"
 #include "VelEng/Updatable.hpp"
-namespace ge{
+namespace ven{
     /**
      * @brief System to update the state of objects affected by time.
      */

@@ -14,7 +14,7 @@
 #include "VelEng/Entity.hpp"
 #include "VelEng/Prototype.hpp"
 
-namespace ge{
+namespace ven{
     typedef std::pair<unsigned long, std::unique_ptr<Entity> > identitypair;
     typedef std::map<unsigned long, std::unique_ptr<Entity> >::iterator iterator;
     typedef std::map<unsigned long, std::unique_ptr<Entity> >::const_iterator const_iterator;

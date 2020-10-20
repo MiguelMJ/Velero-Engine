@@ -1,6 +1,6 @@
 #include "VelEng/StaticLayer.hpp"
 
-namespace ge{
+namespace ven{
     StaticLayer::StaticLayer()
     : m_quad(sf::Quads, 4)
     {

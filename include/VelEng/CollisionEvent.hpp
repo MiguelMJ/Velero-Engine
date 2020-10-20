@@ -4,7 +4,7 @@
 #include "VelEng/Event.hpp"
 #include "VelEng/Entity.hpp"   
 
-namespace ge{
+namespace ven{
     class CollisionEvent: public Event{
     public:
         Entity* entity;

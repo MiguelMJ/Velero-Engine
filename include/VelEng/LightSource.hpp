@@ -16,7 +16,7 @@
 #include "VelEng/Renderable.hpp"
 #include "VelEng/geometry.hpp"
 
-namespace ge{
+namespace ven{
     /**
      * @brief Object that emits light within a 
      * [lighting layer](@ref LightingLayer).

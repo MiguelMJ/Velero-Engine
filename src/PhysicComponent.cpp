@@ -3,7 +3,7 @@
 #include "VelEng/Context.hpp"
 #include "VelEng/stringmanip.hpp"
 
-namespace ge{
+namespace ven{
     float Physic::s_meter(64);
     sf::Vector2f Physic::s_gravity(0,9.1);
     Physic::Physic(){

@@ -7,7 +7,7 @@
 #include "VelEng/log.hpp"
 #include "VelEng/Component.hpp"
 
-namespace ge{
+namespace ven{
     namespace ComponentParser{
         typedef Component* (*cparsefunc) (const std::string& in);
         Component* parse(std::istream& in);

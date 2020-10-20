@@ -1,6 +1,6 @@
 #include "VelEng/SpriteComponent.hpp"
 
-namespace ge{
+namespace ven{
     
     Sprite::Sprite(){
         m_quad.resize(4);
@@ -38,9 +38,9 @@ namespace ge{
         sf::FloatRect r(0,0,s.x,s.y);
         m_quad = getQuad(r);
         if(rect.width == 0 && rect.height == 0){
-            ge::setTextureRect(m_quad, r);
+            ven::setTextureRect(m_quad, r);
         }else{
-            ge::setTextureRect(m_quad, rect);
+            ven::setTextureRect(m_quad, rect);
         }
         return *this;
     }
@@ -48,7 +48,7 @@ namespace ge{
         auto r2 = rect;
         r2.top=  r2.left = 0;
         m_quad = getQuad(r2);
-        ge::setTextureRect(m_quad, rect);
+        ven::setTextureRect(m_quad, rect);
         return *this;
     }
     Component* Sprite::copy() const{

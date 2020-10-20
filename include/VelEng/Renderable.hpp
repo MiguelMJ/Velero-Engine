@@ -10,7 +10,7 @@
 
 #include "SFML/Graphics.hpp"
 
-namespace ge{
+namespace ven{
     /**
      * @brief Abstract base class for objects that  can be drawn in the [render system](@ref RenderSystem).
      * @details This class extends 

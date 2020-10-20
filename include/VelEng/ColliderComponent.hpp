@@ -8,7 +8,7 @@
 #include "VelEng/Renderable.hpp"
 #include "VelEng/geometry.hpp"
 
-namespace ge{
+namespace ven{
     class Collider : public Component, public Renderable{
     public:
         bool m_solid = false;

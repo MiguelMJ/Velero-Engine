@@ -19,7 +19,7 @@
 #include "VelEng/Event.hpp"
 #include "VelEng/EventListener.hpp"
 
-namespace ge{
+namespace ven{
     // The  only reason I dont use unique_ptr is because 
     // it makes every container uncopiable, and the channels
     // can't be created that way

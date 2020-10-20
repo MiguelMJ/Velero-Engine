@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-namespace ge{
+namespace ven{
     /**
      * @brief Generate a random double between two values.
      * @param min Minimum value, included.

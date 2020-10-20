@@ -9,7 +9,7 @@
 #include "SFML/Graphics/Rect.hpp"
 #include "SFML/Graphics/Transform.hpp"
 
-namespace ge{      
+namespace ven{      
     static const float PI = 3.14159265f;
     static const float PI2 = PI*2;
     

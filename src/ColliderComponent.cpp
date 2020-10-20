@@ -8,11 +8,11 @@
 #include "VelEng/stringmanip.hpp"
 #include "VelEng/Context.hpp"
 
-namespace ge{
+namespace ven{
     Collider::Collider(){
         Component::m_eventsHandled.insert(typeid(CollisionEvent));
     }
-    void Collider::handle(const ge::Event* e, std::type_index, size_t){
+    void Collider::handle(const ven::Event* e, std::type_index, size_t){
         auto ce = (const CollisionEvent*) e;
         if(ce->priority > m_priority && ce->solution.y < 0){
             Effect<Physic,int> eff = {

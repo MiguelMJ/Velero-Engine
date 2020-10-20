@@ -16,7 +16,7 @@
 #include "VelEng/ComponentParser.hpp"
 #include "VelEng/stringmanip.hpp"
 
-namespace ge{
+namespace ven{
     /**
      * @brief Blueprint of an [entity](@ref Entity).
      */

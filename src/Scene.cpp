@@ -48,8 +48,8 @@ namespace ven{
                 ok.Offset());
         for(auto& prototype: json.GetArray()){
             Prototype *prot;
-            float x = DOMget<float>(prototype,"y",0);
-            float y = DOMget<float>(prototype,"x",0);
+            float x = DOMget<float>(prototype,"x",0);
+            float y = DOMget<float>(prototype,"y",0);
             bool expl = DOMget<bool>(prototype,"explicit",false);
             std::string name = DOMget<std::string>(prototype, "name","");
             if(expl){

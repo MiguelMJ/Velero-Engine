@@ -5,19 +5,6 @@
 #include "VelEng/Serialize/Parser.hpp"
 
 namespace ven{
-    /*
-     * struct GameConfig{
-        std::string title;
-        int width;
-        int height;
-        bool fullscreen;
-        std::vector<std::string> path;
-        std::vector<std::string> layers;
-        std::string errlog;
-        std::string infolog;
-        bool splashscreen;
-    };
-    */
     template<>
     GameConfig parseDOM<GameConfig>(const JSON& json){
         GameConfig config;
@@ -30,6 +17,7 @@ namespace ven{
         config.errlog = DOMget<std::string>(json, "errlog","");
         config.infolog = DOMget<std::string>(json, "infolog","");
         config.splashscreen = DOMget<bool>(json, "splashscreen",true);
+        config.stderr = DOMget<bool>(json, "stderr",true);
         config.debugrender = DOMget<bool>(json, "debugrender",false);
         config.entry = DOMget<std::string>(json, "entry");
         return config;

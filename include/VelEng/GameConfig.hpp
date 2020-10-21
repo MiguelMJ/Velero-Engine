@@ -17,6 +17,7 @@ namespace ven{
         std::string infolog;
         std::string entry;
         bool splashscreen;
+        bool stderr;
     };
 }
 

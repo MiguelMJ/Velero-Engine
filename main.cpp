@@ -9,9 +9,13 @@
 
 #include "VelEng/GameConfig.hpp"
 #include "VelEng/Serialize/GameConfig.hpp"
+#include "VelEng/log.hpp"
 
 #include "fmt/core.h"
 using namespace ven;
+
+#include "data/icon32.c"
+#include "data/splash.c"
 
 int main(){
     
@@ -28,32 +32,57 @@ int main(){
     if(config.debugrender){
         M_RSD.pushLayer("debug");
     }
-    
     for(auto& p : config.path){
         M_AS::addPath(p);
     }
-    
-    /*ComponentParser::registerComponent("sprite", parseSprite);
-    ComponentParser::registerComponent("physic", parsePhysic);
+    if(!config.stderr){
+        loguru::g_stderr_verbosity = -5;
+    }
+    if(config.infolog.size() > 0){
+        loguru::add_file(config.infolog.c_str(), loguru::Truncate, loguru::Verbosity_INFO);
+    }
+    if(config.errlog.size() > 0){
+        loguru::add_file(config.errlog.c_str(), loguru::Truncate, loguru::Verbosity_WARNING);
+    }
+    ComponentParser::registerComponent("sprite", parseSprite);
+    /*ComponentParser::registerComponent("physic", parsePhysic);
     ComponentParser::registerComponent("collider", parseCollider);
     ComponentParser::registerComponent("platformer", parsePlatformerController);*/
     
     M_AS::setDefaultFont("/home/miguel_mj/Programs/ASSETS/FONTS/Pixel Gosub.ttf");
     
     if(config.splashscreen){
-        window.create(sf::VideoMode(400,400*1285/1080), "", sf::Style::None);
+        float ratio = (float)splash.height/splash.width;
+        float ww = 800;
+        window.create(sf::VideoMode(ww,ww*ratio), "", sf::Style::None);
+        sf::Image splashIm;
+        splashIm.create(splash.width, splash.height, splash.pixel_data);
         sf::Texture t;
-        if(t.loadFromFile("doc/logo_compact.jpg")){
+        if(t.loadFromImage(splashIm)){
             t.setSmooth(true);
             sf::Sprite im(t);
             auto s = t.getSize();
             auto ws = window.getSize();
             centerWindow();
             im.scale((float)ws.x/s.x, (float)ws.y/s.y);
-            window.draw(im);
-            window.display();
-            sf::sleep(sf::seconds(2));
-            window.close();
+            sf::Color col = sf::Color::White;
+            col.a=0;
+            sf::Clock c;
+            float elapsed = 0;
+            float total = 3.3;
+            do{
+                if(elapsed < total/5){
+                    col.a = 255*(5*elapsed/total);
+                }else if(elapsed > total*4/5){
+                    col.a = 255*((total - elapsed)/(total*1/5));
+                }
+                im.setColor(col);
+                window.clear();
+                window.draw(im);
+                window.display();
+                elapsed = c.getElapsedTime().asSeconds();
+            }while(elapsed < total);
+            // window.close();
         }else{
             LOG_F(WARNING,"No splash screen");
         }
@@ -64,6 +93,7 @@ int main(){
     }else{
         ven::window.create(sf::VideoMode(config.width,config.height), config.title);
     }
+    ven::window.setIcon(icon.width, icon.height, icon.pixel_data);
     
     ven::window.setFramerateLimit(60);
     
@@ -75,3 +105,4 @@ int main(){
     launch();
     return 0;
 }
+

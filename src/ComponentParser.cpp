@@ -3,8 +3,10 @@
 namespace ven{
     namespace ComponentParser{
         std::map<std::string, cparsefunc> g_parserIndex;
+        
         Component* parse(const JSON& json){
             std::string type = DOMget<std::string>(json, "type");
+            LOG_F(INFO, "Parsing {}", type);
             auto it = g_parserIndex.find(type);
             CHECK_F(it != g_parserIndex.end(),
                     "Unrecognized component: {}",

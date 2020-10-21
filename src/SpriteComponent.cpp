@@ -86,55 +86,19 @@ namespace ven{
         auto tptr = AssetSystem::getTexture(texture);
         ret -> setTexture(tptr);
         auto ts = tptr->getSize();
-        std::string layer = DOMget<std::string>(json, "layer");
+        ret -> m_layer = DOMget<std::string>(json, "layer");
         float x = DOMget<float>(json,"x",0);
         float y = DOMget<float>(json,"y",0);
-        float w = DOMget<float>(json,"width",DOMget(json,"w",ts.x));
-        float h = DOMget<float>(json,"height",DOMget(json,"h",ts.y));
+        ret -> move(x,y);
+        float w = DOMget<float>(json,"width",DOMget<float>(json,"w",ts.x));
+        float h = DOMget<float>(json,"height",DOMget<float>(json,"h",ts.y));
         float tx = DOMget<float>(json,"tx",0);
         float ty = DOMget<float>(json,"ty",0);
-        float tw = DOMget<float>(json,"twidth",DOMget(json,"tw",ts.x));
-        float th = DOMget<float>(json,"theight",DOMget(json,"th",ts.y));
-        ret -> scale(w/ts.x, h/ts.y);
-        return ret;
-    }
-    Component* parseSprite(const std::string& line){
-        auto ret = new Sprite();
-        auto dict = parseMap(line);
-        bool fixedrect = false;
-        bool fixedsize = false;
-        sf::Vector2f ns; // new fixed size
-        sf::FloatRect trec; // new fixed size
-        for(auto& kv : dict){
-            if(kv.first == "texture"){
-                AssetSystem::load(kv.second);
-                auto tptr = AssetSystem::getTexture(kv.second);
-                ret->setTexture(tptr);
-                if(fixedsize && tptr){
-                    auto gb = tptr->getSize();
-                    ret->scale(ns.x/gb.x, ns.y/gb.y);
-                }
-            }else if(kv.first == "pos"){
-                ret->move(parseVector2<float>(kv.second));
-            }else if(kv.first == "layer"){
-                ret->m_layer = kv.second;
-            }else if(kv.first == "size"){
-                fixedsize = true;
-                ns = parseVector2<float>(kv.second);
-            }else if(kv.first == "rect"){
-                fixedrect = true;
-                trec = parseRect<float>(kv.second);
-            }else{
-                LOG_F(WARNING, "Unrecognized key for Sprite: {}", kv.first);
-            }
-        }
-        if(fixedrect){
-                ret->setTextureRect(trec);
-        }
-        if(fixedsize){
-            auto gb = ret->getGlobalBounds();
-            ret->scale(ns.x/gb.width, ns.y/gb.height);
-        }
+        float tw = DOMget<float>(json,"twidth",DOMget<float>(json,"tw",ts.x));
+        float th = DOMget<float>(json,"theight",DOMget<float>(json,"th",ts.y));
+        ret -> setTextureRect(sf::FloatRect(tx,ty,tw,th));
+        auto gb = ret->getGlobalBounds();
+        ret -> scale(w/gb.width, h/gb.height);
         return ret;
     }
 }

@@ -10,6 +10,8 @@
 #include "VelEng/Context.hpp"
 #include "VelEng/Component.hpp"
 
+#include "rapidjson/rapidjson.h"
+
 namespace ven{
     class Sprite: public Renderable, public Component{
     private:
@@ -17,7 +19,7 @@ namespace ven{
         sf::Texture* m_texture;
         std::string m_layer;
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-        friend Component* parseSprite(const std::string& in);
+        friend Component* parseSprite(const JSON& in);
     public:
         Sprite();
         ~Sprite();
@@ -33,7 +35,7 @@ namespace ven{
         Sprite& setTextureRect(sf::FloatRect rect);
         Sprite& setColor(sf::Color color);
     };
-    Component* parseSprite(const std::string& in);
+    Component* parseSprite(const JSON& in);
 }
 
 #endif

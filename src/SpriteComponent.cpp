@@ -1,5 +1,5 @@
 #include "VelEng/SpriteComponent.hpp"
-
+#include "VelEng/Serialize/Parser.hpp"
 namespace ven{
     
     Sprite::Sprite(){
@@ -78,6 +78,25 @@ namespace ven{
                            tex_s.x,
                            tex_s.y
                     );
+    }
+    Component* parseSprite(const JSON& json){
+        auto ret = new Sprite();
+        std::string texture = DOMget<std::string>(json, "texture", "");
+        AssetSystem::load(texture);
+        auto tptr = AssetSystem::getTexture(texture);
+        ret -> setTexture(tptr);
+        auto ts = tptr->getSize();
+        std::string layer = DOMget<std::string>(json, "layer");
+        float x = DOMget<float>(json,"x",0);
+        float y = DOMget<float>(json,"y",0);
+        float w = DOMget<float>(json,"width",DOMget(json,"w",ts.x));
+        float h = DOMget<float>(json,"height",DOMget(json,"h",ts.y));
+        float tx = DOMget<float>(json,"tx",0);
+        float ty = DOMget<float>(json,"ty",0);
+        float tw = DOMget<float>(json,"twidth",DOMget(json,"tw",ts.x));
+        float th = DOMget<float>(json,"theight",DOMget(json,"th",ts.y));
+        ret -> scale(w/ts.x, h/ts.y);
+        return ret;
     }
     Component* parseSprite(const std::string& line){
         auto ret = new Sprite();

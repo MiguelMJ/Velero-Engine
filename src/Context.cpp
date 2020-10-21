@@ -50,4 +50,10 @@ namespace ven{
         }
         Entity::s_removeComponents=false;
     }
+    
+    void centerWindow(){
+        window.setPosition(sf::Vector2i(
+            sf::VideoMode::getDesktopMode().width * 0.5 - window.getSize().x * 0.5,
+            sf::VideoMode::getDesktopMode().height * 0.5 - window.getSize().y * 0.5));
+    }
 }

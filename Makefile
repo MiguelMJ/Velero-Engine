@@ -58,6 +58,9 @@ INCLUDES += -I${HOME}/src/loguru-2.1.0/
 LIBS += -lpthread -ldl
 CXXFLAGS += -DLOGURU_THREADNAME_WIDTH=0
 
+# RAPIDJSON
+INCLUDES += -I${HOME}/src/rapidjson/include
+
 # SFML
 LIBS += -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system
 

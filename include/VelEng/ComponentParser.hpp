@@ -6,11 +6,12 @@
 #include <string>
 #include "VelEng/log.hpp"
 #include "VelEng/Component.hpp"
+#include "VelEng/Serialize/Parser.hpp"
 
 namespace ven{
     namespace ComponentParser{
-        typedef Component* (*cparsefunc) (const std::string& in);
-        Component* parse(std::istream& in);
+        typedef Component* (*cparsefunc) (const JSON& json);
+        Component* parse(const JSON& json);
         void registerComponent(const std::string& name, cparsefunc func);
     }
 }

@@ -35,6 +35,9 @@ namespace ven{
     extern TimeSystem visualTimeSystem;
     extern CollisionSystem collisionSystem;
     extern sf::RenderWindow window;
+    
+    void centerWindow();
+    
 }
 
 #endif

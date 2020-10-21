@@ -3,27 +3,13 @@
 namespace ven{
     namespace ComponentParser{
         std::map<std::string, cparsefunc> g_parserIndex;
-        Component* parse(std::istream& in){
-            std::string key, desc;
-            in >> std::ws >> key >> std::ws;
-            if(key.back() == '{'){
-                key.pop_back();
-            }else{
-                char st;
-                in >> st >> std::ws;
-                CHECK_F(st == '{',"Expected {{, got {} for key {}", st, key);
-            }
-            if(key.empty()){
-                LOG_F(WARNING, "Empty component");
-                return nullptr;
-            }
-            auto it = g_parserIndex.find(key);
-            if(it == g_parserIndex.end()){
-                LOG_F(ERROR, "Unrecognized component: {}", key);
-                return nullptr;
-            }
-            getline(in, desc, '}');
-            return it->second(desc);
+        Component* parse(const JSON& json){
+            std::string type = DOMget<std::string>(json, "type");
+            auto it = g_parserIndex.find(type);
+            CHECK_F(it != g_parserIndex.end(),
+                    "Unrecognized component: {}",
+                    type);
+            return it->second(json["attributes"]);
         }
         
         void registerComponent(const std::string& name, cparsefunc func){

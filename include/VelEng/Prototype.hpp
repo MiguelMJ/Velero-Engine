@@ -63,10 +63,17 @@ namespace ven{
         
         /**
          * @brief Load the prototype from a stream.
-         * @param in Input stream.
+         * @param in Input value.
          * @returns True if the loading was succesful.
          */
-        bool loadFromStream(std::istream& in);
+        bool loadFromJSON(const JSON& json);
+        
+        /**
+         * @brief Load the prototype from a rapidjson::value.
+         * @param in Input string.
+         * @returns True if the loading was succesful.
+         */
+        bool loadFromString(const std::string& str);
         
         /**
          * @brief Load the prototype from a file.

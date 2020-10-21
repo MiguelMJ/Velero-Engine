@@ -23,35 +23,24 @@ namespace ven{
         m_generated++;
         return e;
     }
-    bool Prototype::loadFromStream(std::istream&){
-//         bool ok = true;
-//         std::string firstline;
-//         do{
-//             getline(in, firstline);
-//         }while(firstline.empty() || firstline[0] == '#');
-//         std::stringstream ss(firstline);
-//         getline(ss,m_name,':');
-//         getline(ss,m_nameOfBase);
-//         trim(m_name);
-//         trim(m_nameOfBase);
-//         in >> std::ws;
-//         while(ok && !in.eof()){
-//             if(in.peek() == '#'){
-//                 in.ignore(9999,'\n');
-//                 in >> std::ws;
-//                 continue;
-//             }
-//             Component* c = ComponentParser::parse(in);
-//             ok = c != nullptr;
-//             if(ok){
-//                 m_components.emplace_back(c);
-//             }
-//             in >> std::ws;
-//         }
-//         LOG_IF_F(INFO, !m_nameOfBase.empty(),"Base: {}", m_nameOfBase);
-//         LOG_F(INFO, "Components: {}", m_components.size());
-//         return ok;
-        return false;
+    bool Prototype::loadFromJSON(const JSON& json){
+        m_name = DOMget<std::string>(json, "name");
+        m_nameOfBase = DOMget<std::string>(json, "base","");
+        auto components = json["components"].GetArray();
+        for(auto& component: components){
+            ComponentParser::parse(component);
+        }
+        return true;
+    }
+    bool Prototype::loadFromString(const std::string& str){
+        rapidjson::Document json;
+        rapidjson::ParseResult ok = json.Parse(str.c_str());
+        CHECK_F(!!ok,
+                "JSON parse error: {} ({})",
+                rapidjson::GetParseError_En(ok.Code()),
+                ok.Offset()
+               );
+        return loadFromJSON(json);
     }
     bool Prototype::loadFromFile(const std::string& file){
         rapidjson::Document json;
@@ -64,13 +53,7 @@ namespace ven{
                 rapidjson::GetParseError_En(ok.Code()),
                 ok.Offset()
                );
-        m_name = DOMget<std::string>(json, "name");
-        m_nameOfBase = DOMget<std::string>(json, "base","");
-        auto components = json["components"].GetArray();
-        for(auto& component: components){
-            ComponentParser::parse(component);
-        }
-        return ok;
+        return loadFromJSON(json);
     }
     Prototype::~Prototype(){
         m_components.clear();

@@ -4,18 +4,24 @@
 #include <fstream>
 
 #include "SFML/System/Vector2.hpp"
+#include "box2d/b2_math.h"
+#include "box2d/b2_polygon_shape.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/istreamwrapper.h"
 #include "rapidjson/error/en.h"
 
 #include "VelEng/log.hpp"
+#include "VelEng/types.hpp"
 
 #include <vector>
 #include <string>
 
 namespace ven{
     typedef rapidjson::Value JSON;
+    /**
+     * Cast JSON values to a given type.
+     */
     template<typename T>
     T castValue(const JSON& memb);
     template<>
@@ -61,7 +67,26 @@ namespace ven{
         }
         return ret;
     }
-    
+    template<>
+    inline sf::Vector2f castValue<sf::Vector2f> (const JSON& memb){
+        return parseSFMLVector(memb);
+    }
+    template<>
+    inline b2Vec2 castValue<b2Vec2> (const JSON& memb){
+        return parseB2Vector(memb);
+    }
+    template<>
+    inline sf::VertexArray castValue<sf::VertexArray> (const JSON& memb){
+        return parseSFMLPolygon(memb);
+    }
+    template<>
+    inline b2PolygonShape castValue<b2PolygonShape> (const JSON& memb){
+        return parseB2Polygon(memb);
+    }
+    /**
+     * If id exists in json object, try a cast and return it. If it 
+     * doesn't exist, return alt as alternative.
+     */
     template <typename T>
     T DOMget(const JSON& json, const char* id, const T& alt){
         auto it = json.FindMember(id);

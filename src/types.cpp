@@ -1,39 +1,31 @@
 #include "VelEng/types.hpp"
 #include "VelEng/stringmanip.hpp"
 #include "fmt/core.h"
+#include "VelEng/log.hpp"
 
 #include <stdexcept>
-#include <regex>
 #include <string>
 #include <algorithm>
 #include <sstream>
 
 namespace ven{
-    const std::string ws_str("\\w*");
-    const std::string float_str("d+(\\.\\d*)?");
-    const std::string v2_str(fmt::format("\\[{0}{1}{0},{0}{1}{0}\\]",ws_str,float_str));
-    const std::string polygon_str(fmt::format("\\[({0}{1}({0},{0}{1})*)?{0}\\]",ws_str,v2_str));
-    const std::regex ws_re(ws_str);
-    const std::regex float_re(float_str);
-    const std::regex v2_re(v2_str);
-    const std::regex polygon_re(polygon_str);
     typedef struct {float x; float y;} v2;
-    v2 parseV2(const std::string& str){
-        if(!std::regex_match(str, v2_re)) 
-            throw std::invalid_argument(fmt::format("{} can't be parsed as a 2D vector",str));
-        std::sregex_iterator i = std::sregex_iterator(str.begin(), str.end(), float_re);
-        return {std::stof(i->str()), std::stof((++i)->str())};
+    v2 parseV2(const rapidjson::Value& json){
+        auto arr = json.GetArray();
+        CHECK_F(arr.Size() == 2,
+                "2D vector must be size 2");
+        return {arr[0].GetFloat(),arr[1].GetFloat()};
     }
     
     // 2D Vectors
-    sf::Vector2f parseSFMLVector(const std::string& str){
-        v2 aux = parseV2(str);
+    sf::Vector2f parseSFMLVector(const rapidjson::Value& json){
+        v2 aux = parseV2(json);
         sf::Vector2f vec(aux.x, aux.y);
         return vec;
     }
-    b2Vec2 parseB2Vector(const std::string& str){
-        v2 aux = parseV2(str);
-        b2Vec2 vec(aux.x, aux.y);
+    b2Vec2 parseB2Vector(const rapidjson::Value& json){
+        v2 aux = parseV2(json);
+        b2Vec2 vec(aux.x, -aux.y);
         return vec;
     }
     b2Vec2 SFMLtoB2(const sf::Vector2f& v){
@@ -50,15 +42,11 @@ namespace ven{
     }
     
     // Polygon
-    sf::VertexArray parseSFMLPolygon(const std::string& str, bool fill){
-        if(!std::regex_match(str, polygon_re))
-            throw std::invalid_argument(fmt::format("{} can't be parsed as a polygon using {}",str,polygon_str));
+    sf::VertexArray parseSFMLPolygon(const rapidjson::Value& json, bool fill){
+        auto arr = json.GetArray();
         sf::VertexArray polygon(fill?sf::TriangleFan : sf::LineStrip, 1);
-        std::sregex_iterator it(str.begin(), str.end(), v2_re);
-        std::sregex_iterator end;
-        while(it != end){
-            polygon.append(sf::Vertex(parseSFMLVector(it->str())));
-            it++;
+        for(auto& vec: arr){
+            polygon.append(sf::Vertex(parseSFMLVector(vec)));
         }
         if(fill){
             for(size_t i=1; i < polygon.getVertexCount(); i++){
@@ -70,21 +58,14 @@ namespace ven{
         }
         return polygon;
     }
-    b2PolygonShape parseB2Polygon(const std::string& str){
-        if(!std::regex_match(str, polygon_re))
-            throw std::invalid_argument(fmt::format("{} can't be parsed as a polygon using {}",str,polygon_str));
+    b2PolygonShape parseB2Polygon(const rapidjson::Value& json){
+        auto arr = json.GetArray();
         b2PolygonShape polygon;
-        int32 count = (std::count(str.begin(), str.end(), ',')+1)/2;
         b2Vec2 points[b2_maxPolygonVertices];
-        int i = 0;
-        std::sregex_iterator it(str.begin(), str.end(), v2_re);
-        std::sregex_iterator end;
-        while(it != end){
-            points[i++] = parseB2Vector(it->str());
-            it++;
+        for(size_t i=0; i < arr.Size(); i++){
+            points[i] = parseB2Vector(arr[i]);
         }
-        if(i != count) throw std::logic_error(fmt::format("Uexpected error counting elements in polygon from {}", str));
-        polygon.Set(points, i);
+        polygon.Set(points, arr.Size());
         return polygon;
         
     }
@@ -135,24 +116,5 @@ namespace ven{
         }
         ss << ']';
         return ss.str();
-    }
-    
-    // Dictionary
-    typedef std::map<std::string, std::string> Dictionary;
-    Dictionary parseDictionary(const std::string& str, char pair_del, char kv_del, bool do_trim){
-        Dictionary result;
-        auto pairs = tokenize(str, pair_del);
-        for(auto& pair: pairs){
-            std::string key, val;
-            std::stringstream ss(pair);
-            getline(ss, key, kv_del);
-            getline(ss, val);
-            if(do_trim){
-                trim(key);
-                trim(val);
-            }
-            result.insert({key,val});
-        }
-        return result;
     }
 }

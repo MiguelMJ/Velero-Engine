@@ -3,8 +3,7 @@
 #include "VelEng/Context.hpp"
 
 #include "VelEng/SpriteComponent.hpp"
-#include "VelEng/PhysicComponent.hpp"
-#include "VelEng/ColliderComponent.hpp"
+#include "VelEng/RigidBody.hpp"
 #include "VelEng/PlatformerControllerComponent.hpp"
 
 #include "VelEng/GameConfig.hpp"
@@ -29,15 +28,18 @@ int main(){
             M_RS.pushLayer(layer);
         }
     }
-    if(config.debugrender){
-        M_RSD.pushLayer("debug");
-    }
+    M_RSD.pushLayer("debug");
     for(auto& p : config.path){
         M_AS::addPath(p);
     }
+#ifdef DEBUG
+    // because log to stderr makes gdb difficult to read
+    loguru::g_stderr_verbosity = -5;
+#else
     if(!config.stderr){
         loguru::g_stderr_verbosity = -5;
     }
+#endif
     if(config.infolog.size() > 0){
         loguru::add_file(config.infolog.c_str(), loguru::Truncate, loguru::Verbosity_INFO);
     }
@@ -45,6 +47,7 @@ int main(){
         loguru::add_file(config.errlog.c_str(), loguru::Truncate, loguru::Verbosity_WARNING);
     }
     ComponentParser::registerComponent("sprite", parseSprite);
+    ComponentParser::registerComponent("body", parseRigidBody);
     /*ComponentParser::registerComponent("physic", parsePhysic);
     ComponentParser::registerComponent("collider", parseCollider);
     ComponentParser::registerComponent("platformer", parsePlatformerController);*/

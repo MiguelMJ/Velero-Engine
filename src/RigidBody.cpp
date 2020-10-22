@@ -7,11 +7,15 @@
 #include "VelEng/Context.hpp"
 
 namespace ven{
+    std::vector<b2FixtureDef> RigidBody::s_fixtureDefs;
     RigidBody::RigidBody(){
 
     }
     Component* RigidBody::copy() const{
-        return nullptr;
+        auto ret = new RigidBody();
+        ret->m_fixtureDefs = m_fixtureDefs;
+        ret->m_bodyDef = m_bodyDef;
+        return ret;
     }
     void RigidBody::update(sf::Time){
         auto pos = m_body->GetPosition();
@@ -21,8 +25,8 @@ namespace ven{
     }
     void RigidBody::onAdd(){
         m_body = M_PS.CreateBody(&m_bodyDef);
-        for(auto& f : m_fixtureDefs){
-            m_body->CreateFixture(&f);
+        for(auto f : m_fixtureDefs){
+            m_body->CreateFixture(&s_fixtureDefs[f]);
         }
     }
     void RigidBody::onRemove(){
@@ -31,59 +35,50 @@ namespace ven{
     void RigidBody::onActivate(){
         M_RSD.getLayer("debug")->addRenderable(this);
         m_body->SetEnabled(true);
+        M_LTS.addUpdatable(this);
     }
     void RigidBody::onDeactivate(){
         M_RSD.getLayer("debug")->removeRenderable(this);
         m_body->SetEnabled(false);
+        M_LTS.removeUpdatable(this);
     }
     std::string RigidBody::to_string() const{
-        return "NOT IMPLEMENTED";
+        return "RigidBody";
     }
     void RigidBody::draw(sf::RenderTarget& t, sf::RenderStates s) const{
         s.transform *= getEntityPtr()->getTransform();
-        t.draw(B2toSFML(*((b2PolygonShape*)m_fixtureDefs[0].shape)), s);
+        for(auto f : m_fixtureDefs){
+            t.draw(B2toSFML(*((b2PolygonShape*)s_fixtureDefs[f].shape)), s);
+        }
     }
     sf::FloatRect RigidBody::getGlobalBounds() const{
         // return getLines(m_transformedPolygon).getBounds();
         return sf::FloatRect();
     }
-    Component* parseRigidBody(const std::string& ){
-        /*auto ret = new RigidBody;
+    Component* parseRigidBody(const JSON& json){
+        auto ret = new RigidBody();
         ret->m_bodyDef.enabled = false;
-        auto dict = parseMap(line);
-        for(auto& kv : dict){
-            if(kv.first == "polygon"){
-                b2PolygonShape poly = parseB2Polygon(kv.second);
-                b2FixtureDef fdef;
-                fdef.shape = &poly;
-                ret->m_fixtureDefs.push_back(fdef);
-            }else if(kv.first == "type"){
-                if(kv.second == "static"){
-                    ret->m_bodyDef.type = b2_staticBody;
-                }else if(kv.second == "kinematic"){
-                    ret->m_bodyDef.type = b2_kinematicBody;
-                }else if(kv.second == "dynamic"){
-                    ret->m_bodyDef.type = b2_dynamicBody;
-                }else{
-                    LOG_F(WARNING, "Unrecognized value for key type: {}", kv.second);
-                }
-            }else if(kv.first == "gravityScale"){
-                ret->m_bodyDef.gravityScale = stof(kv.second);
-            }else if(kv.first == "linearVelocity"){
-                ret->m_bodyDef.linearVelocity = parseB2Vector(kv.second);
-            }else if(kv.first == "angularVelocity"){
-                ret->m_bodyDef.angularVelocity = std::stof(kv.second);
-            }else if(kv.first == "linearDamping"){
-                ret->m_bodyDef.linearDamping = std::stof(kv.second);
-            }else if(kv.first == "angularDamping"){
-                ret->m_bodyDef.angularDamping = std::stof(kv.second);
-            }else if(kv.first == "fixedRotation"){
-                ret->m_bodyDef.fixedRotation = kv.second == "on";
-            }else{
-                LOG_F(WARNING, "Unrecognized key for Collider: {}", kv.first);
-            }
+        std::string type = DOMget<std::string>(json,"type","dynamic");
+        ret->m_bodyDef.gravityScale = DOMget<float>(json,"gravityScale",DOMget<float>(json,"gs",1));
+        ret->m_bodyDef.linearVelocity = DOMget<b2Vec2>(json,"lv",DOMget<b2Vec2>(json,"linearVelocity",b2Vec2()));
+        ret->m_bodyDef.angularVelocity = DOMget<float>(json,"av",DOMget<float>(json,"angularVelocity",0));
+        ret->m_bodyDef.linearDamping = DOMget<float>(json,"ld",DOMget<float>(json,"linearDamping",0));
+        ret->m_bodyDef.angularDamping = DOMget<float>(json,"ad",DOMget<float>(json,"angularDamping",0));
+        ret->m_bodyDef.fixedRotation = DOMget<bool>(json,"fr",DOMget<float>(json,"fixedRotation",false));
+        if(type == "dynamic"){
+            ret->m_bodyDef.type = b2_dynamicBody;
+        }else if(type == "static"){
+            ret->m_bodyDef.type = b2_staticBody;
+        }else if(type == "kinematic"){
+            ret->m_bodyDef.type = b2_kinematicBody;
+        }else{
+            ABORT_F("Unrecognized body type");
         }
-        return ret;*/
-        return nullptr;
+        
+        b2FixtureDef fdef;
+        fdef.shape = new b2PolygonShape(DOMget<b2PolygonShape>(json,"polygon"));
+        ret->m_fixtureDefs.push_back(RigidBody::s_fixtureDefs.size());
+        RigidBody::s_fixtureDefs.push_back(fdef);
+        return ret;
     }
 }

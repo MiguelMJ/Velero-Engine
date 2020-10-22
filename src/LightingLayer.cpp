@@ -1,6 +1,6 @@
-#include "LightingLayer.hpp"
+#include "VelEng/LightingLayer.hpp"
 
-namespace ge{
+namespace ven{
 
     sf::BlendMode l_lightBlend(
         sf::BlendMode::Factor::Zero,              // color src
@@ -60,12 +60,12 @@ namespace ge{
         m_fogQuad[2].texCoords = {x,y};
         m_fogQuad[3].position =
         m_fogQuad[3].texCoords = {0,y};
-        ge::move(m_fogQuad, m_fogOffset);
+        ven::move(m_fogQuad, m_fogOffset);
     }
     void LightingLayer::setFogPosition(float x, float y){
-        ge::move(m_fogQuad, -m_fogOffset);
+        ven::move(m_fogQuad, -m_fogOffset);
         m_fogOffset = {x,y};
-        ge::move(m_fogQuad, m_fogOffset);
+        ven::move(m_fogQuad, m_fogOffset);
     }
     void LightingLayer::adjustFog(const sf::View& view){
         auto size = view.getSize();

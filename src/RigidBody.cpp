@@ -1,15 +1,14 @@
-#include "RigidBody.hpp"
-#include "CollisionEvent.hpp"
+#include "VelEng/RigidBody.hpp"
 
 #include "fmt/core.h"
 
-#include "vertexarray.hpp"
-#include "types.hpp"
-#include "Context.hpp"
+#include "VelEng/types.hpp"
+#include "VelEng/vertexarray.hpp"
+#include "VelEng/Context.hpp"
 
-namespace ge{
+namespace ven{
     RigidBody::RigidBody(){
-        Component::m_eventsHandled.insert(typeid(CollisionEvent));
+
     }
     Component* RigidBody::copy() const{
         return nullptr;
@@ -48,8 +47,8 @@ namespace ge{
         // return getLines(m_transformedPolygon).getBounds();
         return sf::FloatRect();
     }
-    Component* parseRigidBody(const std::string& line){
-        auto ret = new RigidBody;
+    Component* parseRigidBody(const std::string& ){
+        /*auto ret = new RigidBody;
         ret->m_bodyDef.enabled = false;
         auto dict = parseMap(line);
         for(auto& kv : dict){
@@ -84,6 +83,7 @@ namespace ge{
                 LOG_F(WARNING, "Unrecognized key for Collider: {}", kv.first);
             }
         }
-        return ret;
+        return ret;*/
+        return nullptr;
     }
 }

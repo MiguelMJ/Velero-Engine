@@ -1,6 +1,6 @@
-#include "geometry.hpp"
+#include "VelEng/geometry.hpp"
 
-namespace ge{
+namespace ven{
     std::array<Segment, 4> segments(sf::FloatRect rect){
         sf::Vector2f tl(rect.left, rect.top);
         sf::Vector2f tr(rect.left + rect.width, rect.top);

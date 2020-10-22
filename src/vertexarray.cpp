@@ -1,9 +1,9 @@
-#include "vertexarray.hpp"
+#include "VelEng/vertexarray.hpp"
 
-#include "log.hpp"
+#include "VelEng/log.hpp"
 #include "fmt/ranges.h"
 
-namespace ge{
+namespace ven{
     sf::VertexArray getLines(const Polygon& poly, sf::Color c){
         sf::VertexArray ret(sf::LineStrip, poly.size()+1);
         for(unsigned i = 0; i < poly.size(); i++){

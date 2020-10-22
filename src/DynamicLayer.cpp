@@ -1,6 +1,6 @@
-#include "DynamicLayer.hpp"
+#include "VelEng/DynamicLayer.hpp"
 
-namespace ge{
+namespace ven{
     void DynamicLayer::draw (sf::RenderTarget& t, sf::RenderStates s) const {
         for(auto& vc: m_renderables){
             t.draw(*vc, s);

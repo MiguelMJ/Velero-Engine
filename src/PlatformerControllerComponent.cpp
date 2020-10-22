@@ -1,12 +1,14 @@
-#include "PlatformerControllerComponent.hpp"
+#include "VelEng/PlatformerControllerComponent.hpp"
 
-#include "Entity.hpp"
-#include "Context.hpp"
-#include "AssetSystem.hpp"
+#include "VelEng/Entity.hpp"
+#include "VelEng/Context.hpp"
+#include "VelEng/PhysicComponent.hpp"
+#include "VelEng/CollisionEvent.hpp"
+#include "VelEng/AssetSystem.hpp"
 
 #include <map>
 
-namespace ge{
+namespace ven{
     
     PlatformerController::PlatformerController(){
         // Component::m_eventsHandled.insert(typeid(CollisionEvent));

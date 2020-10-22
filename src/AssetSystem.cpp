@@ -1,8 +1,8 @@
-#include "AssetSystem.hpp"
+#include "VelEng/AssetSystem.hpp"
 
 using namespace cppfs;
 
-namespace ge{
+namespace ven{
     namespace AssetSystem{
         std::vector<std::string> g_path = {"."};
         std::map<std::string, std::unique_ptr<sf::Texture> > g_textures;
@@ -105,7 +105,7 @@ namespace ge{
                 return AssetType::UNRECOGNIZED;
             }
             std::string extension = str.substr(ppos);
-            ge::toLower(extension);
+            ven::toLower(extension);
             auto it2 = formats.find(extension);
             if(it2 == formats.end()){
                 LOG_F(ERROR,"Unrecognized extension \"{}\"",extension);
@@ -349,8 +349,17 @@ namespace ge{
             if(it != g_scenes.end()){
                 return it->second.get();
             }else{
-                LOG_IF_F(ERROR, !str.empty(), "Couldn't get {}", fp);
-                return default_scene;
+                bool ok = load(fp, false);
+                if(ok){
+                    LOG_F(INFO,"Loaded at call: {}",fp);
+                    return g_scenes.find(fp)->second.get();
+                }else{
+                    CHECK_F(str.empty(),
+                        "Couldn't get {} ({})", 
+                        fp,
+                        g_assetinfo.find(fp)->second.state);
+                    return default_scene;
+                }
             }
         }
 

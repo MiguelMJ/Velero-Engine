@@ -1,5 +1,5 @@
-#include "types.hpp"
-#include "stringmanip.hpp"
+#include "VelEng/types.hpp"
+#include "VelEng/stringmanip.hpp"
 #include "fmt/core.h"
 
 #include <stdexcept>
@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <sstream>
 
-namespace ge{
+namespace ven{
     const std::string ws_str("\\w*");
     const std::string float_str("d+(\\.\\d*)?");
     const std::string v2_str(fmt::format("\\[{0}{1}{0},{0}{1}{0}\\]",ws_str,float_str));

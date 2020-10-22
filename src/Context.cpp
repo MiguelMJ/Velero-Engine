@@ -1,6 +1,6 @@
-#include "Context.hpp"
+#include "VelEng/Context.hpp"
 
-namespace ge{
+namespace ven{
     
     Scene g_defaultScene;
     Scene *g_ptrCurrentScene = &g_defaultScene;
@@ -24,6 +24,7 @@ namespace ge{
         physicsSystem.SetGravity({0.0, -10.0f});
         int32 velocityIterations = 6;
         int32 positionIterations = 2;
+        M_RS.m_view = window.getDefaultView();
         while(window.isOpen()){
             sf::Time delta(clock.restart());
             sf::Event event;
@@ -50,5 +51,11 @@ namespace ge{
             window.display();
         }
         Entity::s_removeComponents=false;
+    }
+    
+    void centerWindow(){
+        window.setPosition(sf::Vector2i(
+            sf::VideoMode::getDesktopMode().width * 0.5 - window.getSize().x * 0.5,
+            sf::VideoMode::getDesktopMode().height * 0.5 - window.getSize().y * 0.5));
     }
 }

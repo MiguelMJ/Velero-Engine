@@ -1,6 +1,6 @@
-#include "stringmanip.hpp"
+#include "VelEng/stringmanip.hpp"
 
-namespace ge{
+namespace ven{
     void toLower(std::string& str){
         std::transform(str.begin(), str.end(), str.begin(), 
             [](unsigned char c){return std::tolower(c);}

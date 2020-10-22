@@ -21,6 +21,7 @@ namespace ven{
         return g_ptrCurrentScene;
     }
     void launch(){
+        M_RS.m_view = window.getDefaultView();
         while(window.isOpen()){
             sf::Time delta(clock.restart());
             sf::Event event;

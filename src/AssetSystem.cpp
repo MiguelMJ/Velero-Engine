@@ -338,8 +338,17 @@ namespace ven{
             if(it != g_prototypes.end()){
                 return it->second.get();
             }else{
-                LOG_IF_F(ERROR, !str.empty(), "Couldn't get {}", fp);
-                return default_prototype;
+                bool ok = load(fp, false);
+                if(ok){
+                    LOG_F(INFO, "Loaded at call: {}", fp);
+                    return g_prototypes.find(fp)->second.get();
+                }else{
+                    CHECK_F(str.empty(),
+                            "Couldn't get {} ({})",
+                            fp,
+                            g_assetinfo.find(fp)->second.state);
+                    return default_prototype;
+                }
             }
         }
 

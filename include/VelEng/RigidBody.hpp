@@ -22,7 +22,7 @@ namespace ven{
         friend Component* parseRigidBody(const JSON&);
     public:
         RigidBody();
-        b2Body* m_body;
+        b2Body* m_body=nullptr;
         void draw(sf::RenderTarget&, sf::RenderStates) const override;
         sf::FloatRect getGlobalBounds() const override;
         void update(sf::Time) override;

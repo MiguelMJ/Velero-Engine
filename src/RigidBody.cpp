@@ -20,8 +20,13 @@ namespace ven{
     void RigidBody::update(sf::Time){
         auto pos = m_body->GetPosition();
         auto rot = m_body->GetAngle();
-        getEntityPtr()->setPosition(pos.x, pos.y);
-        getEntityPtr()->setRotation(rot);
+        b2MassData md;
+        m_body->GetMassData(&md);
+        getEntityPtr()->setPosition(pos.x, -pos.y);
+        // auto ori = getEntityPtr()->getOrigin();
+        //getEntityPtr()->setOrigin(B2toSFML(md.center));
+        getEntityPtr()->setRotation(rad2deg(-rot));
+        // getEntityPtr()->setOrigin(ori);
     }
     void RigidBody::onAdd(){
         m_body = M_PS.CreateBody(&m_bodyDef);
@@ -34,6 +39,7 @@ namespace ven{
     }
     void RigidBody::onActivate(){
         M_RSD.getLayer("debug")->addRenderable(this);
+        m_body->SetTransform(SFMLtoB2(getEntityPtr()->getPosition()), m_body->GetAngle());
         m_body->SetEnabled(true);
         M_LTS.addUpdatable(this);
     }
@@ -64,7 +70,12 @@ namespace ven{
         ret->m_bodyDef.angularVelocity = DOMget<float>(json,"av",DOMget<float>(json,"angularVelocity",0));
         ret->m_bodyDef.linearDamping = DOMget<float>(json,"ld",DOMget<float>(json,"linearDamping",0));
         ret->m_bodyDef.angularDamping = DOMget<float>(json,"ad",DOMget<float>(json,"angularDamping",0));
-        ret->m_bodyDef.fixedRotation = DOMget<bool>(json,"fr",DOMget<float>(json,"fixedRotation",false));
+        ret->m_bodyDef.fixedRotation = DOMget<bool>(json,"fr",DOMget<bool>(json,"fixedRotation",false));
+        
+        b2FixtureDef fdef;
+        fdef.density = 1;
+        fdef.restitution=0.0;
+        fdef.friction=1;
         if(type == "dynamic"){
             ret->m_bodyDef.type = b2_dynamicBody;
         }else if(type == "static"){
@@ -75,7 +86,6 @@ namespace ven{
             ABORT_F("Unrecognized body type");
         }
         
-        b2FixtureDef fdef;
         fdef.shape = new b2PolygonShape(DOMget<b2PolygonShape>(json,"polygon"));
         ret->m_fixtureDefs.push_back(RigidBody::s_fixtureDefs.size());
         RigidBody::s_fixtureDefs.push_back(fdef);

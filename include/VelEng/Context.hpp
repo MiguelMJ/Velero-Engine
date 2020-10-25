@@ -14,6 +14,8 @@
 #include "VelEng/CollisionSystem.hpp"
 #include "VelEng/Scene.hpp"
 
+#define PIXELS_METER 50.f
+
 #define assetSystem AssetSystem
 #define eventSystem EventSystem
 

@@ -48,9 +48,7 @@ int main(){
     }
     ComponentParser::registerComponent("sprite", parseSprite);
     ComponentParser::registerComponent("body", parseRigidBody);
-    /*ComponentParser::registerComponent("physic", parsePhysic);
-    ComponentParser::registerComponent("collider", parseCollider);
-    ComponentParser::registerComponent("platformer", parsePlatformerController);*/
+    ComponentParser::registerComponent("platformer", parsePlatformerController);
     
     M_AS::setDefaultFont("/home/miguel_mj/Programs/ASSETS/FONTS/Pixel Gosub.ttf");
     

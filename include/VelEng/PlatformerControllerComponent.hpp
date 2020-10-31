@@ -5,6 +5,8 @@
 #include "VelEng/Updatable.hpp"
 #include "VelEng/Renderable.hpp"
 
+#include "VelEng/Serialize/Parser.hpp"
+
 namespace ven{
     class PlatformerController: public Component, public Updatable, public Renderable{
     public: 
@@ -20,7 +22,7 @@ namespace ven{
         void draw(sf::RenderTarget&, sf::RenderStates)const;
         bool isInAir=true;
     };
-    Component* parsePlatformerController(const std::string& in);
+    Component* parsePlatformerController(const JSON&);
 }
 
 #endif

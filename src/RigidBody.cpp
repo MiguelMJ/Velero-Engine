@@ -74,8 +74,6 @@ namespace ven{
         
         b2FixtureDef fdef;
         fdef.density = 1;
-        fdef.restitution=0.0;
-        fdef.friction=1;
         if(type == "dynamic"){
             ret->m_bodyDef.type = b2_dynamicBody;
         }else if(type == "static"){
